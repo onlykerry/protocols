@@ -1,0 +1,185 @@
+<HTML>
+<HEAD>
+<!-- DOC-FACTORY Generated Tags BEGIN -->
+<TITLE>LXT971A/972A PHY Transceivers Specification Update</TITLE>
+<meta name = "creation_date" content = "01-Jul-02">
+<meta name = "stop_date" content = "15-Jan-02">
+<meta name = "next_check_date" content = "15-Jul-01">
+<meta name = "last_check_date" content = "28-Dec-00">
+<meta name = "web_author_id" content = "tlchrist">
+<meta name = "country" content = "USA">
+<meta name = "description" content = "">
+<meta name = "keywords" content = "LXT971/972 PHY Transceivers">
+<meta http-equiv = "content-language" content = "en">
+<meta http-equiv = "content-type" content = "text/html; charset=iso-8859-1">
+<!-- /DOC-FACTORY Generated Tags END -->
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<!-- StandardHeader -->
+<!-- SW Header V2.0 -->
+
+<style type="text/css"><!--
+
+.menu {position:absolute;}
+.subMenu {position:absolute; width:120px; height:15px; cursor:hand;}
+.subMenuBg {position:absolute; width:120px; height:15px; cursor:hand; background:#0033ff;}
+.subMenuTxt {margin-left:10px; font-family:arial, verdana, sans-serif; font-size:10px; color:#ffffff;}
+
+.searchfield { width:100px; height:18px; font-family:arial, verdana, sans-serif; font-size:11px; }
+.hdrWhite, .hdrWhiteLink { font-family:arial, verdana, sans-serif; font-size:10px; color:#ffffff; text-decoration:none; }
+.hdrWhiteLink:hover { text-decoration:underline; }
+
+// -->
+</style>
+
+<script language="JavaScript"><!--
+function reloadPage(init) { if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) { document.pgW=innerWidth; document.pgH=innerHeight; onresize=reloadPage; }} else if (innerWidth!=document.pgW || innerHeight!=document.pgH) location.reload(); } reloadPage(true);
+if (document.layers) { document.classes.hdrWhite.all.fontSize='11px'; document.classes.hdrWhiteLink.all.fontSize='11px'; }
+//-->
+</script>
+
+<table cellspacing="0" cellpadding="0" border="0" height="69" width="760">
+<form action="http://search.intel.com/corporate/search.asp" id=FORMSearchHeader method="get" name=FORMSearchHeader>
+<input type="hidden" id="category" name="category" selected value="ALL">
+<input type="hidden" id=SearchCrit name=SearchCrit selected value="ALL" >
+<input type="hidden" id="mh" name="mh" selected value="200">
+<input type="hidden" name="isoCode" selected value="en">
+<input type="hidden" name="MimeType" selected value="ALL">
+<input type="hidden" name="version" selected value="2.0">
+  <tr>
+    <td rowspan="2" bgcolor="#ff9900"><img src="/sites/templates/pix/spacer.gif" width="1" height="70" border="0"/></td>
+    <td rowspan="2" align="center" valign="top" bgcolor="#0033ff">
+      <table border="0" cellspacing="0" cellpadding="0">
+        <tr><td><img src="/sites/templates/pix/spacer.gif" width="173" height="1" border="0"/></td></tr>
+        <tr><td align="center"><a href="http://www.intel.com/index.htm?iid=Corporate+Header_Intel_logo&"><img src="/sites/nav/images/logo2.gif" border="0" width="97" height="69" alt="Intel"/></a></td></tr>
+      </table>
+    </td>
+    <td rowspan="2" bgcolor="#3366ff"><img src="/sites/templates/pix/spacer.gif" width="19" height="2" border="0"/></td>
+    <td valign="top" bgcolor="#3366ff">
+
+      <table border="0" cellspacing="0" cellpadding="0">
+        <tr><td height="5"></td></tr>
+        <tr>
+          <td height="8"><font face="arial, verdana, sans-serif" size="1" color="#FFFFFF" class="hdrWhite"><a href="http://www.intel.com/index.htm?iid=Corporate+Header_UShome&" class="hdrWhiteLink">United States Home</a></font></td>
+          <td><img src="/sites/templates/pix/spacer.gif" width="7" height="1" border="0"/></td>
+          <td><font face="arial, verdana, sans-serif" size="1" color="#FFFFFF" class="hdrWhite">|</font></td>
+          <td><img src="/sites/templates/pix/spacer.gif" width="7" height="1" border="0"/></td>
+          <td><font face="arial, verdana, sans-serif" size="1" color="#FFFFFF" class="hdrWhite"><a href="http://www.intel.com/intel/nav/locator.htm?iid=Corporate+Header_Locator&" class="hdrWhiteLink">Select a Location</a></font></td>
+        </tr>
+      </table>
+
+    </td>
+    <td valign="top" align="right" bgcolor="#3366ff">
+
+      <table border="0" cellspacing="0" cellpadding="0">
+        <tr><td height="5"></td></tr>
+        <tr>
+          <td><font face="arial, verdana, sans-serif" size="1" color="#FFFFFF" class="hdrWhite"><a href="http://www.intel.com/intel/nav/sitemaps.htm?iid=Corporate+Header_Sitemap&" class="hdrWhiteLink">Site Map</a></font></td>
+          <td><img src="/sites/templates/pix/spacer.gif" width="10" height="1" border="0"/><font face="arial, verdana, sans-serif" size="1" color="#FFFFFF" class="hdrWhite">|</font><img src="/sites/templates/pix/spacer.gif" width="10" height="1" border="0"/></td>
+          <td><font face="arial, verdana, sans-serif" size="1" color="#FFFFFF" class="hdrWhite"><a href="http://www.intel.com/feedback.htm?iid=Corporate+Header_Contact&" class="hdrWhiteLink">Contact Us</a></font></td>
+          <td><img src="/sites/templates/pix/spacer.gif" width="10" height="1" border="0"/><font face="arial, verdana, sans-serif" size="1" color="#FFFFFF" class="hdrWhite">|</font><img src="/sites/templates/pix/spacer.gif" width="10" height="1" border="0"/></td>
+          <td><font face="arial, verdana, sans-serif" size="1" color="#FFFFFF" class="hdrWhite"><a href="http://www.intel.com/intel/index.htm?iid=Corporate+Header_About&" class="hdrWhiteLink">About Intel</a></font></td>
+        </tr>
+      </table>
+
+    </td>
+    <td rowspan="2" bgcolor="#3366ff"><img src="/sites/templates/pix/spacer.gif" width="10" height="1" border="0"/></td>
+    <td rowspan="2" valign="top" align="right" bgcolor="#3366ff"><img src="/sites/nav/images/corner.gif" width="6" height="5" border="0"/></td>
+  </tr>
+
+  <tr>
+    <td colspan="2" bgcolor="#3366ff" valign="bottom">
+
+      <table border="0" cellspacing="0" cellpadding="0" width="100%">
+       <tr>
+        <td valign="bottom">
+          <table border="0" cellspacing="0" cellpadding="0"><tr>
+            <td><a href="http://www.intel.com/products/index.htm?iid=Corporate+Header_Products&"><img src="/sites/nav/images/btn_products3.gif" width="89" height="19" border="0" alt="Products"/></a></td>
+            <td><a href="http://www.intel.com/support/index.htm?iid=Corporate+Header_Support&"><img src="/sites/nav/images/btn_support2.gif" width="89" height="19" border="0" alt="Support"/></a></td>
+          </tr></table>
+        </td>
+        <td valign="bottom" align="right">
+          <table cellspacing="0" cellpadding="0" border="0"><tr>
+            <td valign="top"><input type="text" size="12" id="q1" name="q1" class="searchfield"/></td>
+            <td valign="bottom"><input type="image" id=submitSearch  name="submit" src="/sites/nav/images/btn_search.gif" width="42" height="19" border="0" alt="Search"/></td>
+          </tr></table>
+        </td>
+       </tr>
+       <tr><td height="6"><img src="/sites/templates/pix/spacer.gif" width="251" height="6" border="0"/></td><td height="4"><img src="/sites/templates/pix/spacer.gif" width="300" height="6" border="0"/></td></tr>
+      </table>
+
+      <table border="0" cellspacing="0" cellpadding="0" width="549">
+        <tr>
+          <td valign="top"><font face="arial, verdana, sans-serif" size="1" color="#FFFFFF" class="hdrWhite"><a href="http://www.intel.com/home/index.htm?iid=Corporate+Header_Home&" class="hdrWhiteLink"><img src="/sites/nav/images/blt_orng.gif" width="12" height="9" border="0"/>Home Computing</a><img src="/sites/templates/pix/spacer.gif" width="13" height="1" border="0"/><a href="http://www.intel.com/ebusiness/index.htm?iid=Corporate+Header_Business&" class="hdrWhiteLink"><img src="/sites/nav/images/blt_orng.gif" width="12" height="9" border="0"/>Business Computing</a><img src="/sites/templates/pix/spacer.gif" width="13" height="1" border="0"/><a href="http://developer.intel.com/sites/developer/index.htm?iid=Corporate+Header_Developer&" class="hdrWhiteLink"><img src="/sites/nav/images/blt_orng.gif" width="12" height="9" border="0"/>Developer</a><img src="/sites/templates/pix/spacer.gif" width="13" height="1" border="0"/><a href="http://www.intel.com/intel/nav/channel.htm?iid=Corporate+Header_Reseller&" class="hdrWhiteLink"><img src="/sites/nav/images/blt_orng.gif" width="12" height="9" border="0"/>Reseller&nbsp;/&nbsp;Solutions</a></font></td>
+          <td align="right"><font face="arial, verdana, sans-serif" size="1" color="#FFFFFF" class="hdrWhite"><a href="http://appzone.intel.com/scripts-util/serve-url.asp?iid=Corporate+Header_AdvSearch&url=http://search.intel.com/corporate/search.asp&" class="hdrWhiteLink">Advanced Search</a></font></td>
+        </tr>
+        <tr><td height="4"></td></tr>
+      </table>
+
+    </td>
+
+  </tr>
+</form>
+</table>
+
+<!-- /SW Header V2.0 -->
+
+<!-- /StandardHeader -->
+
+<TABLE BORDER="0" WIDTH="760">
+<TR><TD>
+<FONT FACE="Arial,Helvetica" SIZE="2">
+<BR>
+
+<P>
+<H3><B>LXT971A/972A PHY Transceivers Specification Update</B><BR></H3>
+This Specification Update provides a detailed account of  Errata and changes made to the LXT971A/972A devices and their associated documentation during product development cycles.<P>
+
+<DL>
+<DT><B>File Name/Size:</B>
+<DD>24935407.pdf
+<BR>154978 bytes</DD>
+<DT><B>Download From:</B>
+<DD><A HREF=ftp://download.intel.com/design/network/products/lan/specupdt/24935407.pdf>
+U.S. FTP Server </A> (Download within North America)</DD>
+<DD><A HREF=http://apps.intel.com/scripts-util/download.asp?url=/design/network/products/lan/specupdt/24935407.pdf&title=LXT971A/972A+PHY+Transceivers+Specification+Update&fullpg=3&site=Developer>
+Mirror FTP Sites </A> (Download from international areas)</DD>
+<DD><A HREF=24935407.pdf>
+U.S. Web Server </A> (Available for byte serving)</DD>
+</DL>
+<BR>
+
+</FONT>
+</TD></TR>
+</TABLE>
+
+<!-- StandardFooter -->
+<!-- SW Footer V2.0 -->
+
+<table cellpadding="0" cellspacing="0" border="0" width="760">
+  <tr>
+    <td bgcolor="#ff9900"><img src="/sites/templates/pix/spacer.gif" width="1" height="22"/></td>
+    <td bgcolor="#0033FF"><img src="/sites/templates/pix/spacer.gif" width="173" height="1"/></td>
+    <td bgcolor="#3366ff"><img src="/sites/templates/pix/spacer.gif" width="19" height="1"/></td>
+    <td bgcolor="#3366ff">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><font face="arial, verdana, sans-serif" size="1" color="#FFFFFF" class="hdrWhite">*<a href="http://www.intel.com/sites/corporate/tradmarx.htm?iid=Corporate+Footer_Legal&" class="hdrWhiteLink">Legal Information</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://www.intel.com/sites/corporate/privacy.htm?iid=Corporate+Footer_Privacy&" class="hdrWhiteLink">Privacy Policy</a></font></td>
+          <td align="right"><font face="arial, verdana, sans-serif" size="1" color="#FFFFFF" class="hdrWhite">&copy;2003 Intel Corporation</font></td>
+        </tr>
+        <tr>
+          <td><img src="/sites/templates/pix/spacer.gif" width="300" height="1"/></td>
+          <td><img src="/sites/templates/pix/spacer.gif" width="248" height="1"/></td>
+        </tr>
+      </table>
+    </td>
+    <td bgcolor="#3366ff"><img src="/sites/templates/pix/spacer.gif" width="14" height="1"/></td>
+    <td valign="bottom" align="right" bgcolor="#3366ff"><img src="/sites/nav/images/corner_footer.gif" width="5" height="5"/></td>
+  </tr>
+</table>
+
+<!-- /SW Footer V2.0 -->
+<!-- /StandardFooter -->
+</BODY>
+</HTML>

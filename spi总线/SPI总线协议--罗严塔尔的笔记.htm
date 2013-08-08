@@ -1,0 +1,538 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0056)http://blog.21ic.com/user1/3691/archives/2007/40868.html -->
+<HTML><HEAD><TITLE>SPI总线协议--罗严塔尔的笔记</TITLE>
+<META http-equiv=Content-Language content=zh-CN>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META content="MSHTML 6.00.2900.3199" name=GENERATOR>
+<META content=phoenixmy,罗严塔尔 name=author>
+<META content=SPI总线协议 name=keyword>
+<META 
+content=SPI，是英语Serial&nbsp;Peripheral&nbsp;interface的缩写，顾名思义就是串行外围设备接口。SPI，是一种高速的，全双工，同步的通信总线，并且在芯 
+name=description><LINK title=RSS href="/user1/3691/rss2.xml" 
+type=application/rss+xml rel=alternate><LINK 
+href="SPI总线协议--罗严塔尔的笔记.files/OblogUserDefault4.css" type=text/css 
+rel=stylesheet>
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/main.js" type=text/javascript></SCRIPT>
+</HEAD>
+<BODY>
+<SCRIPT src=""></SCRIPT>
+
+<STYLE>A {
+	COLOR: #003366; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #003366
+}
+A:hover {
+	COLOR: #cc0000; TEXT-DECORATION: underline
+}
+DIV {
+	FONT-SIZE: 11px; COLOR: #000000; FONT-FAMILY: Verdana,tahoma, Arial, Helvetica, sans-serif
+}
+P {
+	FONT-SIZE: 11px; COLOR: #000000; FONT-FAMILY: Verdana,tahoma, Arial, Helvetica, sans-serif
+}
+BODY {
+	FONT-SIZE: 11px; COLOR: #000000; FONT-FAMILY: Verdana,tahoma, Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-SIZE: 11px; COLOR: #000000; FONT-FAMILY: Verdana,tahoma, Arial, Helvetica, sans-serif
+}
+SELECT {
+	BORDER-RIGHT: #cccccc 0px double; BORDER-TOP: #cccccc 0px double; FONT-SIZE: 11px; BORDER-LEFT: #cccccc 0px double; COLOR: #000000; BORDER-BOTTOM: #cccccc 0px double; FONT-FAMILY: Verdana,Tahoma, sans-serif; HEIGHT: 20px; BACKGROUND-COLOR: #f3f3f3
+}
+INPUT {
+	FONT-SIZE: 11px; COLOR: #333333; FONT-FAMILY: Verdana,MS Shell Dlg,Tahoma, sans-serif; HEIGHT: 21px
+}
+FONT.code {
+	FONT-FAMILY: Monaco, Courier, Courier New
+}
+CODE {
+	FONT-SIZE: 11px; FONT-FAMILY: "Courier"
+}
+TEXTAREA {
+	BORDER-RIGHT: #999999 1px double; BORDER-TOP: #999999 1px double; BACKGROUND: #ffffff; FONT: 12px ,Courier New; BORDER-LEFT: #999999 1px double; BORDER-BOTTOM: #999999 1px double
+}
+BODY {
+	MARGIN: 0px; FONT-FAMILY: Verdana,Tahoma
+}
+TEXTAREA {
+	MARGIN: 0px; FONT-FAMILY: Verdana,Tahoma
+}
+.arrow {
+	FONT-FAMILY: webdings
+}
+</STYLE>
+<LINK href="SPI总线协议--罗严塔尔的笔记.files/index_home.css" type=text/css rel=StyleSheet>
+<TABLE cellSpacing=0 cellPadding=0 width=100 align=center border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width=100 border=0>
+        <TBODY>
+        <TR>
+          <TD><IMG height=29 src="SPI总线协议--罗严塔尔的笔记.files/top_1.jpg" 
+          width=760></TD></TR>
+        <TR>
+          <TD><IMG height=150 src="SPI总线协议--罗严塔尔的笔记.files/top_2.jpg" 
+            width=31><IMG height=150 src="SPI总线协议--罗严塔尔的笔记.files/zhufu_top.jpg" 
+            width=699><IMG height=150 src="SPI总线协议--罗严塔尔的笔记.files/top_3.jpg" 
+            width=30></TD></TR>
+        <TR>
+          <TD></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width=760 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=23 
+          background=SPI总线协议--罗严塔尔的笔记.files/index_left.jpg>　</TD>
+          <TD vAlign=top bgColor=#ffffff>
+            <TABLE cellSpacing=0 cellPadding=0 width=715 border=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top width=180>
+                  <TABLE cellSpacing=0 cellPadding=0 width=180 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD align=middle>
+                        <DIV id=calendar>21IC页面载入....</DIV></TD></TR>
+                    <TR>
+                      <TD vAlign=bottom align=middle height=50><IMG height=40 
+                        src="SPI总线协议--罗严塔尔的笔记.files/index_last.jpg" 
+                    width=160></TD></TR>
+                    <TR>
+                      <TD align=middle>
+                        <TABLE cellSpacing=0 cellPadding=0 width=180 border=0>
+                          <TBODY>
+                          <TR>
+                            <TD vAlign=top width=164>
+                              <MARQUEE onmouseover=stop(); onmouseout=start(); 
+                              scrollAmount=1 scrollDelay=15 direction=up 
+                              width=160 height=100>
+                              <DIV 
+                          id=placard>21IC页面载入....</DIV></MARQUEE></TD></TR></TBODY></TABLE></TD></TR>
+                    <TR>
+                      <TD align=middle><IMG height=40 
+                        src="SPI总线协议--罗严塔尔的笔记.files/index_class.jpg" 
+                      width=160></TD></TR>
+                    <TR>
+                      <TD>
+                        <TABLE cellSpacing=5 cellPadding=0 width=179 border=0>
+                          <TBODY>
+                          <TR>
+                            <TD vAlign=top>
+                              <DIV>
+                              <DIV 
+                          id=subject>21IC页面载入....</DIV></DIV></TD></TR></TBODY></TABLE></TD></TR>
+                    <TR>
+                      <TD align=middle><IMG height=40 
+                        src="SPI总线协议--罗严塔尔的笔记.files/index_login.jpg" 
+                      width=160></TD></TR>
+                    <TR>
+                      <TD align=middle>
+                        <DIV align=center>
+                        <DIV id=ob_login></DIV></DIV></TD></TR>
+                    <TR>
+                      <TD align=middle><IMG height=40 
+                        src="SPI总线协议--罗严塔尔的笔记.files/index_zhengren.jpg" 
+                        width=160></TD></TR>
+                    <TR>
+                      <TD>
+                        <TABLE cellSpacing=5 cellPadding=0 width=179 border=0>
+                          <TBODY>
+                          <TR>
+                            <TD vAlign=top width=151 height=25>
+                              <DIV 
+                        id=newblog>21IC页面载入....</DIV></TD></TR></TBODY></TABLE></TD></TR>
+                    <TR>
+                      <TD><IMG height=40 
+                        src="SPI总线协议--罗严塔尔的笔记.files/index_joke.jpg" 
+                    width=160></TD></TR>
+                    <TR>
+                      <TD>
+                        <TABLE cellSpacing=5 cellPadding=0 width=179 border=0>
+                          <TBODY>
+                          <TR>
+                            <TD vAlign=top width=151 height=25>
+                              <DIV 
+                        id=comment>21IC页面载入....</DIV></TD></TR></TBODY></TABLE></TD></TR>
+                    <TR>
+                      <TD align=middle><IMG height=40 
+                        src="SPI总线协议--罗严塔尔的笔记.files/index_message.jpg" 
+                      width=160></TD></TR>
+                    <TR>
+                      <TD>
+                        <TABLE cellSpacing=5 cellPadding=0 width=179 border=0>
+                          <TBODY>
+                          <TR>
+                            <TD vAlign=top width=151 height=25>
+                              <DIV 
+                        id=newmessage>21IC页面载入....</DIV></TD></TR></TBODY></TABLE></TD></TR>
+                    <TR>
+                      <TD vAlign=bottom><IMG height=40 
+                        src="SPI总线协议--罗严塔尔的笔记.files/index_search.jpg" 
+                      width=160></TD></TR>
+                    <TR>
+                      <TD align=middle><BR>
+                        <TABLE cellSpacing=5 cellPadding=0 width=179 border=0>
+                          <TBODY>
+                          <TR>
+                            <TD vAlign=top width=151 height=25>
+                              <P>
+                              <DIV id=links>21IC页面载入....</DIV>
+                              <SCRIPT src=""></SCRIPT>
+
+                              <P></P>
+                              <P>
+                              <DIV id=info>21IC页面载入....</DIV><BR>
+                              <P></P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+                <TD vAlign=top width=1 bgColor=#eaeaea><IMG height=1 
+                  src="SPI总线协议--罗严塔尔的笔记.files/space.gif" width=1></TD>
+                <TD vAlign=top>
+                  <TABLE cellSpacing=0 cellPadding=0 width=534 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><SPAN id=blogname>21IC页面载入....</SPAN> </TD></TR>
+                    <TR>
+                      <TD vAlign=top align=middle>&nbsp;</TD></TR>
+                    <TR>
+                      <TD vAlign=top align=middle>
+                        <TABLE id=table3 width="100%" border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE style="TABLE-LAYOUT: fixed" width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD class=de_font><B>SPI总线协议</B> <BR><B>罗严塔尔 发表于 
+                                2007-8-10 15:03:00</B><BR>
+                                <P>
+                                <DIV>SPI，是英语Serial Peripheral 
+                                interface的缩写，顾名思义就是串行外围设备接口。SPI，是一种高速的，全双工，同步的通信总线，并且在芯片的管脚上只占用四根线，节约了芯片的管脚，同时为PCB的布局上节省空间，提供方便，正是出于这种简单易用的特性，现在越来越多的芯片集成了这种通信协议。</DIV>
+                                <DIV><SPAN class=oblog_text><SPAN 
+                                style="FONT-SIZE: 14pt">SPI是一个环形总线结构</SPAN><A 
+                                href="http://www.mcu99.com/"><SPAN 
+                                style="FONT-SIZE: 14pt">，</SPAN></A><SPAN 
+                                style="FONT-SIZE: 14pt">由ss（cs）、sck、sdi、sdo构成，其时序其实很简单，主要是在sck的控制下，两个双向移位寄存器进行数据交换。<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;假设下面的8位寄存器装的是待发送的数据10101010，上升沿发送、下降沿接收、高位先发送。<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;那么第一个上升沿来的时候 
+                                数据将会是sdo=1；寄存器=0101010x。下降沿到来的时候，sdi上的电平将所存到寄存器中去，那么这时寄存器=0101010sdi，这样在8个时钟脉冲以后，两个寄存器的内容互相交换一次。这样就完成里一个spi时序。<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;例子：<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;假设主机和从机初始化就绪：并且主机的sbuff=0xaa，从机的sbuff=0x55，下面将分步对spi的8个时钟周期的数据情况演示一遍:假设上升沿发送数据</SPAN> 
+
+                                <P>&nbsp;</P>
+                                <P>
+                                <TABLE borderColor=#cccccc cellSpacing=2 
+                                cellPadding=3 align=center bgColor=#ffffff>
+                                <TBODY>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">脉冲</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">主机sbuff 
+                                </SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">从机sbuff 
+                                </SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">sdi 
+                                </SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">sdo 
+                                </SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">0</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt"><SPAN 
+                                style="COLOR: #ff0000">1</SPAN>0101010</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt"><SPAN 
+                                style="COLOR: #ff00ff">0</SPAN>1010101</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">0</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">0</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1上</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">0101010x</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">1010101x</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt; COLOR: #ff00ff">0</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt; COLOR: #ff0000">1</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1下</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">0101010<SPAN 
+                                style="COLOR: #ff00ff">0</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1010101<SPAN 
+                                style="COLOR: #ff0000">1</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">0</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">1</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">2上</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">101010<SPAN 
+                                style="COLOR: #09f797">0</SPAN>x </SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">010101<SPAN 
+                                style="COLOR: #09f738">1</SPAN><SPAN 
+                                style="COLOR: #000000">x</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">0</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">2下</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">101010<SPAN 
+                                style="COLOR: #09f797">01</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">010101<SPAN 
+                                style="COLOR: #09f738">10</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">0</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">3上</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">01010<SPAN 
+                                style="COLOR: #09f797">01</SPAN><SPAN 
+                                style="COLOR: #000000">x</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">10101<SPAN 
+                                style="COLOR: #09f738">10</SPAN><SPAN 
+                                style="COLOR: #000000">x</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">0</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">1</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">3下</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">01010<SPAN 
+                                style="COLOR: #09f797">010</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">10101<SPAN 
+                                style="COLOR: #09f738">101</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">0</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">1</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">4上</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1010<SPAN 
+                                style="COLOR: #09f797">010</SPAN><SPAN 
+                                style="COLOR: #000000">x</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">0101<SPAN 
+                                style="COLOR: #09f738">101</SPAN><SPAN 
+                                style="COLOR: #000000">x</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">0</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">4下</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1010<SPAN 
+                                style="COLOR: #09f797">0101</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">0101<SPAN 
+                                style="COLOR: #09f738">1010</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">0</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">5上</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">010<SPAN 
+                                style="COLOR: #09f797">0101</SPAN><SPAN 
+                                style="COLOR: #000000">x</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">101<SPAN 
+                                style="COLOR: #09f738">1010</SPAN><SPAN 
+                                style="COLOR: #000000">x</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">0</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">1</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">5下</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">010<SPAN 
+                                style="COLOR: #09f797">01010</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">101<SPAN 
+                                style="COLOR: #09f738">10101</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">0</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">1</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">6上</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">10<SPAN 
+                                style="COLOR: #09f797">01010</SPAN><SPAN 
+                                style="COLOR: #000000">x</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">01<SPAN 
+                                style="COLOR: #09f738">10101</SPAN><SPAN 
+                                style="COLOR: #000000">x</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">0</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">6下</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">10<SPAN 
+                                style="COLOR: #09f797">010101</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">01<SPAN 
+                                style="COLOR: #09f738">101010</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">0</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">7上</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">0<SPAN 
+                                style="COLOR: #09f797">010101</SPAN><SPAN 
+                                style="COLOR: #000000">x</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1<SPAN 
+                                style="COLOR: #09f738">101010</SPAN><SPAN 
+                                style="COLOR: #000000">x</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">0</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">1</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">7下</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">0<SPAN 
+                                style="COLOR: #09f797">0101010</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1<SPAN 
+                                style="COLOR: #09f738">1010101</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">0</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">1</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">8上</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt"><SPAN 
+                                style="COLOR: #09f797">0101010</SPAN><SPAN 
+                                style="COLOR: #000000">x</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt"><SPAN 
+                                style="COLOR: #09f738">1010101</SPAN><SPAN 
+                                style="COLOR: #000000">x</SPAN></SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">0</SPAN></TD></TR>
+                                <TR>
+                                <TD><SPAN style="FONT-SIZE: 14pt">8下</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt; COLOR: #09f797">01010101</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt; COLOR: #09f738">10101010</SPAN></TD>
+                                <TD><SPAN style="FONT-SIZE: 14pt">1</SPAN></TD>
+                                <TD><SPAN 
+                                style="FONT-SIZE: 14pt">0</SPAN></TD></TR></TBODY></TABLE></P>
+                                <P><SPAN style="FONT-SIZE: 14pt"></SPAN></P>
+                                <P><SPAN 
+                                style="FONT-SIZE: 14pt">这样就完成了两个寄存器8位的交换，上面的上表示上升沿、下表示下降沿，sdi、sdo相对于主机而言的。其中ss引脚作为主机的时候，从机可以把它拉底被动选为从机，作为从机的是时候，可以作为片选脚用。根据以上分析，一个完整的传送周期是16位，即两个字节，因为，首先主机要发送命令过去，然后从机根据主机的名准备数据，主机在下一个8位时钟周期才把数据读回来</SPAN>&nbsp;</P>
+                                <P>SPI 
+                                总线是Motorola公司推出的三线同步接口，同步串行3线方式进行通信:一条时钟线SCK，一条数据输入线MOSI，一条数据输出线MISO;用于CPU与各种外围器件进行全双工、同步串行通讯。SPI主要特点有:可以同时发出和接收串行数据;可以当作主机或从机工作;提供频率可编程时钟;发送结束中断标志;写冲突保护;总线竞争保护等。图3示出SPI总线工作的四种方式，其中使用的最为广泛的是SPI0和SPI3方式(实线表示):</P>
+                                <P align=center><SPAN 
+                                style="FONT-SIZE: 12pt"><IMG 
+                                onmousewheel="return bbimg(this)" 
+                                src="SPI总线协议--罗严塔尔的笔记.files/20057199511279555.gif" 
+                                width=300 onload=rsimg(this,300) 
+                                resized="true"></SPAN></P>
+                                <P align=center><SPAN 
+                                style="FONT-SIZE: 12pt">图2&nbsp;&nbsp; 
+                                SPI总线四种工作方式 </SPAN></P>
+                                <P style="TEXT-INDENT: 30px"><SPAN 
+                                style="FONT-SIZE: 12pt">SPI模块为了和外设进行数据交换，根据外设工作要求，其输出串行同步时钟极性和相位可以进行配置，时钟极性（CPOL）对传输协议没有重大的影响。如果CPOL=0，串行同步时钟的空闲状态为低电平；如果CPOL=1，串行同步时钟的空闲状态为高电平。时钟相位（CPHA）能够配置用于选择两种不同的传输协议之一进行数据传输。如果CPHA=0，在串行同步时钟的第一个跳变沿（上升或下降）数据被采样；如果CPHA=1，在串行同步时钟的第二个跳变沿（上升或下降）数据被采样。SPI主模块和与之通信的外设音时钟相位和极性应该一致。SPI接口时序如图3、图4所示。</SPAN></P>
+                                <P style="TEXT-INDENT: 30px"><SPAN 
+                                style="FONT-SIZE: 12pt">二，</SPAN><SPAN 
+                                style="FONT-SIZE: 12pt">.SPI功能模块的设计</SPAN></P>
+                                <P style="TEXT-INDENT: 30px"><SPAN 
+                                style="FONT-SIZE: 12pt">根据功能定义及SPI的工作原理，将整个IP 
+                                Core分为8个子模块：uC接口模块、时钟分频模块、发送数据FIFO模块、接收数据FIFO模块、状态机模块、发送数据逻辑模块、接收数据逻辑模块以及中断形式模块。</SPAN></P>
+                                <P style="TEXT-INDENT: 30px"><SPAN 
+                                style="FONT-SIZE: 12pt">深入分析SPI的四种传输协议可以发现，根据一种协议，只要对串行同步时钟进行转换，就能得到其余的三种协议。为了简化设计规定，如果要连续传输多个数据，在两个数据传输之间插入一个串行时钟的空闲等待，这样状态机只需两种状态（空闲和工作）就能正确工作。</SPAN></P></SPAN></DIV>
+                                <P></P></TD></TR>
+                                <TR>
+                                <TD class=de_font>
+                                <DIV align=right width="268"><A 
+                                href="http://blog.21ic.com/user1/3691/archives/2007/40868.html#">阅读全文<SPAN 
+                                id=ob_logreaded></SPAN></A> | <A 
+                                href="http://blog.21ic.com/user1/3691/archives/2007/40868.html#cmt">回复(0)</A> 
+                                | <A 
+                                href="http://blog.21ic.com/showtb.asp?id=40868" 
+                                target=_blank>引用通告<SPAN id=ob_tbnum></SPAN></A> 
+                                | <A 
+                                href="http://blog.21ic.com/user_post.asp?logid=40868" 
+                                target=_blank>编辑</A></DIV></TD></TR>
+                                <TR>
+                                <TD width=268 height=4></TD></TR>
+                                <TR>
+                                <TD align=right 
+                                width=268>&nbsp;</TD></TR></TBODY></TABLE>
+                              <DIV id=morelog>
+                              <UL>
+                                <LI>上一篇：<A 
+                                href="http://blog.21ic.com/user1/3691/archives/2007/40867.html">UART基础知识</A>
+                                <LI>下一篇：<A 
+                                href="http://blog.21ic.com/user1/3691/archives/2007/40877.html">转：绕月探测工程正式转入发射实施阶段(图)</A></LI></UL></DIV>
+                              <SCRIPT src=""></SCRIPT>
+                              <A name=cmt></A>
+                              <H2>发表评论：</H2>
+                              <DIV id=form_comment>
+                              <FORM id=commentform name=commentform 
+                              onsubmit="return Verifycomment()" 
+                              action=/savecomment.asp?logid=40868 method=post>
+                              <UL>大名：<INPUT id=UserName maxLength=20 size=15 
+                                name=UserName></UL>
+                              <UL>密码：<INPUT id=Password type=password 
+                                maxLength=20 size=15 name=Password> 
+(游客无须输入密码)</UL>
+                              <UL>主页：<INPUT id=homepage maxLength=50 size=42 
+                                value=http:// name=homepage></UL>
+                              <UL>标题：<INPUT id=commenttopic maxLength=50 
+                                size=42 value=Re:SPI总线协议 name=commenttopic></UL>
+                              <UL><INPUT id=edit type=hidden name=edit> 
+                                <DIV id=oblog_edit>21IC页面载入....</DIV></UL>
+                              <UL><SPAN id=ob_code></SPAN><INPUT type=submit value=" 提交 "></UL></FORM></DIV></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top width=22 
+          background=SPI总线协议--罗严塔尔的笔记.files/index_right.jpg>　</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD>
+      <TABLE height=80 cellSpacing=0 cellPadding=0 width=760 align=center 
+      background=SPI总线协议--罗严塔尔的笔记.files/tail.jpg border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE height=64 cellSpacing=0 cellPadding=0 width=700 align=center 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE id=table1 cellSpacing=0 cellPadding=0 width=700 
+                  align=center border=0>
+                    <TBODY>
+                    <TR>
+                      <TD vAlign=top align=middle width=50><IMG height=46 
+                        src="SPI总线协议--罗严塔尔的笔记.files/copy.gif" width=361 
+                        useMap=#Map border=0></TD>
+                      <TD><BR></TD><A href="http://www.51.la/?778911" 
+                      target=_blank><IMG 
+                      style="BORDER-RIGHT: medium none; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: medium none" 
+                      alt=我要啦免费统计 src="SPI总线协议--罗严塔尔的笔记.files/go.htm"></A> 
+                      <TD>　</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<SCRIPT src=""></SCRIPT>
+
+<DIV id=powered><A href="http://blog.21ic.com/" target=_blank><IMG 
+alt="Powered by 21ic." src="SPI总线协议--罗严塔尔的笔记.files/oblog_powered.gif" 
+border=0></A></DIV>
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/show_subject.htm"></SCRIPT>
+
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/show_placard.htm"></SCRIPT>
+
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/200708.htm"></SCRIPT>
+
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/show_search.htm"></SCRIPT>
+
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/show_newblog.htm"></SCRIPT>
+
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/show_comment.htm"></SCRIPT>
+
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/show_mygroups.htm"></SCRIPT>
+
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/show_myfriend.htm"></SCRIPT>
+
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/show_newmessage.htm"></SCRIPT>
+
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/show_info.htm"></SCRIPT>
+
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/show_links.htm"></SCRIPT>
+
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/show_blogname.htm"></SCRIPT>
+
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/count.htm"></SCRIPT>
+
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/commentedit.htm"></SCRIPT>
+
+<SCRIPT 
+src="C:\Documents and Settings\yong.jiang\桌面\spi总线\SPI总线协议--罗严塔尔的笔记.files\count(1).htm"></SCRIPT>
+
+<SCRIPT 
+src="C:\Documents and Settings\yong.jiang\桌面\spi总线\SPI总线协议--罗严塔尔的笔记.files\count(2).htm"></SCRIPT>
+
+<SCRIPT src="SPI总线协议--罗严塔尔的笔记.files/login.htm"></SCRIPT>
+
+<SCRIPT language=javascript>if (chkdiv('txml')) {document.getElementById('txml').innerHTML='<a href="http://www.oblog.cn/rss/?rss=http://blog.21ic.org/user1/3691/rss2.xml" target="_blank"><img src="http://www.oblog.cn/xml.jpg" border="0" /></a>';}</SCRIPT>
+</BODY></HTML>

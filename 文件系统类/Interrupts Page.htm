@@ -1,0 +1,396 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0047)http://home.teleport.com/~brainy/interrupts.htm -->
+<HTML><HEAD><TITLE>Interrupts Page</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META content="MSHTML 6.00.2800.1476" name=GENERATOR></HEAD>
+<BODY>
+<P align=center><U><STRONG><BIG>Interrupts Page</BIG></STRONG></U></P>
+<P>This page contains a listing of all the Interrupts Mentioned on my "<A 
+href="http://www.teleport.com/~brainy/diskaccess.htm"><U>How to Read and Write 
+to a Hard Disk</U></A>" page.&nbsp; All Interrupt Text is from the "Interrupt 
+List" by Ralf Brown.&nbsp; There may be more information here than you need to 
+use them, but I figured I would include the whole thing from each section.&nbsp; 
+I recommend that you download the Interrupt List.&nbsp; I'm not exactly sure 
+where I got it, but I don't believe it's very difficult to find.&nbsp; </P>
+<P>&nbsp;</P>
+<P><FONT face=Fixedsys><U><STRONG>Interrupt 13h, section 
+AH=41h</STRONG></U><BR><BR>--------d-1341--BX55AA-----------------------<BR>INT 
+13 - IBM/MS INT 13 Extensions - INSTALLATION CHECK<BR>&nbsp;&nbsp;&nbsp; AH = 
+41h<BR>&nbsp;&nbsp;&nbsp; BX = 55AAh<BR>&nbsp;&nbsp;&nbsp; DL = drive 
+(80h-FFh)<BR>Return: CF set on error (extensions not 
+supported)<BR>&nbsp;&nbsp;&nbsp; AH = 01h (invalid 
+function)<BR>&nbsp;&nbsp;&nbsp; CF clear if successful<BR>&nbsp;&nbsp;&nbsp; BX 
+= AA55h if installed<BR>&nbsp;&nbsp;&nbsp; AH = major version of 
+extensions<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 01h = 
+1.x<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 20h = 2.0 / 
+EDD-1.0<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 21h = 2.1 / 
+EDD-1.1<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 30h = 
+EDD-3.0<BR>&nbsp;&nbsp;&nbsp; AL = internal use<BR>&nbsp;&nbsp;&nbsp; CX = API 
+subset support bitmap (see #00271)<BR>&nbsp;&nbsp;&nbsp; DH = extension version 
+(v2.0+ ??? -- not present in 1.x)<BR>Note:&nbsp;&nbsp;&nbsp; the Phoenix 
+Enhanced Disk Drive Specification v1.0 uses version 2.0 of<BR>&nbsp;&nbsp;&nbsp; 
+the INT 13 Extensions API<BR>SeeAlso: AH=42h"INT 13 Ext",AH=48h"INT 13 
+Ext"<BR><BR>Bitfields for IBM/MS INT 13 Extensions API support 
+bitmap:<BR>Bit(s)&nbsp;&nbsp;&nbsp; Description&nbsp;&nbsp;&nbsp; (Table 
+00271)<BR>0&nbsp;&nbsp;&nbsp; extended disk access functions 
+(AH=42h-44h,47h,48h) supported<BR>1&nbsp;&nbsp;&nbsp; removable drive controller 
+functions (AH=45h,46h,48h,49h,INT 15/AH=52h)<BR>&nbsp;&nbsp;&nbsp; 
+supported<BR>2&nbsp;&nbsp;&nbsp; enhanced disk drive (EDD) functions 
+(AH=48h,AH=4Eh) supported<BR>&nbsp;&nbsp;&nbsp; extended drive parameter table 
+is valid (see #00273,#00278)<BR>3-15&nbsp;&nbsp;&nbsp; reserved (0)</FONT></P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P><STRONG><U><FONT face=Fixedsys>Listing of Error Codes (Referenced from 
+Interrupts Below)</FONT></U></STRONG></P>
+<P><FONT face=Fixedsys>(Table 00234)<BR>Values for disk operation 
+status:<BR>00h&nbsp;&nbsp;&nbsp; successful completion<BR>01h&nbsp;&nbsp;&nbsp; 
+invalid function in AH or invalid parameter<BR>02h&nbsp;&nbsp;&nbsp; address 
+mark not found<BR>03h&nbsp;&nbsp;&nbsp; disk 
+write-protected<BR>04h&nbsp;&nbsp;&nbsp; sector not found/read 
+error<BR>05h&nbsp;&nbsp;&nbsp; reset failed (hard disk)<BR>05h&nbsp;&nbsp;&nbsp; 
+data did not verify correctly (TI Professional PC)<BR>06h&nbsp;&nbsp;&nbsp; disk 
+changed (floppy)<BR>07h&nbsp;&nbsp;&nbsp; drive parameter activity failed (hard 
+disk)<BR>08h&nbsp;&nbsp;&nbsp; DMA overrun<BR>09h&nbsp;&nbsp;&nbsp; data 
+boundary error (attempted DMA across 64K boundary or &gt;80h 
+sectors)<BR>0Ah&nbsp;&nbsp;&nbsp; bad sector detected (hard 
+disk)<BR>0Bh&nbsp;&nbsp;&nbsp; bad track detected (hard 
+disk)<BR>0Ch&nbsp;&nbsp;&nbsp; unsupported track or invalid 
+media<BR>0Dh&nbsp;&nbsp;&nbsp; invalid number of sectors on format (PS/2 hard 
+disk)<BR>0Eh&nbsp;&nbsp;&nbsp; control data address mark detected (hard 
+disk)<BR>0Fh&nbsp;&nbsp;&nbsp; DMA arbitration level out of range (hard 
+disk)<BR>10h&nbsp;&nbsp;&nbsp; uncorrectable CRC or ECC error on 
+read<BR>11h&nbsp;&nbsp;&nbsp; data ECC corrected (hard 
+disk)<BR>20h&nbsp;&nbsp;&nbsp; controller failure<BR>31h&nbsp;&nbsp;&nbsp; no 
+media in drive (IBM/MS INT 13 extensions)<BR>32h&nbsp;&nbsp;&nbsp; incorrect 
+drive type stored in CMOS (Compaq)<BR>40h&nbsp;&nbsp;&nbsp; seek 
+failed<BR>80h&nbsp;&nbsp;&nbsp; timeout (not ready)<BR>AAh&nbsp;&nbsp;&nbsp; 
+drive not ready (hard disk)<BR>B0h&nbsp;&nbsp;&nbsp; volume not locked in drive 
+(INT 13 extensions)<BR>B1h&nbsp;&nbsp;&nbsp; volume locked in drive (INT 13 
+extensions)<BR>B2h&nbsp;&nbsp;&nbsp; volume not removable (INT 13 
+extensions)<BR>B3h&nbsp;&nbsp;&nbsp; volume in use (INT 13 
+extensions)<BR>B4h&nbsp;&nbsp;&nbsp; lock count exceeded (INT 13 
+extensions)<BR>B5h&nbsp;&nbsp;&nbsp; valid eject request failed (INT 13 
+extensions)<BR>BBh&nbsp;&nbsp;&nbsp; undefined error (hard 
+disk)<BR>CCh&nbsp;&nbsp;&nbsp; write fault (hard disk)<BR>E0h&nbsp;&nbsp;&nbsp; 
+status register error (hard disk)<BR>FFh&nbsp;&nbsp;&nbsp; sense operation 
+failed (hard disk)<BR></FONT></P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P><FONT face=Fixedsys><STRONG><U>Interrupt 13h, section 
+AH=08h</U></STRONG></FONT></P>
+<P><FONT face=Fixedsys>--------B-1308-------------------------------<BR>INT 13 - 
+DISK - GET DRIVE PARAMETERS (PC,XT286,CONV,PS,ESDI,SCSI)<BR>&nbsp;&nbsp;&nbsp; 
+AH = 08h<BR>&nbsp;&nbsp;&nbsp; DL = drive (bit 7 set for hard disk)<BR>Return: 
+CF set on error<BR>&nbsp;&nbsp;&nbsp; AH = status (07h) (see 
+#00234)<BR>&nbsp;&nbsp;&nbsp; CF clear if successful<BR>&nbsp;&nbsp;&nbsp; AH = 
+00h<BR>&nbsp;&nbsp;&nbsp; AL = 00h on at least some BIOSes<BR>&nbsp;&nbsp;&nbsp; 
+BL = drive type (AT/PS2 floppies only) (see #00242)<BR>&nbsp;&nbsp;&nbsp; CH = 
+low eight bits of maximum cylinder number<BR>&nbsp;&nbsp;&nbsp; CL = maximum 
+sector number (bits 5-0)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; high two 
+bits of maximum cylinder number (bits 7-6)<BR>&nbsp;&nbsp;&nbsp; DH = maximum 
+head number<BR>&nbsp;&nbsp;&nbsp; DL = number of drives<BR>&nbsp;&nbsp;&nbsp; 
+ES:DI -&gt; drive parameter table (floppies only)<BR>Notes:&nbsp;&nbsp;&nbsp; 
+may return successful even though specified drive is greater than 
+the<BR>&nbsp;&nbsp;&nbsp; number of attached drives of that type (floppy/hard); 
+check DL to<BR>&nbsp;&nbsp;&nbsp; ensure validity<BR>&nbsp;&nbsp;&nbsp; for 
+systems predating the IBM AT, this call is only valid for 
+hard<BR>&nbsp;&nbsp;&nbsp; disks, as it is implemented by the hard disk BIOS 
+rather than the<BR>&nbsp;&nbsp;&nbsp; ROM BIOS<BR>&nbsp;&nbsp;&nbsp; Toshiba 
+laptops with HardRAM return DL=02h when called with 
+DL=80h,<BR>&nbsp;&nbsp;&nbsp; but fail on DL=81h. The BIOS data at 40h:75h 
+correctly reports 01h.<BR>&nbsp;&nbsp;&nbsp; may indicate only two drives 
+present even if more are attached; to<BR>&nbsp;&nbsp;&nbsp; ensure a correct 
+count, one can use AH=15h to scan through possible<BR>&nbsp;&nbsp;&nbsp; 
+drives<BR>&nbsp;&nbsp;&nbsp; for BIOSes which reserve the last cylinder for 
+testing purposes, the<BR>&nbsp;&nbsp;&nbsp; cylinder count is automatically 
+decremented<BR>&nbsp;&nbsp;&nbsp; on PS/1s with IBM ROM DOS 4, nonexistent 
+drives return CF clear,<BR>&nbsp;&nbsp;&nbsp; BX=CX=0000h, and ES:DI = 
+0000h:0000h<BR>&nbsp;&nbsp;&nbsp; the PC-Tools PCFORMAT program requires that 
+AL=00h before it will<BR>&nbsp;&nbsp;&nbsp; proceed with the 
+formatting<BR>BUG:&nbsp;&nbsp;&nbsp; several different Compaq BIOSes incorrectly 
+report high-numbered<BR>&nbsp;&nbsp;&nbsp; drives (such as 90h, B0h, D0h, and 
+F0h) as present, giving them the<BR>&nbsp;&nbsp;&nbsp; same geometry as drive 
+80h; as a workaround, scan through disk<BR>&nbsp;&nbsp;&nbsp; numbers, stopping 
+as soon as the number of valid drives encountered<BR>&nbsp;&nbsp;&nbsp; equals 
+the value in 0040h:0075h<BR>SeeAlso: 
+AH=06h"Adaptec",AH=13h"SyQuest",AH=48h,AH=15h,INT 1E<BR>SeeAlso: INT 41"HARD 
+DISK 0"<BR><BR>(Table 00242)<BR>Values for diskette drive 
+type:<BR>01h&nbsp;&nbsp;&nbsp; 360K<BR>02h&nbsp;&nbsp;&nbsp; 
+1.2M<BR>03h&nbsp;&nbsp;&nbsp; 720K<BR>04h&nbsp;&nbsp;&nbsp; 
+1.44M<BR>05h&nbsp;&nbsp;&nbsp; ??? (reportedly an obscure drive type shipped on 
+some IBM machines)<BR>&nbsp;&nbsp;&nbsp; 2.88M on some machines (at least AMI 
+486 BIOS)<BR>06h&nbsp;&nbsp;&nbsp; 2.88M<BR>10h&nbsp;&nbsp;&nbsp; ATAPI 
+Removable Media Device<BR></FONT></P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P><U><STRONG><FONT face=Fixedsys>Interrupt 13h, section 
+AH=48h</FONT></STRONG></U></P>
+<P><FONT face=Fixedsys>--------d-1348-------------------------------<BR>INT 13 - 
+IBM/MS INT 13 Extensions - GET DRIVE PARAMETERS<BR>&nbsp;&nbsp;&nbsp; AH = 
+48h<BR>&nbsp;&nbsp;&nbsp; DL = drive (80h-FFh)<BR>&nbsp;&nbsp;&nbsp; DS:SI -&gt; 
+buffer for drive parameters (see #00273)<BR>Return: CF clear if 
+successful<BR>&nbsp;&nbsp;&nbsp; AH = 00h<BR>&nbsp;&nbsp;&nbsp; DS:SI buffer 
+filled<BR>&nbsp;&nbsp;&nbsp; CF set on error<BR>&nbsp;&nbsp;&nbsp; AH = error 
+code (see #00234)<BR>BUG:&nbsp;&nbsp;&nbsp; several different Compaq BIOSes 
+incorrectly report high-numbered<BR>&nbsp;&nbsp;&nbsp; drives (such as 90h, B0h, 
+D0h, and F0h) as present, giving them the<BR>&nbsp;&nbsp;&nbsp; same geometry as 
+drive 80h; as a workaround, scan through disk<BR>&nbsp;&nbsp;&nbsp; numbers, 
+stopping as soon as the number of valid drives encountered<BR>&nbsp;&nbsp;&nbsp; 
+equals the value in 0040h:0075h<BR>SeeAlso: AH=08h,AH=41h,AH=49h,MEM 
+0040h:0075h<BR><BR>Format of IBM/MS INT 13 Extensions drive 
+parameters:<BR>Offset&nbsp;&nbsp;&nbsp; Size&nbsp;&nbsp;&nbsp; 
+Description&nbsp;&nbsp;&nbsp; (Table 00273)<BR>00h&nbsp;&nbsp;&nbsp; 
+WORD&nbsp;&nbsp;&nbsp; (call) size of 
+buffer<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (001Ah for v1.x, 001Eh for 
+v2.x, 42h for v3.0)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (ret) size of 
+returned data<BR>02h&nbsp;&nbsp;&nbsp; WORD&nbsp;&nbsp;&nbsp; information flags 
+(see #00274)<BR>04h&nbsp;&nbsp;&nbsp; DWORD&nbsp;&nbsp;&nbsp; number of physical 
+cylinders on drive<BR>08h&nbsp;&nbsp;&nbsp; DWORD&nbsp;&nbsp;&nbsp; number of 
+physical heads on drive<BR>0Ch&nbsp;&nbsp;&nbsp; DWORD&nbsp;&nbsp;&nbsp; number 
+of physical sectors per track<BR>10h&nbsp;&nbsp;&nbsp; QWORD&nbsp;&nbsp;&nbsp; 
+total number of sectors on drive<BR>18h&nbsp;&nbsp;&nbsp; WORD&nbsp;&nbsp;&nbsp; 
+bytes per sector<BR>---v2.0+ ---<BR>1Ah&nbsp;&nbsp;&nbsp; 
+DWORD&nbsp;&nbsp;&nbsp; -&gt; EDD configuration parameters (see 
+#00278)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FFFFh:FFFFh if not 
+available<BR>---v3.0 ---<BR>1Eh&nbsp;&nbsp;&nbsp; WORD&nbsp;&nbsp;&nbsp; 
+signature BEDDh to indicate presence of Device Path 
+info<BR>20h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; length of Device Path 
+information, including signature and 
+this<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; byte (24h for v3.0)<BR>21h 3 
+BYTEs&nbsp;&nbsp;&nbsp; reserved (0)<BR>24h 4 BYTEs&nbsp;&nbsp;&nbsp; ASCIZ name 
+of host bus ("ISA" or "PCI")<BR>28h 8 BYTEs&nbsp;&nbsp;&nbsp; ASCIZ name of 
+interface type<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+"ATA"<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+"ATAPI"<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+"SCSI"<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+"USB"<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "1394" IEEE 1394 
+(FireWire)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "FIBRE" Fibre 
+Channel<BR>30h 8 BYTEs&nbsp;&nbsp;&nbsp; Interface Path (see #00275)<BR>38h 8 
+BYTEs&nbsp;&nbsp;&nbsp; Device Path (see #00276)<BR>40h&nbsp;&nbsp;&nbsp; 
+BYTE&nbsp;&nbsp;&nbsp; reserved (0)<BR>41h&nbsp;&nbsp;&nbsp; 
+BYTE&nbsp;&nbsp;&nbsp; checksum of bytes 1Eh-40h (two's complement of sum, which 
+makes<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the 8-bit sum of bytes 
+1Eh-41h equal 00h)<BR>Note:&nbsp;&nbsp;&nbsp; if the size is less than 30 on 
+call, the final DWORD will not be<BR>&nbsp;&nbsp;&nbsp; returned by a v2.x 
+implementation; similarly for the Device Path info<BR>SeeAlso: 
+#00277,#03196<BR><BR>Bitfields for IBM/MS INT 13 Extensions information 
+flags:<BR>Bit(s)&nbsp;&nbsp;&nbsp; Description&nbsp;&nbsp;&nbsp; (Table 
+00274)<BR>0&nbsp;&nbsp;&nbsp; DMA boundary errors handled 
+transparently<BR>1&nbsp;&nbsp;&nbsp; cylinder/head/sectors-per-track information 
+is valid<BR>2&nbsp;&nbsp;&nbsp; removable drive<BR>3&nbsp;&nbsp;&nbsp; write 
+with verify supported<BR>4&nbsp;&nbsp;&nbsp; drive has change-line support 
+(required if drive &gt;= 80h is removable)<BR>5&nbsp;&nbsp;&nbsp; drive can be 
+locked (required if drive &gt;= 80h is removable)<BR>6&nbsp;&nbsp;&nbsp; CHS 
+information set to maximum supported values, not current 
+media<BR>15-7&nbsp;&nbsp;&nbsp; reserved (0)<BR>SeeAlso: #00273<BR><BR>Format of 
+EDD v3.0 Interface Path:<BR>Offset&nbsp;&nbsp;&nbsp; Size&nbsp;&nbsp;&nbsp; 
+Description&nbsp;&nbsp;&nbsp; (Table 
+00275)<BR>---ISA---<BR>00h&nbsp;&nbsp;&nbsp; WORD&nbsp;&nbsp;&nbsp; 16-bit base 
+address<BR>02h 6 BYTEs&nbsp;&nbsp;&nbsp; reserved 
+(0)<BR>---PCI---<BR>00h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; PCI bus 
+number<BR>01h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; PCI device 
+number<BR>02h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; PCI function 
+number<BR>03h 5 BYTEs&nbsp;&nbsp;&nbsp; reserved (0)<BR>SeeAlso: 
+#00273,#00276<BR><BR>Format of EDD v3.0 Device Path:<BR>Offset&nbsp;&nbsp;&nbsp; 
+Size&nbsp;&nbsp;&nbsp; Description&nbsp;&nbsp;&nbsp; (Table 
+00276)<BR>---ATA---<BR>00h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; flag: 00h = 
+master, 01h = slave<BR>01h 7 BYTEs&nbsp;&nbsp;&nbsp; reserved 
+(0)<BR>---ATAPI---<BR>00h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; flag: 00h = 
+master, 01h = slave<BR>01h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; logical unit 
+number<BR>02h 6 BYTEs&nbsp;&nbsp;&nbsp; reserved 
+(0)<BR>---SCSI---<BR>00h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; logical unit 
+number<BR>01h 7 BYTEs&nbsp;&nbsp;&nbsp; reserved 
+(0)<BR>---USB---<BR>00h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; to be 
+determined<BR>01h 7 BYTEs&nbsp;&nbsp;&nbsp; reserved 
+(0)<BR>---IEEE1394---<BR>00h&nbsp;&nbsp;&nbsp; QWORD&nbsp;&nbsp;&nbsp; 64-bit 
+FireWire General Unique Identifier 
+(GUID)<BR>---FibreChannel---<BR>00h&nbsp;&nbsp;&nbsp; QWORD&nbsp;&nbsp;&nbsp; 
+Word Wide Number (WWN)<BR>SeeAlso: #00273,#00275<BR><BR>Format of Phoenix 
+Enhanced Disk Drive Spec translated drive parameter 
+table:<BR>Offset&nbsp;&nbsp;&nbsp; Size&nbsp;&nbsp;&nbsp; 
+Description&nbsp;&nbsp;&nbsp; (Table 00277)<BR>00h&nbsp;&nbsp;&nbsp; 
+WORD&nbsp;&nbsp;&nbsp; number of cylinders<BR>02h&nbsp;&nbsp;&nbsp; 
+BYTE&nbsp;&nbsp;&nbsp; number of heads<BR>03h&nbsp;&nbsp;&nbsp; 
+BYTE&nbsp;&nbsp;&nbsp; A0h (signature indicating translated 
+table)<BR>04h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; number of physical 
+sectors per track<BR>05h&nbsp;&nbsp;&nbsp; WORD&nbsp;&nbsp;&nbsp; starting write 
+precompensation cylinder number<BR>07h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; 
+reserved<BR>08h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; control byte (see 
+#03198 at INT 41"DISK 0")<BR>09h&nbsp;&nbsp;&nbsp; WORD&nbsp;&nbsp;&nbsp; number 
+of physical cylinders<BR>0Bh&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; number of 
+physical heads<BR>0Ch&nbsp;&nbsp;&nbsp; WORD&nbsp;&nbsp;&nbsp; cylinder number 
+of landing zone<BR>0Eh&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; number of 
+logical sectors per track<BR>0Fh&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; 
+checksum<BR>Program: the Phoenix Enhanced Disk Drive Specification is an 
+addition to the<BR>&nbsp;&nbsp;&nbsp; IBM/MS INT 13 extensions<BR>SeeAlso: 
+#00278,#03196<BR><BR>Format of Phoenix Enhanced Disk Drive Spec Fixed Disk 
+Parameter Table:<BR>Offset&nbsp;&nbsp;&nbsp; Size&nbsp;&nbsp;&nbsp; 
+Description&nbsp;&nbsp;&nbsp; (Table 00278)<BR>00h&nbsp;&nbsp;&nbsp; 
+WORD&nbsp;&nbsp;&nbsp; physical I/O port base address<BR>02h&nbsp;&nbsp;&nbsp; 
+WORD&nbsp;&nbsp;&nbsp; disk-drive control port address<BR>04h&nbsp;&nbsp;&nbsp; 
+BYTE&nbsp;&nbsp;&nbsp; drive flags (see #00279)<BR>05h&nbsp;&nbsp;&nbsp; 
+BYTE&nbsp;&nbsp;&nbsp; proprietary 
+information<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bits 7-4 reserved 
+(0)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bits 3-0: Phoenix proprietary 
+(used by BIOS)<BR>06h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; IRQ for drive 
+(bits 3-0; bits 7-4 reserved and must be 0)<BR>07h&nbsp;&nbsp;&nbsp; 
+BYTE&nbsp;&nbsp;&nbsp; sector count for multi-sector 
+transfers<BR>08h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; DMA 
+control<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bits 7-4: DMA type (0-2) 
+as per ATA-2 specification<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bits 
+3-0: DMA channel<BR>09h&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; programmed I/O 
+control<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bits 7-4: reserved 
+(0)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bits 3-0: PIO type (1-4) as 
+per ATA-2 specification<BR>0Ah&nbsp;&nbsp;&nbsp; WORD&nbsp;&nbsp;&nbsp; drive 
+options (see #00280)<BR>0Ch 2 BYTEs&nbsp;&nbsp;&nbsp; reserved 
+(0)<BR>0Eh&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; extension revision level 
+(high nybble=major, low 
+nybble=minor)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (currently 10h for 
+v1.0 and 11h for v1.1-3.0)<BR>0Fh&nbsp;&nbsp;&nbsp; BYTE&nbsp;&nbsp;&nbsp; 2's 
+complement checksum of bytes 
+00h-0Eh<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8-bit sum of all bytes 
+00h-0Fh should equal 00h<BR>SeeAlso: #00277<BR><BR>Bitfields for Phoenix 
+Enhanced Disk Drive Spec drive flags:<BR>Bit(s)&nbsp;&nbsp;&nbsp; 
+Description&nbsp;&nbsp;&nbsp; (Table 00279)<BR>7&nbsp;&nbsp;&nbsp; reserved 
+(1)<BR>6&nbsp;&nbsp;&nbsp; LBA enabled<BR>5&nbsp;&nbsp;&nbsp; reserved 
+(1)<BR>4&nbsp;&nbsp;&nbsp; drive is slave<BR>3-0&nbsp;&nbsp;&nbsp; reserved 
+(0)<BR>SeeAlso: #00278,#00280<BR><BR>Bitfields for Phoenix Enhanced Disk Drive 
+Spec drive options:<BR>Bit(s)&nbsp;&nbsp;&nbsp; Description&nbsp;&nbsp;&nbsp; 
+(Table 00280)<BR>0&nbsp;&nbsp;&nbsp; fast PIO enabled<BR>1&nbsp;&nbsp;&nbsp; 
+fast DMA access enabled<BR>2&nbsp;&nbsp;&nbsp; block PIO (multi-sector 
+transfers) enabled<BR>3&nbsp;&nbsp;&nbsp; CHS translation 
+enabled<BR>4&nbsp;&nbsp;&nbsp; LBA translation enabled<BR>5&nbsp;&nbsp;&nbsp; 
+removable media<BR>6&nbsp;&nbsp;&nbsp; ATAPI device 
+(CD-ROM)<BR>7&nbsp;&nbsp;&nbsp; 32-bit transfer mode<BR>---v1.1+ 
+---<BR>8&nbsp;&nbsp;&nbsp; ATAPI device uses DRQ to signal readiness for packet 
+command<BR>&nbsp;&nbsp;&nbsp; (must be 0 if bit 6 is 
+0)<BR>10-9&nbsp;&nbsp;&nbsp; translation type (must be 00 if bit 3 is 
+0)<BR>&nbsp;&nbsp;&nbsp; 00 Phoenix bit-shifting 
+translation<BR>&nbsp;&nbsp;&nbsp; 01 LBA-assisted 
+translation<BR>&nbsp;&nbsp;&nbsp; 10 reserved<BR>&nbsp;&nbsp;&nbsp; 11 
+proprietary translation<BR>---v3.0---<BR>11&nbsp;&nbsp;&nbsp; Ultra DMA access 
+enabled<BR>15-12&nbsp;&nbsp;&nbsp; reserved<BR>SeeAlso: 
+#00278,#00279<BR></FONT></P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P><U><STRONG><FONT face=Fixedsys>Interrupt 13h, section 
+AH=02h</FONT></STRONG></U></P>
+<P><FONT face=Fixedsys>--------B-1302-------------------------------<BR>INT 13 - 
+DISK - READ SECTOR(S) INTO MEMORY<BR>&nbsp;&nbsp;&nbsp; AH = 
+02h<BR>&nbsp;&nbsp;&nbsp; AL = number of sectors to read (must be 
+nonzero)<BR>&nbsp;&nbsp;&nbsp; CH = low eight bits of cylinder 
+number<BR>&nbsp;&nbsp;&nbsp; CL = sector number 1-63 (bits 
+0-5)<BR>&nbsp;&nbsp;&nbsp; high two bits of cylinder (bits 6-7, hard disk 
+only)<BR>&nbsp;&nbsp;&nbsp; DH = head number<BR>&nbsp;&nbsp;&nbsp; DL = drive 
+number (bit 7 set for hard disk)<BR>&nbsp;&nbsp;&nbsp; ES:BX -&gt; data 
+buffer<BR>Return: CF set on error<BR>&nbsp;&nbsp;&nbsp; if AH = 11h (corrected 
+ECC error), AL = burst length<BR>&nbsp;&nbsp;&nbsp; CF clear if 
+successful<BR>&nbsp;&nbsp;&nbsp; AH = status (see #00234)<BR>&nbsp;&nbsp;&nbsp; 
+AL = number of sectors transferred (only valid if CF set for 
+some<BR>&nbsp;&nbsp;&nbsp; BIOSes)<BR>Notes:&nbsp;&nbsp;&nbsp; errors on a 
+floppy may be due to the motor failing to spin up quickly<BR>&nbsp;&nbsp;&nbsp; 
+enough; the read should be retried at least three times, 
+resetting<BR>&nbsp;&nbsp;&nbsp; the disk with AH=00h between 
+attempts<BR>&nbsp;&nbsp;&nbsp; most BIOSes support "multitrack" reads, where the 
+value in AL<BR>&nbsp;&nbsp;&nbsp; exceeds the number of sectors remaining on the 
+track, in which<BR>&nbsp;&nbsp;&nbsp; case any additional sectors are read 
+beginning at sector 1 on<BR>&nbsp;&nbsp;&nbsp; the following head in the same 
+cylinder; the MSDOS CONFIG.SYS command<BR>&nbsp;&nbsp;&nbsp; MULTITRACK (or the 
+Novell DOS DEBLOCK=) can be used to force DOS to<BR>&nbsp;&nbsp;&nbsp; split 
+disk accesses which would wrap across a track boundary into 
+two<BR>&nbsp;&nbsp;&nbsp; separate calls<BR>&nbsp;&nbsp;&nbsp; the IBM AT BIOS 
+and many other BIOSes use only the low four bits of<BR>&nbsp;&nbsp;&nbsp; DH 
+(head number) since the WD-1003 controller which is the 
+standard<BR>&nbsp;&nbsp;&nbsp; AT controller (and the controller that IDE 
+emulates) only supports<BR>&nbsp;&nbsp;&nbsp; 16 heads<BR>&nbsp;&nbsp;&nbsp; 
+AWARD AT BIOS and AMI 386sx BIOS have been extended to handle 
+more<BR>&nbsp;&nbsp;&nbsp; than 1024 cylinders by placing bits 10 and 11 of the 
+cylinder number<BR>&nbsp;&nbsp;&nbsp; into bits 6 and 7 of 
+DH<BR>&nbsp;&nbsp;&nbsp; under Windows95, a volume must be locked (see INT 
+21/AX=440Dh/CX=084Bh)<BR>&nbsp;&nbsp;&nbsp; in order to perform direct accesses 
+such as INT 13h reads and writes<BR>&nbsp;&nbsp;&nbsp; all versions of MS-DOS 
+(including v7 [Win95]) have a bug which prevents<BR>&nbsp;&nbsp;&nbsp; booting 
+on hard disks with 256 heads, so many modern BIOSes 
+provide<BR>&nbsp;&nbsp;&nbsp; mappings with at most 255 heads<BR>SeeAlso: 
+AH=03h,AH=0Ah,AH=06h"V10DISK.SYS",AH=21h"PS/1",AH=42h"IBM"<BR>SeeAlso: INT 
+21/AX=440Dh/CX=084Bh,INT 4D/AH=02h<BR></FONT></P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P><STRONG><U><FONT face=Fixedsys>Interrupt 13h, section 
+AH=42h</FONT></U></STRONG></P>
+<P><FONT face=Fixedsys>--------d-1342-------------------------------<BR>INT 13 - 
+IBM/MS INT 13 Extensions - EXTENDED READ<BR>&nbsp;&nbsp;&nbsp; AH = 
+42h<BR>&nbsp;&nbsp;&nbsp; DL = drive number<BR>&nbsp;&nbsp;&nbsp; DS:SI -&gt; 
+disk address packet (see #00272)<BR>Return: CF clear if 
+successful<BR>&nbsp;&nbsp;&nbsp; AH = 00h<BR>&nbsp;&nbsp;&nbsp; CF set on 
+error<BR>&nbsp;&nbsp;&nbsp; AH = error code (see #00234)<BR>&nbsp;&nbsp;&nbsp; 
+disk address packet's block count field set to number of 
+blocks<BR>&nbsp;&nbsp;&nbsp; successfully transferred<BR>SeeAlso: 
+AH=02h,AH=41h"INT 13 Ext",AH=43h"INT 13 Ext"<BR><BR>Format of <U><STRONG>disk 
+address packet</STRONG></U>:<BR>Offset&nbsp;&nbsp;&nbsp; Size&nbsp;&nbsp;&nbsp; 
+Description&nbsp;&nbsp;&nbsp; (Table 00272)<BR>00h&nbsp;&nbsp;&nbsp; 
+BYTE&nbsp;&nbsp;&nbsp; 10h (size of packet)<BR>01h&nbsp;&nbsp;&nbsp; 
+BYTE&nbsp;&nbsp;&nbsp; reserved (0)<BR>02h&nbsp;&nbsp;&nbsp; 
+WORD&nbsp;&nbsp;&nbsp; number of blocks to transfer (max 007Fh for Phoenix 
+EDD)<BR>04h&nbsp;&nbsp;&nbsp; DWORD&nbsp;&nbsp;&nbsp; -&gt; transfer 
+buffer<BR>08h&nbsp;&nbsp;&nbsp; QWORD&nbsp;&nbsp;&nbsp; starting absolute block 
+number<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (for non-LBA devices, 
+compute as<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Cylinder*NumHeads + 
+SelectedHead) * SectorPerTrack +<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+SelectedSector - 1<BR></FONT></P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P><U><STRONG><FONT face=Fixedsys>Interrupt 13h, section 
+AH=03h</FONT></STRONG></U></P>
+<P><FONT face=Fixedsys>--------B-1303-------------------------------<BR>INT 13 - 
+DISK - WRITE DISK SECTOR(S)<BR>&nbsp;&nbsp;&nbsp; AH = 03h<BR>&nbsp;&nbsp;&nbsp; 
+AL = number of sectors to write (must be nonzero)<BR>&nbsp;&nbsp;&nbsp; CH = low 
+eight bits of cylinder number<BR>&nbsp;&nbsp;&nbsp; CL = sector number 1-63 
+(bits 0-5)<BR>&nbsp;&nbsp;&nbsp; high two bits of cylinder (bits 6-7, hard disk 
+only)<BR>&nbsp;&nbsp;&nbsp; DH = head number<BR>&nbsp;&nbsp;&nbsp; DL = drive 
+number (bit 7 set for hard disk)<BR>&nbsp;&nbsp;&nbsp; ES:BX -&gt; data 
+buffer<BR>Return: CF set on error<BR>&nbsp;&nbsp;&nbsp; CF clear if 
+successful<BR>&nbsp;&nbsp;&nbsp; AH = status (see #00234)<BR>&nbsp;&nbsp;&nbsp; 
+AL = number of sectors transferred<BR>&nbsp;&nbsp;&nbsp; (only valid if CF set 
+for some BIOSes)<BR>Notes:&nbsp;&nbsp;&nbsp; errors on a floppy may be due to 
+the motor failing to spin up quickly<BR>&nbsp;&nbsp;&nbsp; enough; the write 
+should be retried at least three times, resetting<BR>&nbsp;&nbsp;&nbsp; the disk 
+with AH=00h between attempts<BR>&nbsp;&nbsp;&nbsp; most BIOSes support 
+"multitrack" writes, where the value in AL<BR>&nbsp;&nbsp;&nbsp; exceeds the 
+number of sectors remaining on the track, in which<BR>&nbsp;&nbsp;&nbsp; case 
+any additional sectors are written beginning at sector 1 
+on<BR>&nbsp;&nbsp;&nbsp; the following head in the same cylinder; the CONFIG.SYS 
+command<BR>&nbsp;&nbsp;&nbsp; MULTITRACK can be used to force DOS to split disk 
+accesses which<BR>&nbsp;&nbsp;&nbsp; would wrap across a track boundary into two 
+separate calls<BR>&nbsp;&nbsp;&nbsp; the IBM AT BIOS and many other BIOSes use 
+only the low four bits of<BR>&nbsp;&nbsp;&nbsp; DH (head number) since the 
+WD-1003 controller which is the standard<BR>&nbsp;&nbsp;&nbsp; AT controller 
+(and the controller that IDE emulates) only supports<BR>&nbsp;&nbsp;&nbsp; 16 
+heads<BR>&nbsp;&nbsp;&nbsp; AWARD AT BIOS and AMI 386sx BIOS have been extended 
+to handle more<BR>&nbsp;&nbsp;&nbsp; than 1024 cylinders by placing bits 10 and 
+11 of the cylinder number<BR>&nbsp;&nbsp;&nbsp; into bits 6 and 7 of 
+DH<BR>&nbsp;&nbsp;&nbsp; under Windows95, an application must issue a physical 
+volume lock on<BR>&nbsp;&nbsp;&nbsp; the drive via INT 21/AX=440Dh before it can 
+successfully write to<BR>&nbsp;&nbsp;&nbsp; the disk with this 
+function<BR>SeeAlso: 
+AH=02h,AH=0Bh,AH=07h"V10DISK.SYS",AH=22h"PS/1",AH=43h"IBM"<BR>SeeAlso: INT 
+21/AX=440Dh"DOS 3.2+",INT 4D/AH=03h<BR></FONT></P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P><U><STRONG><FONT face=Fixedsys>Interrupt 13h, section 
+AH=43h</FONT></STRONG></U></P>
+<P><FONT face=Fixedsys>--------d-1343-------------------------------<BR>INT 13 - 
+IBM/MS INT 13 Extensions - EXTENDED WRITE<BR>&nbsp;&nbsp;&nbsp; AH = 
+43h<BR>&nbsp;&nbsp;&nbsp; AL = write flags<BR>&nbsp;&nbsp;&nbsp; 
+---v1.0,2.0---<BR>&nbsp;&nbsp;&nbsp; bit 0: verify write<BR>&nbsp;&nbsp;&nbsp; 
+bits 7-1 reserved (0)<BR>&nbsp;&nbsp;&nbsp; ---v2.1+ ---<BR>&nbsp;&nbsp;&nbsp; 
+00h,01h write without verify<BR>&nbsp;&nbsp;&nbsp; 02h write with 
+verify<BR>&nbsp;&nbsp;&nbsp; DL = drive number<BR>&nbsp;&nbsp;&nbsp; DS:SI -&gt; 
+disk address packet (see #00272)<BR>Return: CF clear if 
+successful<BR>&nbsp;&nbsp;&nbsp; AH = 00h<BR>&nbsp;&nbsp;&nbsp; CF set on 
+error<BR>&nbsp;&nbsp;&nbsp; AH = error code (see #00234)<BR>&nbsp;&nbsp;&nbsp; 
+disk address packet's block count field set to number of 
+blocks<BR>&nbsp;&nbsp;&nbsp; successfully transferred<BR>Note:&nbsp;&nbsp;&nbsp; 
+the BIOS returns CF set/AH=01h (invalid function) if verify 
+is<BR>&nbsp;&nbsp;&nbsp; requested but not supported<BR>SeeAlso: 
+AH=03h,AH=41h"INT 13 Ext",AH=42h"INT 13 Ext",AH=44h<BR></FONT></P></BODY></HTML>

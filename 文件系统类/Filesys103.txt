@@ -1,0 +1,3226 @@
+
+//------------------------------------------------------------------------------
+// Contents
+//------------------------------------------------------------------------------
+Chapter 01. Introducion
+Chapter 02. Link with the library
+Chapter 03. Develop UI function for camera
+Chapter 04. Card module sdram map
+Chapter 05. DOS user service function examples	
+	01. Format card
+	02. Checking disk space
+	03. Snap a jpeg file
+	04. Record an avi file
+	05. Record an wave file
+	06. Searching file
+	07. Upload file
+	08. Playback file
+	09. Get card infomation
+		
+Chapter 06. DOS user service function
+Chapter 07. Advance:DOS service function examples
+	01. Create a directory
+	02. Changing between directories
+	03. Write dram data to card as new file
+	04. Write sram data to file as new file
+	05. Write video stream data to file
+	06. Searching file
+	07. Upload file to host
+	08. Search pattern within file
+	09. Read data to dram
+	10. Read data to sram
+Chapter 08. Advance:DOS service function
+Chapter 09. Advance:More application examples
+	01. Switch bewteen two different storage media
+Chapter 10. Asic:Develop card module for new asic
+Chapter 11. Asic:Develop card module for new card
+	
+	
+//------------------------------------------------------------------------------
+// Chapter 01. Introduction
+//------------------------------------------------------------------------------
+To shorten your development cycle for Sunplus's camera asic, we provide you  
+some library function. The purpose of this draft document is to describe the
+library function provided for camera storage media access, these included vari-
+ety of flash and card storage media.
+
+The storage media that currently support are smc card, nand flash, cf card, 
+more storage media will be supported in near future soon.
+
+The capacity supported for smc card and nand flash are 4, 8, 16, 32, 128M byte.
+For cf, above 8M byte, up to 256M have been tested.
+
+No matter what storage media supported, we will keep the function calls same 
+for all storage media unless some special function are required for that type 
+of media. 
+
+For example, File_SnapJpg let you capture a image and store it as JPEG in DOS 
+formatted media. You call the same function to store image into cf card or smc 
+card, or nand flash.
+
+Basically, you should read chapter 1 to 5. Chapter 6, 7 should be read if you 
+want to implement your own whole DOS user service functions or add some DOS
+user functions that we don't implement.
+
+You should read chapter 8 if you want to port card module for new asic.
+
+You should read chapter 9 if you want to port card module for new card media.
+
+//------------------------------------------------------------------------------
+// Chapter 02. Link with the library
+//------------------------------------------------------------------------------
+We use the Asic number and media type to name a library. For example if you are 
+using Sunplus's 503 asic and smc card, the library name should be smc503.lib.
+
+When provide maximal set of functions in library. If after linking, the linker
+display "uncall segment" message, you could ignore it by select "ignore warning"
+option in linker. If you care about code size, you could use library utility to
+delete these uncall functions. Also, "unused local varibles" warning message 
+could be ignored.
+
+Beside adding the library file into project, we have some link and header files
+put in a "cardlink" dicretory. These files are and should be included in your 
+project:
+
+cardui.h	- This file majorly contain some messages that storage library
+		  function tell outside world what is currently undergoing in-
+		  side its inner world. For example, when recording AVI file, 
+		  K_File_UI_Periodical message is periordically sent. User In-
+                  terface(UI) implementer could use this message to beep, blink- 
+		  ing the LCD icon, doing AE, etc.
+		  
+dosusr.h	- This file majorly contain user dos functions and variables 
+                  that library provided.  
+                  What means user dos function is that the file and directory 
+                  naming convention follow these rules:
+		  1. All capture files is put in \DCIM\100MEDIA directory. This 
+		     follow DCIM spec. The name could be modified in cardui.c 
+		     provided to you.
+		  2. Storage's file naming convention is ccccnnnn.ext. cccc is 
+		     company representation. For example, "SUNP". nnnn is file 
+		     index number. For example "0001". If snap JPEG file, ext 
+		     is JPG; if AVI file, ext is AVI; if Wave file, ext is WAV, 
+		     etc. This namning convension also follow DCIM spec. The 
+		     cccc definition could also be modified in cardui.c provid-
+		     ed to you.
+		  3. When mixing AVI, JPG, WAV capture, the file index is 
+		     sequatial. For example, "SUNP0001.AVI", "SUNP0002.JPG", 
+		     "SUNP0003.WAV".
+		  4. To know about how many files in \DCIM\100MEDIA directory 
+		     belong to camare, read the variable G_USR_FileCount.
+		  5. All user dos function beginning with USR_ and apply above 
+		     rule to do file action. For example, USR_DeleteLastFile will
+		     delete the "SUNP0003.WAV" in the above example.
+		  6. If your naming rule doesn't follow above convention, you 
+		     should implement your own dosuser.c by using function pro-
+		     vided in doslink.h. If this is case, you should use lib-
+		     rary utility to remove the dosusr module included in library 
+		     and add you own. We don't encourage you to implement your 
+		     own dosusr.c. If we don't meet your requirement, please in-
+		     form us, this could reduce your development effort.
+		     
+cardlink.h	- Majorly declare file capture cuntion.
+doslink.h	- DOS service function that allow you to create directory, file,
+                  find file, open, close, read, write file.
+chipopt.h	- This file include some asic number define that storage library 
+		  use when compiling. It will be preset to proper asic value when
+		  library is released for that asic.
+cardopt.h	- This file include some option define that storage library use
+		  when compiling. It will be preset to proper option value when
+		  libray is released. Some option definition same to option.h, 
+		  the value must match.              
+cardimpt.h	- Since storage library is not self contain code, it require some 
+                  external resource in main code. This header file describe what 
+                  external resource should be imported to storage component. It 
+                  is suggested that to link the storage library, use our new 
+                  architecture main flow code, this new main code provide all 
+                  necessary import resource required by storage library.                  
+cardlink.c	- This file contain Card_InitRam, Card_InitGlobal. Card_InitRam 
+		  initialize sdram map using by storage component. All sdram map 
+		  used by storage component are set in these storage sdram map 
+		  globals. Card_InitGlobal init some default value to capture 
+		  parameters, and library initial values.
+
+When accessing storage media, we require the media be formatted as DOS format.
+If you get our new architecture main code, please reference the storage.c,  
+cardusr.c, cardui.c for example linking to card component. Also, within 
+general.h, after option.h include chipopt.h, cardopt.h header
+
+If your media is external card, you could either format that card using card 
+reader and host computer first or using our DOS_Format function. Our storage 
+library could support DOS format that formatted using computer.
+
+For nand flash, there is no card reader connected to host computer, you could 
+call DOS_Format provided by our library to format it as DOS format, this func-
+tion also support to format external card.
+
+Initial sequence for card library:
+
+1. 	
+	// initio.c, after init sram in main flow
+	// if new architecture code, set G_ucStorageType
+	G_ucStorageType = 0xff; 
+
+2.	// storage.c
+	Card_InitRam();
+        status = M_Card_Detect();
+        if ( status )
+        {
+		Card_InitRam();		// card it second time
+		Card_InitGlobal();
+		M_Card_Initialize()
+	}
+	
+	The M_Card_Initialize will initialize all necessary hardware isssue 
+	releated to card, call DOS_Initialize to create \DCIM\100MEDIA direc- 
+	tory, search all files belong to our DCIM naming convention, etc.
+
+//------------------------------------------------------------------------------
+// Chapter 03. Sdram map
+//------------------------------------------------------------------------------
+The storage module use these sdram map variables:
+
+G_DOS_SDRAM_WorkAddr should be assigned card module working buffer sdram 
+starting address. Card module use this as working buffer for internal DOS and 
+card operation and internal working structure. The size shoulb be at least 32K
+word, this size must set to G_DOS_SDRAM_WorkSize which is word unit representa-
+tion.
+
+G_DOS_SDRAM_FAT1Addr should be assigned a sdram starting address to store DOS
+FAT table. The size of this buffer must at least 64K word size if using external
+flash card. If using internal flash, 32K word size is enough. The size should
+set to K_SDRAM_DOS_Fat1BufSize which is word unit representation.
+
+G_SDRAM_ImageAddr should be assigned a sdram start addres to allow card module 
+to store dsc image during capture process. Besides dsc image, the card module 
+may also use this buffer for header format, fdb search buffer during usb upload, 
+or even using this buffer to store 2 video frame, etc. The buffer size must at 
+least 350K bytes. It depend on what kind of image you are going to capture and 
+calculate the maximal size of that image plus thumnail size plus 32K header size.
+
+G_DOS_SDRAM_MaxAddr should be assigned sdram size minus 1.
+
+G_File_SDRAM_AviIdx1BufAddr is used only when using card module AVI releated
+function. It should be assigned sdram starting address to store idx chunk
+which use in AVI recording and playback. Each idx chunk is 16 bytes and each
+video frame must attach 1 idx chunk. So if you which to record a 200 frames
+avi files, the size of idx buffer should be 8+16*200 = 3208 bytes. This size
+should set to G_File_SDRAM_AviIdx1BufSize which is word unit representation.
+But normally, you hope to record avi until card is full. We will give you an
+example for how to calculate the suitable G_File_SDRAM_AviIdx1BufSize.
+
+G_File_SDRAM_AudioBufAddr is for card module to store audio data during record-
+ing and playback process. Currently, the G_File_SDRAM_AudioBufSize determine
+how long the audio could be recorded and playback. For example, if value of 
+G_File_SDRAM_AudioBufSize is 512000 word, sample rate is 8K, no compression, and
+mono channel, then longest recording time is (512000*2)/8000 = 128 seconds.
+
+When recording avi without audio, the card module will automactically determine
+between card space full, idx buffer full, audio buffer full condition, user stop 
+action to stop avi recording.
+
+Example C04E010:
+
+Assume that your camera have 8M byte of RAM, no audio, no avi funtion, support 
+16M nand flash, sensor is 1280x960. Typical sdram map for this system is as 
+below:
+
+     0x00000000  _______________
+		| Video         |    
+                | Buffer        |
+		|               |
+     0x0012C000 |---------------| 
+		| VLC           |
+		| Buffer        |
+		|               |
+     0x00294000	|---------------|
+		| Thumbnail     |
+		| Buffer        |
+     0x0029D600 |---------------|
+   DOS_WorkAddr	| DOS Working   | Use as DOS working buffer.
+		| Buffer        | DOS_WorkSize = 32K word
+     0x002A5600	|---------------|
+   DOS_FAT1Addr | FAT           | Use as DOS fat buffer. For internal
+		| Buffer        | flash, DOS_Fat1BufSize = 32K word
+     0x002AD600 |---------------|
+   ImageBufAddr | Card          | Use as card module still image buffer,
+		| Image         | plus file header size. Or during upload,
+		| Buffer        | use as DOS fdb storage buffer.
+		|               |
+		|---------------|
+		|      .        |
+		|      .        |
+		|      .        |
+     0x003FFFFF |_______________|
+
+Example C04E020:
+
+Assume that your camera have 8M byte of RAM, no audio, have avi funtion, support 
+128 SMC card, sensor is 1280x960, avi frame rate is 15, allow user to record 1
+hour of video to card. Typical sdram map for this system is as below:
+
+maximal frame count = 1hr x 15 = 3600 x 15 = 54000 frames
+Idx1 buffer caculation = ( 8 + maximal frame count * 16 ) / 2 = 0x69784 word
+
+     0x00000000  _______________
+		| Video         |    
+                | Buffer        |
+		|               |
+     0x0012C000 |---------------| 
+		| VLC           |
+		| Buffer        |
+		|               |
+     0x00294000	|---------------|
+		| Thumbnail     |
+		| Buffer        |
+     0x0029D600 |---------------|
+   DOS_WorkAddr	| DOS Working   | Use as DOS working buffer.
+		| Buffer        | DOS_WorkSize = 32K
+     0x002A5600	|---------------|
+   DOS_FAT1Addr | FAT           | Use as DOS fat buffer. For external
+		| Buffer        | flash, DOS_Fat1BufSize= 64K word.
+     0x002B5600 |---------------|
+                | AVI Idx1      |
+                | Buffer        |
+                |               |
+     0x0031ED84 |---------------|              
+   ImageBufAddr | Card          | Use as card module still image buffer,
+		| Image         | plus file header size. Or during upload,
+		| Buffer        | use as DOS fdb storage buffer.
+		|               |
+		|---------------|
+		|      .        |
+		|      .        |
+		|      .        |
+     0x003FFFFF |_______________|
+     
+
+Example C04E030:
+
+Assume that your camera have 8M byte of RAM, have audio, have avi funtion, 
+support 128 SMC card, sensor is 1280x960, avi frame rate is 15, allow user to 
+record 1 hour of video to card. Also assume that using sample rate 8000, mono
+channel sound, no compress. Typical sdram map for this system is as below:
+
+maximal frame count = 1hr x 15 = 3600 x 15 = 54000 frames
+Idx1 buffer caculation = ( 8 + maximal frame count * 16 + 16 ) / 2 
+                       = 0x69794 word
+                       where 16 added for 1 '01wb' idx which is for audio
+audio buffer size = 0x003FFFFF - 0x0031ED94 + 1 = 0x000E126C
+maximal avi with audio recording time = 0x000E126C * 2 / 8000 = 230 sec
+
+
+     0x00000000  _______________
+		| Video         |    
+                | Buffer        |
+		|               |
+     0x0012C000 |---------------| 
+		| VLC           |
+		| Buffer        |
+		|               |
+     0x00294000	|---------------|
+		| Thumbnail     |
+		| Buffer        |
+     0x0029D600 |---------------|
+   DOS_WorkAddr	| DOS Working   | Use as DOS working buffer.
+		| Buffer        | DOS_WorkSize = 32K
+     0x002A5600	|---------------|
+   DOS_FAT1Addr | FAT           | Use as DOS fat buffer. For external
+		| Buffer        | flash, DOS_Fat1BufSize= 64K word.
+     0x002B5600 |---------------|
+                | AVI Idx1      |
+                | Buffer        |
+                |               |
+     0x0031ED94 |---------------|              
+   ImageBufAddr | Card   Also   | Use as card module still image buffer,
+   AudioBufAddr | Image  Audio  | plus file header size. Or during upload,
+		| Buffer Buffer | use as DOS fdb storage buffer.
+		|               |
+		|---------------|
+		|      .        |
+		|      .        |
+		|               |
+     0x003FFFFF |_______________| End of audio buffer
+		
+//------------------------------------------------------------------------------
+// Chapter0 4. Develop UI function for camera
+//------------------------------------------------------------------------------
+Card module functions invoked by function name and related parameters set thro
+-ugh some globals variables and arguments. So it doesn't assume any vendor com-
+mand. For example, File_SnapJpg function could be invoked by bRequest=0x51, 
+wIndex=0x00, wValue=0, wLength = 0 when using our new firmware code. It could 
+be other values, if you implement your own firmware main code and own host appl-
+ication software.
+
+So, in the Sunplus new main flow code, below is the UI flow is to invoke 
+File_SnapJpg:
+
+main.c		MAIN_LockLoop
+main.c		MAIN_PreDpc
+ui.c		UI_Time_Division_Function
+ui.c		UI_One_Timer1_Fx_Processing
+ui.c		LCD_Display_Refresh
+ui.c		UI_Keypad_Scan
+ui.c		UI_Get_Hardware_Keypad_2
+ui.c		LCDBeep
+ui.c		UI_Keypad_Enter_Snap
+			set G_bRequestLock to 0x51
+			set G_wIndexLock to 0
+main.c		MAIN_LockLoop
+storage.c	STORAGE_CaptureObject
+cardusr.c	Card_CaptureObject
+library		File_SnapJpg
+			please check "Snap a jpeg file" for globals and argument
+			that control the capture action. For example, with, he-
+			ight, qtable etc.
+
+If you use host application to invoke File_SnapJpg function, the command is
+bRequest=0x51, wIndex=0x00, wValue=0, wLength = 0. Flow is below:
+
+ctlsetup.c	CTLSETUP_Packet
+ctlsetup.c	CTLSETUP_VendorRequest
+			Set G_bRequestLock
+			Set G_wValueLock
+			Set G_wIndexLock
+main.c		MAIN_LockLoop
+storage.c	STORAGE_CaptureObject
+cardusr.c	Card_CaptureObject
+library		File_SnapJpg
+
+Since card module is a library, it use File_SendMessage function to communicate 
+with outside world what is undergoing inside it's world.
+
+ULONG File_SendMessage( WORD message, ULONG param ) which define in cardui.c.
+
+Available messages define in cardui.h are:
+
+NOTE : Message range 0 to 2000 reserved by Sunplus
+
+K_File_UI_Start_DscFile		// Start capturing still image file
+K_File_UI_Start_DscImage	// Start capturing still image
+K_File_UI_End_DscImage		// End capturing still image
+				// param is image size
+K_File_UI_Start_VideoImage	// Start capturing still image by video mode
+				// this message use in SPCA 500 only for capture
+				// still image with subsample, 500 require using
+				// video mode
+K_File_UI_End_VideoImage	// End capturing still image by video mode
+				// param is image size
+K_File_UI_End_DscFile		// End capturing still image file
+				// param is G_USR_FileCount
+K_File_UI_Err_DscFile		// Error capturing still image file. If param is
+				// non zero, definition is same to 
+				// K_File_UI_Error.
+K_File_UI_Start_AviFile		// Start recodring avi image file
+K_File_UI_End_AviFile		// End recodring avi image file
+				// param is G_USR_FileCount
+K_File_UI_Err_AviFile		// Error capturing avi image file. If param is
+				// non zero, definition is same to 
+				// K_File_UI_Error.
+K_File_UI_Periodical		// Card module is doing lengthy operation
+				// There are many different kind of lengthy ope-
+				// ration such as formatting, deleting all, etc.
+				// These operations are passed in param to indi-
+				// cate what kind of lengthy operation is under
+				// going.
+K_File_UI_VideoStrm1Frame	// During recording avi, if one video frame is
+				// produced, this message will be sent. The pa-
+				// ram is the video frame count G_File_AviImage
+				// -Count.
+K_File_UI_Error			// If any error happen, this message will be 
+				// sent. If param is zero, the error cause is 
+				// unknown. If param is non zero, please find
+				// header file for error code meanning.
+K_File_UI_Start_WaveFile	// Start recording audio wave file
+K_File_UI_End_WaveFile		// End recording audio wave file
+				// param is G_USR_FileCount.
+K_File_UI_Err_WaveFile		// Error recording audio wave file. If param is
+				// non zero, definition is same to 
+				// K_File_UI_Error.
+K_File_UI_Start_DscCapture	// Start capture dsc image. At this point, came-
+				// ra must be fixed until K_File_UI_End_DscCapt-
+				// ure message is received.
+K_File_UI_End_DscCapture	// End capture dsc image. If this message rece-
+				// ived, user is free to move camera. You may
+				// beep a sound to inform user.
+K_File_UI_Start_DscCompress	// Start compressing dsc image. While the asic
+				// is compressing, camera is allowed to move.
+K_File_UI_End_DscCompress	// End compressing dsc image.
+K_File_UI_Start_Save_File	// Start saving data to card.
+K_File_UI_End_Save_File		// End saving data to file. If param is non 
+				// zero, definition is same to K_File_UI_Error.
+K_File_UI_Start_Delete1File	// Start deleting 1 file.
+K_File_UI_End_Delete1File	// End deleting 1 file. Param is G_USR_FileCount.
+K_File_UI_Err_Delete1File	// Error deleting 1 file. If param is non zero,
+				// definition is same to K_File_UI_Error.
+K_File_UI_Start_DeleteAll	// Start deleting all file
+K_File_UI_End_DeleteAll		// End deleting all file. Param is G_USR_File-
+				// Count.
+K_File_UI_Err_DeleteAll		// Error deleting all file. If param is non zero
+				// , definition is same to K_File_UI_Error.
+K_File_UI_Start_Initialize	// Start initialize card, dos, etc.
+K_File_UI_End_Initialize	// End initialization, If param is non zero,
+				// definition is same to K_File_UI_Error.
+K_File_UI_Start_FormatCard	// Start formatting card.
+K_File_UI_End_FormatCard	// End formatting card. If param is non zero,
+				// definition is same to K_File_UI_Error.
+
+When card module send K_File_UI_Periodical message, it means card module go into
+lengthy operation. There are many case that may cause lengthy operation, such as 
+recording avi, delete all file etc. The param is passed below value to indicate
+what cause lengthy action:
+
+NOTE : Message range 0 to 2000 reserved by Sunplus
+
+K_Act_Go_SaveFile	// saving file action is running
+K_Act_Go_Delete1File	// delete one file action is running	
+K_Act_Go_DeletAll	// delete all file action is running	
+K_Act_Go_Initialize	// initializing card action is running	
+K_Act_Go_FormatCard	// formatting card action is running
+K_Act_Go_RecordAvi	// recording avi action is running
+K_Act_Go_RecordAviAud	// recording avi with audio action is running
+K_Act_Go_RecordAudio	// recording audio action is running
+
+cardui.c and cardui.h are provided to you and have implementation example.
+
+An example of messages received by File_SnapJpg:
+01. K_File_UI_Start_DscFile
+02. K_File_UI_Start_DscImage
+03. K_File_UI_Start_DscCapture
+04. K_File_UI_End_DscCapture
+05. K_File_UI_Start_DscCompress
+06. K_File_UI_End_DscCompress
+07. K_File_UI_End_DscImage
+08. K_File_UI_Start_Save_File
+09. K_File_UI_Periodical:K_Act_Go_SaveFile
+10. K_File_UI_End_Save_File
+11. if ( every thing go right )
+	K_File_UI_End_DscFile
+    else
+	K_File_UI_Err_DscFile
+
+If you agree that File_SendMessage is a good way to add your UI function and 
+there are still more messages you want to add outside card module world, you 
+are allowed to define your own message, but please don't use 0 to 2000 range,
+because this range is reserved by Sunplus.
+
+If you think that card module should add some messages inside it world, please
+tell us.
+			
+//------------------------------------------------------------------------------
+// Chapter 05. DOS user service function examples
+//------------------------------------------------------------------------------	
+
+As said in description for "dosusr.h", the functions provide in this chapter 
+assume our naming convention.
+
+Below are some brief description about the function:
+
+01. Format card
+============================================
+Before using non formatted internal flash, you must format it with DOS_Format
+passing 1. Passing 1 means using card erased command to erase the card, this 
+will take longer time then passing 0, but it is good for card that might 
+have problems particularly when you are using nand internal flash, smc card.
+
+Example C05E010:
+
+	BYTE sts;
+	
+	// pass 1, so do physical format
+        sts = DOS_Format(1);
+        
+NOTE:For Card Module version smaller than 102, must pass 1.
+
+If failure, the DOS_Format return 0, return non zero value when success.
+
+02. Checking disk space
+============================================
+During card initialization process, the Card Module will call DOS_CheckDiskSpace
+to check for whole disk space. After that, you could always check disk space by
+calling DOS_GetDiskSpace. DOS_GetDiskSpace is faster than DOS_CheckDiskSpace is
+that it doesn't scan DOS FAT structure to calculate the disk free space, it 
+intercept all file disk space related function to set it internal global to 
+calculate the disk space. 
+
+All capture function that Sunplus provided to you will internally check against 
+for enough and safe disk space before doing the capture function. For example,
+If File_SnapJpg function found not enough disk space, File_SendMessage(
+K_File_UI_Error, K_DOS_DiskFullErr) or File_SendMessage( K_File_UI_Err_DscFile, 
+K_DOS_DiskFullErr ) will be called, the UI implementer could intercept this me-
+ssage and tell user about disk is full status.
+
+Example C05E020:
+
+// Quick disk free space checking function
+ULONG FastCalDiskFreeSize(void)
+{
+        WORD freeCluster;
+                
+        freeCluster = DOS_GetDiskSpace();
+        
+        // DOS_GetDiskSpace return number of free clusters,
+        // have to mutiply G_DOS_ClusterSize to translate
+        // it into free disk bytes
+        return (ULONG)G_DOS_ClusterSize * (ULONG)freeCluster;
+}    
+
+Example C05E021:
+ 
+// Caluclate whole disk free space
+ULONG CalDiskFreeSize(void)
+{  
+        WORD freeCluster;
+
+        // NOTE:This will search whole DOS FAT table, spend much
+        // cpu time. Should avoid doing this oftenly.
+        freeCluster = 0xFFFF;
+        DOS_CheckDiskSpace(&freeCluster);
+        
+        // DOS_CheckDiskSpace return number of free clusters,
+        // have to mutiply G_DOS_ClusterSize to translate
+        // it into free disk bytes
+        return (ULONG)G_DOS_ClusterSize * (ULONG)freeCluster;
+}
+
+Example C05E022:
+
+// Check for if enough disk space write to disk
+// Return TRUE if this space enough for requested dataSize, else FALSE.
+BYTE IsEnoughDiskSpace(ULONG dataSize)
+{  
+        WORD freeCluster;
+
+	// convert to requested number of clusters
+        freeCluster = (dataSize+G_DOS_ClusterSize-1)/G_DOS_ClusterSize+1;
+        
+        // search partial DOS FAT table for requested disk space
+        return DOS_CheckDiskSpace(&freeCluster);
+}
+
+      
+03. Snap a jpeg file
+============================================
+To snap a dsc image as jpeg file to card, call File_SnapJpg. During capture 
+process, File_SnapJpg will call File_JpgStillImage(at imgxxx.c) to set asic 
+related registers to capture an image to sdram.         
+
+Below is an example, you could also refer to cardusr.c for example.
+
+Example C05E030:
+
+BYTE CaptureDscImage(void)
+{
+        BYTE sts;
+        BYTE name[12];
+        
+        // G_SDRAM_ImageAddr sdram variable should already be set
+        
+        // possible values depend on sensor
+        // for example, 1280x960
+        G_Image_SensorWidth = K_SENSOR_WIDTH;
+        G_Image_SensorHeight = K_SENSOR_HEIGHT;
+        
+        // possible values depend on sensor and asic
+        // Normally, if sensor could output 1280x960,
+        // subsample by 0 get 1280x960.
+        // subsample by 1 get 640x480.
+        // subsample by 2 get 320x240, etc.
+        G_Image_HSubSample = 0;
+        G_Image_VSubSample = 0;
+        
+        // possible value are K_Q50, K_Q70, K_Q80, K_Q85
+        // K_Q88, K_Q90, K_Q92, K_Q95, hightest q table index, get better 
+        // image quality. For small code size consideration, some q table
+        // are not included. Please refer to quant.h for actual q table
+        // that could be set.
+        G_Image_QTableIndex = K_Q92;
+
+        // This control capture dsc image output as 422 or 411.
+        // Normally, dsc image is capture as 422 to get high quality.
+        G_Image_SrcDataType = K_File_DataType_YUV422;
+        
+        // ui messages
+        File_SendMessage( K_File_UI_Start_DscFile, G_USR_FileCount );
+        
+        // Besides above global variables to control capture factors,
+        // some asic may have more variables to control capture factors,
+        // please refer to that asic's imgxxx.c for details.
+        
+        sts = File_SnapJpg(name);
+        if (sts)
+        {
+                G_USR_FileIndex++;
+                G_USR_FileCount++;
+                // ui messages
+                File_SendMessage( K_File_UI_End_DscFile, G_USR_FileCount );
+        }
+        else
+        	// ui messages
+                File_SendMessage( K_File_UI_Err_DscFile, 0 );
+                // restore to default q table
+                INITIO_SetQTable(K_Qxx); 
+        
+        return sts;
+}
+
+
+04. Record an avi file
+============================================
+To record an avi file with or without audio, call File_RecordAvi. During record-
+ing process, File_RecordAvi will call File_SetImageMode(at imgxxx.c) with imag-
+emode set to 1 to prepare asic for video image recording.
+
+If the asic must put the video image into sdram then File_VideoStrm1Image(at 
+imgxxx.c) will be called to get put an video frame into sdram the write to card. 
+If the asic able to output the video frame directly from its FIFO to card, then 
+File_FifoVideoStrm1Image(at imgxxx.c) will be called.
+
+If you are recording avi without audio, the recording go until card is full or
+stop by users. For 500 asic, timer 0 is used to calculate time stamp, so 
+TIMER0_Start, TIMER0_Stop is called. For other asic, we use asic's timer to 
+calculate time stamp, so in these asics, you should enable and clear timer
+in File_SetImageMode when imagemode is 1, File_StopClipMode is call when
+avi is stopped, G_TimeStamp should be set here.
+
+If you are recording avi with audio, the recording go until card is full or stop
+by users or audio buffer is full. Video related issues are as above, File_
+AudioSetMode(at audio.c) will be call to set audio related global variables and 
+registers. File_AudioGetSample(at audio.c) which is called under TIMER0_Handler 
+to get audio data from audio port to sdram. So TIMER0_Start, TIMER0_Stop is called 
+no matter what asic to use. G_TimeStamp is mini second unit and is the the avi 
+recording time.
+
+Below is an example, you could also refer to cardusr.c for example.
+
+Example C05E040:
+
+BYTE CaptureVideoAvi(BYTE bAudio)
+{
+        BYTE sts;
+        BYTE name[12];
+
+        // these sdram variable should already be set
+        // G_SDRAM_ImageAddr
+        // G_File_SDRAM_AviIdx1BufAddr
+        // G_File_SDRAM_AviIdx1BufSize
+
+        // if bAudio is TRUE, these sdram variable should already be set
+        // G_File_SDRAM_AudioBufAddr
+        // G_File_SDRAM_AudioBufSize
+        
+        // NOTE:possible values depend on sensor
+        // for example, 1280x960
+        G_Image_SensorWidth = K_SENSOR_WIDTH;
+        G_Image_SensorHeight = K_SENSOR_HEIGHT;
+        
+        // NOTE:possible values depend on sensor and asic
+        // Normally, if sensor could output 1280x960,
+        // subsample by 0 get 1280x960.
+        // subsample by 1 get 640x480.
+        // subsample by 2 get 320x240, etc.
+        G_Image_HSubSample = 2;
+        G_Image_VSubSample = 2;
+        
+        // possible value are K_Q50, K_Q70, K_Q80, K_Q85
+        // K_Q88, K_Q90, K_Q92, K_Q95
+        // lower q table index, get better frame rate.
+ 	// For small code size consideration, some q table
+        // are not included. Please refer to quant.h for actual q table
+        // that could be set.
+        G_Image_QTableIndex = K_Q70;
+        
+        // This control capture video image output as 422 or 411.
+        // Normally, video image is captured as 411 to get better
+        // frame rate.
+        G_Image_SrcDataType = K_File_DataType_YUV411;
+
+	// make a DCF standard avi file name
+        USR_SetAviName(name, G_USR_FileIndex);
+        
+        // ui message
+        File_SendMessage( K_File_UI_Start_AviFile, G_USR_FileCount );
+        
+        sts = File_RecordAvi(&name[0], bAudio);
+        if (sts)
+        {
+		G_USR_FileIndex++;
+		G_USR_FileCount++;
+		// ui message
+		File_SendMessage( K_File_UI_End_AviFile, G_USR_FileCount );
+        }
+        else
+        	// ui message
+       		File_SendMessage( K_File_UI_Err_AviFile, 0 );
+              
+        // restore to default q table
+        INITIO_SetQTable(K_Qxx);
+      
+	return sts;  
+}
+
+Example C05E041:
+
+// When recording avi with audio, below function is called to prepare asic ready
+// for audio recording.
+void File_AudioSetMode(void) USING_0
+{
+	// use 8K sample rate
+	G_AUDIO_RateScale = 1;
+	G_AUDIO_Rate = 8000;
+	
+	// mono channel
+	G_AUDIO_nChannel = 1;
+	
+	// bytes per sample is 1 byte
+	G_AUDIO_nSampleSize = 1;
+	
+	// If 0x11 using IMA codec, this is built 
+	// in supported 504a asic. If 1 using PCM
+	// non compress codec.
+	G_AUDIO_wFormatTag = 1;	
+	
+	if ( G_AUDIO_wFormatTag == 0x11 )
+		// Sunplus Asic support 4 bit IMA audio compression
+		G_AUDIO_Bits = 4;
+	else
+		G_AUDIO_Bits = 8;
+	if ( G_AUDIO_wFormatTag == 0x11 )
+	{
+		G_AUDIO_wBlockAlign = 512;
+		
+		// wSamplesPerBlock = 
+		// ((nBlockAlign-(4*nChannels))*8)/(wBitsPerSample*nChannels) + 1
+		G_AUDIO_wSamplesPerBlock = 
+		        ((G_AUDIO_wBlockAlign-(4*G_AUDIO_nChannel))*8)/
+			(G_AUDIO_Bits*G_AUDIO_nChannel) + 1;
+	}
+	else
+		G_AUDIO_wBlockAlign = 1;
+		
+	G_File_SubSampleFactor = K_AUDIO_SubSampleFactor;
+
+        // enable audio capture, this should always 0
+        // when not recording avi with audio
+        G_File_AudioEnable = 1;
+
+        // initialize audio size (unit: WORD)
+        // avi with audio, this value is 4 for "01wb"+4 byte size
+        G_File_AudioSize = 4;
+
+        // initialize sample count
+        G_File_AudioSampleCount = G_File_SubSampleFactor - 1;
+
+        // should initial audio registers according to above variables
+        // :
+        // should clear status of audio and audio FIFO
+        // :
+        // should enable audio chip
+        // :
+        
+        return;
+}
+
+05. Record an wave file
+============================================
+To record audio as wave file, call File_RecordWave. It call File_RecordAudio-
+Stream to init and get audio data to sdram buffer, then save audio data as
+wave file format.
+
+Example C05E050:
+BYTE CaptureAudioWave(void)
+{
+        BYTE sts;
+        BYTE name[12];
+
+        // these sdram variable should already be set
+        // G_File_SDRAM_AudioBufAddr
+        // G_File_SDRAM_AudioBufSize
+
+	// make a DCF standard wave file name
+        USR_SetWaveName(name, G_USR_FileIndex);
+        
+        // ui message
+        File_SendMessage( K_File_UI_Start_WaveFile, G_USR_FileCount );
+        
+	sts = File_RecordWave(  &name[0], 
+	                        G_File_SDRAM_AudioBufAddr, 
+	                        G_File_SDRAM_AudioBufSize << 1, 
+	                        K_FormatTag_NonCompress);
+        if (sts)
+        {
+		G_USR_FileIndex++;
+		G_USR_FileCount++;
+        	// ui message
+		File_SendMessage( K_File_UI_End_WaveFile, G_USR_FileCount );
+        }
+        else
+        	// ui message
+		File_SendMessage( K_File_UI_Err_WaveFile, 0 );
+        
+        return sts;
+}
+
+
+/*++
+
+Routine Description:
+        Record audio data to ramAddr of ramSize according to wFormatTag codec 
+        choice.
+Arguments:
+	ramAddr         : sdram start address that to store audio data, unit is 
+	                  word unit
+	ramSize         : buffer size of ramAddr, unit is byte
+	pAudsValue      : array of 7 long parameter to return to File_RecordWave
+	                  to set wave file format values.
+                          pAudsValue[0] is K_File_Wave_wFormatTag_Value
+                                0x01: non compressed audio
+                                0x11: IMA compressed audio, must make sure
+                          pAudsValue[1] is K_File_Wave_nChannels_Value
+                                0x01 : mono channel
+                                0x02 : 2 channel
+                          pAudsValue[2] is K_File_Wave_nSamplesPerSec_Value
+                                samples per second
+                          pAudsValue[3] is K_File_Wave_nAvgBytesPerSec_Value
+                                average bytes per second
+                          pAudsValue[4] is K_File_Wave_blockAlign_Value
+                                block aligned, for non compressed it is 1.
+                                For IMA, it could be 256, 512.
+                          pAudsValue[5] is K_File_Wave_wBitsPerSample_Value
+                                significants bits per sample
+                                For IMA built into 504, this is 4 bits.
+                                For non compress, typical value is 8.
+                          pAudsValue[6] is K_File_Wave_wSamplesPerBlock_Value
+                                This field have effect only when IMA compressed.
+Return Value:
+                          return audio size, unit is byte. If 0, no wave file
+                          created on card.
+--*/
+ULONG File_RecordAudioStream(ULONG ramAddr, ULONG ramSize, ULONG *pAudsValue, WORD wFormatTag)
+{
+	ULONG audioSize = 0;
+        WORD freeCluster;
+	ULONG freeDiskSize;
+	
+	if ( wFormatTag == 0x01 || wFormatTag == 0x11 )
+	{
+        	freeCluster = DOS_GetDiskSpace();
+		if ( freeCluster < ( (170L*1024L)/G_DOS_ClusterSize ) )
+		{
+	        	M_DOS_SetError(K_DOS_DiskFullErr);
+	        	File_SendMessage(K_File_UI_Error, K_DOS_DiskFullErr);
+			return 0;
+		}
+        	freeDiskSize = (ULONG)freeCluster * (ULONG)G_DOS_ClusterSize;
+        	if ( ramSize > freeDiskSize )
+        		ramSize = freeDiskSize;
+        		
+		G_Card_UI_Action = K_Act_Go_RecordAudio;
+		File_SendMessage( K_File_UI_Periodical, G_Card_UI_Action );
+		
+                pAudsValue[0] = wFormatTag;  // K_File_Wave_wFormatTag_Value
+		pAudsValue[1] = 1;	     // K_File_Wave_nChannels_Value
+		pAudsValue[2] = 0x1f40;	     // K_File_Wave_nSamplesPerSec_Value
+
+		if ( wFormatTag == 0x11 )    
+		{
+			// IMA compression
+			pAudsValue[5] = 4;   // K_File_Wave_wBitsPerSample_Value
+			pAudsValue[4] = 512; // please set 0x2681 to this value
+			// wSamplesPerBlock = ((nBlockAlign-(4*nChannels))*8)/
+			// (wBitsPerSample*nChannels) + 1
+			// K_File_Wave_wSamplesPerBlock_Value
+			pAudsValue[6] = ((pAudsValue[4] - (4*pAudsValue[1]))*8)/
+			                (pAudsValue[5]*pAudsValue[1]) + 1; 	
+		}
+		else
+		{
+			// no compress
+			pAudsValue[5] = 8;  // K_File_Wave_wBitsPerSample_Value
+			pAudsValue[4] = 1;  // K_File_Wave_blockAlign_Value
+		}
+		
+		// nAvgBytesPerSec = 
+		// ( nChannels * nSamplesPerSec * wBitsPerSample ) / 8
+		// K_File_Wave_nAvgBytesPerSec_Value
+		pAudsValue[3] = (pAudsValue[1]*pAudsValue[2]*pAudsValue[5])>>3;
+		
+                // should initialize audio registers, enable audio
+                // :
+                // should have a loop to get audio data to ramAddr
+                // should detect user key to stop 
+                // should stop until ramSize reached or disk is full
+                // :	
+	}
+	
+	return audioSize;
+}
+
+06. Searching file
+============================================
+DOS user service function searching files only that follow DCF file name and di-
+rectory specification, so a file is finding using file index or a name that 
+follow DCF spec, for example sunp0001.jpg, etc. If you want to find file that
+don't follow this rule, you should read Chapter 7 and 8.
+
+By providing the file index to function USR_Delete1File you could delete a file
+that is inside DCIM\100MEDIA folder, so are USR_Upload1File, USR_UploadJpg, 
+USR_UploadAvi to upload file, USR_Play1File, USR_PlayJpg, USR_PlayAvi to play 
+file with name "sunpxxxx" inside that folder. USR_DeleteLastFile delete file
+with maximal file index. USR_DeleteAllFile delete all files with "sunpxxxx" and
+recognized file type for example jpg, wav, avi.
+
+
+Example C05E060:
+
+	BYTE sts;
+	
+	// If the file is sunp0010.avi, then an avi file is played.
+	// If the sunp0010.xxx file not exist, sts return FALSE.
+	sts = USR_Play1File(10, 0);
+
+To upload all DCF file's information that are inside DCIM\100MEDIA, you could 
+use USR_UploadFdb.
+
+Example C05E061:
+
+	BYTE sts;
+	
+	// Upload all DCF file's information(fdb) inside DCIM\100MEDIA folder.
+	// If there are no DCF file inside this folder, then FALSE is return.
+	// Each standard fdb is 32 byte, if G_USR_FileCount is 10, then 320
+	// bytes are uploaded. Please refer to DOS refernce book for definition
+	// of fdb( file description block ) structure.
+	sts = USR_UploadFdb(G_USR_FileCount);
+
+All uploaded fdbs are not sorting by name, it is slow to sort using 8 bit cpu.
+so sorting better done by host application if wanted.
+
+07. Upload file
+============================================
+To upload a file, use USR_Upload1File.
+
+Example C05E070:
+
+	BYTE sts;
+	
+	// If the file is sunp0012.jpg, then a jpg file is uploaded.
+	// If the sunp0012.xxx file not exist, sts return FALSE.
+	// From the uploaded fdb, you could know the file size.
+	// The uploaded number of bytes should be cluster size multiple.
+	// So the host application should uploaded (file size + cluster
+	// size - 1)/cluster size*cluster size btes. For example, if file size
+	// is 120,789 bytes, cluster size is 16,384. Then 131,072 bytes should
+	// be uploaded. The host application should then truncate to precise
+	// file size. The host could know the cluster size by using bRequest = 
+	// 0x23, wIndex = 0x0064 command.
+	sts = USR_Upload1File(12);
+
+08. Playback file
+============================================
+To play a file, use USR_Play1File.
+
+Example C05E080:
+
+	BYTE sts;
+	
+	// If the file is sunp0012.avi, then an avi file is played.
+	// If the avi file have audio and specify TRUE in USR_Play1File
+	// and have audio out hardware, then play avi with audio sound.
+	// If the file is sunp0012.jpg, then a jpeg file is played.
+	// If the file is sunp0012.wav and have audio out hardware
+	// then a wave file is played.
+	// If the sunp0012.xxx file not exist, sts return FALSE.
+	// If the requested file index is found, File_SendMessage( 
+	// K_File_UI_Start_PlayAviFile, file index ) is send, else
+	// File_SendMessage( K_File_UI_Error, 0 ) is sent. To print OSD
+	// font, you could intercept K_File_UI_Start_PlayAviFile message.
+	// File_SendMessage( K_File_UI_PlayVideoStrm1Frame, frame number ) is
+	// send while playing. File_SendMessage( K_File_UI_End_PlayAviFile, 0 )
+	// is sent if play without any error.
+	// If jpeg, K_File_UI_Start_PlayDscFile, K_File_UI_End_PlayDscFile are
+	// sent.
+
+	sts = USR_Play1File(12, FALSE);
+
+09. Get card infomation
+============================================
+The Card_GetInformation allow host application to know about the DOS, Card info-
+mation.
+
+Example C05E090:
+	
+	BYTE buf[64];
+	WORD len;
+	
+	// maximal structure len is 64 byte
+	len = Card_GetInformation(&buf[0]);
+
+The structure description:
+
+	00 BYTE   structure len
+	01 WORD   G_Card_Module		 // code included in card module
+	                                 // that support different storage
+	                                 // media. For example, if nand code
+	                                 // is included in library than bit 2
+	                                 // is on.
+	                                 // bit 1 means dos for sdram code is
+	                                          included.
+	                                 // bit 2 means nand code is included.
+	                                 // bit 3 means smc code is included.
+	                                 // bit 4 means cf code is included.
+	                                 // bit 5 means sd code is included.
+	03 WORD   K_Card_Version	 // Ex 1.0.3 = 0x0103
+	05 BYTE   K_Card_Statge		 // Final = 0x80, Beta = 0x60, 
+					 // Alpha = 0x40, Development = 0x20
+	06 BYTE   K_Card_Non_Release	 // Release = 0, Non Release = other 
+	                                 // value, Ex 'a', 'b', 'c'... 
+	07 WORD   G_Card_Supported	 // bit definition is same to G_Card_
+	                                 // Module but only bit of actual   
+	                                 // "running" code is on. For example, 
+	                                 // if G_Card_Module have cf and nand 
+	                                 // bit on, but this field have only 
+	                                 // nand on. This means that library 
+	                                 // code have extra cf code that you 
+	                                 // may not require for your hardware.
+	09 BYTE   G_Card_Type		 // current storage media type
+	                                 // If your hardware solution include
+	                                 // more than 1 storage media, for exam-
+	                                 // ple cf and nand. This field could 
+	                                 // tell whether cf or nand is current 
+	                                 // active media. Possible value are
+	                                 // K_MEDIA_NANDF, K_MEDIA_SMC, 
+	                                 // K_MEDIA_NORF, K_MEDIA_CFC, 
+	                                 // K_MEDIA_MMC, K_MEDIA_NEXTF
+	                                 // K_MEDIA_SDF, K_MEDIA_DOSRAM
+	                                 
+
+	10 ULONG  G_Card_SectorPerCard	 // storage media capacity in sector 
+	                                 // For example, if the card capacity
+	                                 // is 16M, than the value is 32,768.
+
+	14 BYTE   G_DOS_SystemId	 // DOS system ID. 1 is FAT12. 6 is
+					 // FAT16. Please refer to DOS book
+					 // for definition.
+	15 BYTE   G_DOS_FileSystemType	 // DOS file system type. 0 is FAT12,
+					 // 1 is FAT16, 2 is FAT32. Please
+					 // refer to DOS book for definition.
+	16 WORD   G_DOS_SectorSize	 // bytes per sector
+	18 WORD   G_DOS_SectorPerCluster // sector per cluster
+	20 ULONG  G_DOS_TotalFreeCluster // free storage space represent in
+					 // cluster unit. For example if sector
+					 // size is 512, sector per cluster is
+					 // 32, this field have value 1200. Then
+					 // free storage space is 1200*32*512 byte.					 
+	24 ULONG  G_DOS_FatAddr		 // DOS FAT table start logical address
+	28 ULONG  G_DOS_FatEndAddr	 // DOS FAT table end logical address
+	34 WORD   reserve
+	36 WORD   G_DOS_TotalRootDir	 // how many fdb allocated for root di-
+					 // rectory.
+	38 WORD   reserve
+	40 ULONG  G_DOS_RootDirAddr	 // start logical address of root fdb 
+					 // area.
+	44 ULONG  G_DOS_DataAddr	 // start logical address of cluster
+					 // area that managed by FAT table.
+					 
+					 
+					 // Byte offset after 48 should check
+					 // byte offset 0 for validation. For 
+					 // example, offset 48 is valid only when
+					 // byte offset 0 value is 49.
+					 
+	48 BYTE   support flags		 // bit 2 on means ecc correction by host
+	                                 // during uploading is turn on. Check
+	                                 // this bit only when K_Card_Version is
+	                                 // greater than 0x101.
+
+//------------------------------------------------------------------------------
+// Chapter 06. DOS user service function
+//------------------------------------------------------------------------------
+
+================================================================================
+Global variables
+--------------------------------------------------------------------------------
+WORD    G_USR_Dir0Cluster
+--------------------------------
+This variable hold the start cluster of "DCIM" folder.
+
+WORD    G_USR_Dir1Cluster
+--------------------------------
+This variable hold the start cluster of "100Media" folder.
+
+WORD    G_USR_FileIndex
+--------------------------------
+When created next DCF file, this value is used to make the name. For example,
+if G_USR_FileIndex is 15 and want to capture still image, then the file name
+is "sunp0015.jpg".
+
+WORD    G_USR_FileCount
+--------------------------------
+The total number our DCF file. For example, if inside the "100Media" folder,
+there are "sunp0001.jpg", "sunp003.avi", "sample.jpg", then G_USR_FileCount
+is 2.
+
+================================================================================
+
+================================================================================
+Constants
+--------------------------------------------------------------------------------
+K_DOS_MatchName
+--------------------------------
+Use to passed in function with matchCond. When passed this value, the refCon
+should passed the name pointer to be matched.
+
+K_DOS_MatchFree
+--------------------------------
+Use to passed in function with matchCond. refCon should 0. Use to find a free
+fdb.
+
+K_USR_MatchIndexName
+--------------------------------
+Use to passed in function with matchCond. When passed this value, the refCon
+should passed the file index value should be matched.
+
+K_USR_MatchOurFile
+--------------------------------
+Use to passed in function with matchCond. When passed this value, the refCon
+passed K_USR_OUR_TYPE means match all our dcf file, else pass K_USR_JPG_TYPE 
+means match only jpeg file, K_USR_AVI_TYPE means match only avi file, 
+K_USR_WAV_TYPE file  means match only wave file. 
+
+K_USR_OUR_TYPE
+--------------------------------
+The file type is our DCF file type.
+
+K_USR_JPG_TYPE
+--------------------------------
+The file type is our jpeg file type.
+
+K_USR_AVI_TYPE
+--------------------------------
+The file type is our avi file type.
+
+K_USR_WAV_TYPE
+--------------------------------
+The file type is our wave file type.
+
+================================================================================
+
+================================================================================
+BYTE DOS_CheckDiskSpace(WORD *reqCluster)
+--------------------------------------------------------------------------------
+Brief Description  =  Checking free disk space
+Arguments	   =  -> reqCluster
+		      Input number of free cluster requested.
+		      To check whole disk space set *reqCluster = 0xFFFF, don't
+		      care return value then calculate free disk space bytes 
+		      using (ULONG)(*reqCluster) * (ULONG)G_DOS_ClusterSize.
+		     
+		      <- reqCluster   
+		      Output number of free cluster found.
+		     	
+Return Value       =  If number of free cluster found is smaller than requested
+		      number of cluster, FALSE is return else TRUE.
+Global Read	   =  G_DOS_FileSystemType, G_DOS_FatAddr, G_DOS_FatEndAddr,
+		      G_DOS_Stop_Initial, G_DOS_Initial_Status, 
+		      G_DOS_SDRAM_FAT1Addr, G_DOS_FreeFatTable
+Global Set	   =  G_DOS_SDRAM_NextIntRetAddr, G_File_SDRAM_Read, 
+		      G_File_AudioEnable
+Limitation	   =  Doesn't support FAT32.
+UI Messages        =  None.
+Detail Description =  This function actually scan FAT table, when cluster size
+		      is small for example 2K and requested free cluster number
+		      is big, and the cpu is slow, this will take long time.
+================================================================================
+
+================================================================================
+WORD DOS_GetDiskSpace(void)
+--------------------------------------------------------------------------------
+Brief Description  =  Quick disk space checking function.
+Arguments	   =  None.	
+Return Value       =  number of free cluster disk space. To convert it to bytes,
+		      (ULONG)return value * (ULONG)G_DOS_ClusterSize.
+Global Read	   =  G_DOS_TotalFreeCluster
+Global Set	   =  None.
+Limitation	   =  None.
+UI Messages        =  None.
+Detail Description =  This function just return the G_DOS_TotalFreeCluster.
+		      When create, delete file our DOS module will update G_DOS_
+		      TotalFreeCluster. So if you don't use our function to cre-
+		      ate and delete file, you must either update G_DOS_Total-
+		      FreeCluster yourself or use DOS_CheckDiskSpace to calcu-
+		      late  disk space.
+================================================================================
+
+================================================================================
+BYTE DOS_Format(BYTE eraseCard)
+--------------------------------------------------------------------------------
+Brief Description  = Format storage media as DOS file system.
+Arguments	   = -> eraseCard
+		     bit 0 ON  means do physical format. 
+                           OFF means do logical format	
+                     bit 7 ON  means create DCF directory. This speed up format
+                               plus directory initialization process.
+                     bit 6 ON  means optimized format. Bigger cluster size will
+                               be used, this speed up searching action, but disk
+                               space don't efficiently used. For example, if 
+                               cluster size is 16K, the photo size is 33K, then
+                               17K space wasted. But since total clusters is 
+                               smaller, so the FAT searching could be faster.
+                               
+Return Value       = FALSE:format action fail.
+                     None zero value:format action succeed.
+Global Read	   =
+Global Set	   =
+Limitation	   = Current Implementation could support up to 2G storage 
+                     media, but actually for smc card, only 4M to 128M have 
+                     been tested, for cf card, only 4M to 256M have been 
+                     tested.
+UI Messages        = K_File_UI_Start_FormatCard, K_File_UI_End_FormatCard
+                     K_File_UI_End_FormatCard, K_File_UI_Periodical
+Detail Description = According to capacity of storage media and media type of 
+                     storage, this function will automactically determine 
+                     whether using FAT12, FAT16. Current implemetation don't 
+                     support FAT32. If M_Card_Initialize return FALSE, majorly
+                     because storage media never format or unrecognized format,
+                     you may ask user whether to do disk format, and use this
+                     function if user want to do. After calling DOS_Format and 
+                     it return non zero value, should call M_Card_Initialize 
+                     with return value from DOS_Format. NOTE: Since DOS_Format
+                     will reset some DOS globals for current storage media. so 
+                     if you are implement 2 storage media solution, for example 
+                     nand and cf card, if current format card is cf and FALSE is 
+                     return, and you then want to use nand, should set 
+                     G_Card_Type to K_MEDIA_NANDF, then call M_Card_Initialize 
+                     before you could use nand.
+================================================================================
+
+================================================================================
+BYTE File_SnapJpg(BYTE *name)
+--------------------------------------------------------------------------------
+Brief Description  =  Snap a still image to storage media as a jpeg file inside 
+		      DCF folder.
+Arguments	   =  -> name
+	              a DCF convension file name. NOTE: name is a 12 bytes array
+	              which consist of 8 byte name, 3 byte extension, 1 byte at
+	              name[11] must be 0x20 which means this is a file name. For
+	              your convenient, USR_SetJpgName is provided to create the 
+	              name.
+	              
+Return Value       =  FALSE if something wrong happen for example disk is full.
+Global Read	   =  G_Image_QTableIndex, G_Image_HSubSample, G_Image_SensorWidth,
+                      G_Image_SensorHeight, G_Image_HSubSample, G_Image_VSubSample,
+                      G_SDRAM_ImageAddr
+Global Set	   =
+Limitation	   =
+UI Messages        = (K_File_UI_Error, K_DOS_DiskFullErr),
+                     (K_File_UI_Start_Save_File, fileSize),
+                     (K_File_UI_Periodical, K_Act_Go_SaveFile)
+                     (K_File_UI_End_Save_File, TRUE if save properly, else FALSE)
+Detail Description = File_SnapJpg call INITIO_SetQTable to set q table according 
+                     to G_Image_QTableIndex. File_JpgLoadHeader to put jpeg hea-
+                     der at the G_SDRAM_ImageAddr, then call File_JpgStillImage  
+                     to put the image just after the jpeg header, then call 
+                     File_Make to save the jpeg file image at G_SDRAM_ImageAddr
+                     into DCF folder.
+================================================================================
+
+================================================================================
+BYTE File_RecordAvi(BYTE *name, BYTE bAudio)
+--------------------------------------------------------------------------------
+Brief Description  =  Record video image to storage media as avi file inside DCF
+                      folder.
+Arguments	   =  -> name
+	              a DCF convension file name. NOTE: name is a 12 bytes array
+	              which consist of 8 byte name, 3 byte extension, 1 byte at
+	              name[11] must be 0x20 which means this is a file name. For
+	              your convenient, USR_SetAviName is provided to create the 
+	              name.
+	              
+	              -> bAudio
+	              If your solution have audio input and user want recording
+	              the avi with audio, then should pass TRUE, else FALSE.
+	              	
+Return Value       =  FALSE if something wrong happen for example disk is full.
+Global Read	   =  G_Image_QTableIndex, G_Image_HSubSample, G_Image_SensorWidth,
+                      G_Image_SensorHeight, G_Image_HSubSample, G_Image_VSubSample,
+                      G_SDRAM_ImageAddr
+Global Set	   =  G_File_AviTotalSize
+Limitation	   =
+UI Messages        =  (K_File_UI_Periodical, K_Act_Go_RecordAvi),
+                      (K_File_UI_Periodical, K_Act_Go_RecordAviAud)
+Detail Description =  File_RecordAvi call INITIO_SetQTable to set q table accor
+                      -ding to G_Image_QTableIndex. File_SetImageMode to prepare 
+                      asic for video mode. If bAudio is TRUE, File_AudioSetMode  
+                      to prepare asic for audio. During recording process, it
+                      check for disk full case, idx buffer full case and stop 
+                      automatically when these case happen. If want stop record-
+                      ing process by user, you could set G_ucStopStream to 1.
+================================================================================
+
+================================================================================
+BYTE File_RecordWave(BYTE *name, ULONG ramAddr, ULONG ramSize, WORD wFormatTag)
+--------------------------------------------------------------------------------
+Brief Description  =  Record sound as wave file inside DCF folder.
+Arguments	   =  
+                      -> name
+	              a DCF convension file name. NOTE: name is a 12 bytes array
+	              which consist of 8 byte name, 3 byte extension, 1 byte at
+	              name[11] must be 0x20 which means this is a file name. For
+	              your convenient, USR_SetWaveName is provided to create the 
+	              name.
+	              
+	              -> ramAddr 
+	              Point to a ram buffer address (in word unit) to hold re-
+	              cording audio data.
+	              
+	              -> ramSize
+	              The byte size of audio ram buffer.
+	              
+	              -> wFormatTag
+	              Audio compression method selection. Current possible
+	              values are K_FormatTag_NonCompress(0x01), 
+	              K_FormatTag_IMA(0x11). NOTE: Must check if asic have built
+	              in IMA compression if select K_FormatTag_IMA. Also, if
+	              have IMA compression, card module don't include non 
+	              compression code to reduce code size.
+	              
+Return Value       =  FALSE if something wrong happen for example disk is full.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =  (K_File_UI_Periodical, K_Act_Go_RecordAudio),
+                      (K_File_UI_Start_Save_File, fileSize)
+                      (K_File_UI_Periodical, K_Act_Go_SaveFile)
+                      (K_File_UI_End_Save_File, TRUE if save properly, else 
+                       FALSE)
+                     
+Detail Description =  This function call File_RecordAudioStream which record 
+                      audio data into ram buffer. File_RecordAudioStream check
+                      for disk full case, ram buffer full case, user abort case 
+                      to stop audio recording. It then return audio size, audio  
+                      rate, number of audio channel, compression method, bits of 
+                      audio data, etc to this function to save the audio data as 
+                      wave file to storage media.
+================================================================================
+
+================================================================================
+BYTE USR_Play1File(WORD fileIndex,BYTE wantAudio)
+--------------------------------------------------------------------------------
+Brief Description  =  Find a file at DCF folder that match the given file index 
+                      and play it. It will check what type of file found and 
+                      play accordingly.
+Arguments	   =  -> fileIndex
+                      
+                      -> wantAudio
+                      If your solution have audio out you should pass TRUE. By
+                      this way if the found file have audio, the audio will be
+                      played. If your solution don't have audio out or you 
+                      purposely don't want the audio be played, you could pass
+                      FALSE.	
+                      
+Return Value       =  Return TRUE if requested file is found and played. FALSE
+                      if not found or file format not accepted. 
+Global Read	   =  G_USR_PlayIndex
+Global Set	   =
+Limitation	   =
+UI Messages        =  (K_File_UI_Start_PlayDscFile, file index)
+                      K_File_UI_End_PlayDscFile, K_File_UI_Error if error
+                      (K_File_UI_Start_PlayAviFile, file index)
+                      (K_File_UI_Periodical, K_Act_Go_PlayAvi)
+                      (K_File_UI_PlayVideoStrm1Frame, frame index)
+                      K_File_UI_End_PlayAviFile, K_File_UI_Error if error
+                      (K_File_UI_Start_PlayWaveFile, file index)
+                      (K_File_UI_Periodical, K_Act_Go_PlayAudio)
+                      K_File_UI_End_PlayWaveFile, K_File_UI_Error if error
+                      
+Detail Description =  When playing jpeg file, File_PlayJpg parse jpeg file,
+                      load the jpeg image into dram, then call File_PlayDscImage
+                      to play the image. When playing avi file, File_PlayAvi 
+                      parse the avi file, then call File_PlayAviStream
+                      per video frame to play the video frame at dram. When 
+                      playing wave file, File_PlayWave parsing the wave file,
+                      then called File_PlayWaveStream to play all audio stream 
+                      at dram.
+================================================================================
+
+================================================================================
+BYTE File_PlayJpg(BYTE *name, WORD startCluster, ULONG ramAddr)
+--------------------------------------------------------------------------------
+Brief Description  =  Play the jpeg file.
+Arguments	   =  -> name
+	              a DCF convension file name. NOTE: name is a 12 bytes array
+	              which consist of 8 byte name, 3 byte extension, 1 byte at
+	              name[11] must be 0x20 which means this is a file name. For
+	              your convenient, USR_SetJpgName is provided to create the 
+	              name.
+	              
+                      -> startCluster
+                      If parsing 0, then File_PlayJpg will serach the DCF folder
+                      for matching name requested. If parsing the start cluster
+                      of the requested file, File_PlayJpg will not search using
+                      the name, the file data is assessed start from the input
+                      start cluster. NOTE: If parsing nonzero to startCluster,
+                      G_DOS_FileSize must be set to the size of file. 
+                      
+                      -> ramAddr
+                      The ram address (in word unit) to hold the jepg image to
+                      be played. In USR_Play1File, ramAddr is passed 
+                      G_SDRAM_ImageAddr.
+                      
+Return Value       =  Return TRUE if requested file is found and played. FALSE
+                      if not found or jpeg file not accepted. 
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =  (K_File_UI_Start_PlayDscFile, file index)
+                      K_File_UI_End_PlayDscFile, K_File_UI_Error if error
+Detail Description =  When playing jpeg file, File_PlayJpg parse jpeg file,
+                      load the jpeg image into dram, then call File_PlayDscImage
+                      to play the image.
+================================================================================
+
+================================================================================
+BYTE File_PlayAvi(BYTE *name, WORD startCluster, ULONG vidRamAddr, 
+		  ULONG vidRamSize, ULONG audRamAddr, ULONG audRamSize)
+--------------------------------------------------------------------------------
+Brief Description  =  Play the avi file.
+Arguments	   =  -> name
+	              a DCF convension file name. NOTE: name is a 12 bytes array
+	              which consist of 8 byte name, 3 byte extension, 1 byte at
+	              name[11] must be 0x20 which means this is a file name. For
+	              your convenient, USR_SetAviName is provided to create the 
+	              name.
+	              
+                      -> startCluster
+                      If parsing 0, then File_PlayAvi will serach the DCF folder
+                      for matching name requested. If parsing the start cluster
+                      of the requested file, File_PlayJpg will not search using
+                      the name, the file data is assessed start from the input
+                      start cluster. NOTE: If parsing nonzero to startCluster,
+                      G_DOS_FileSize must be set to the size of file. 
+                      
+                      -> vidRamAddr
+                      The ram address (in word unit) to hold the video image to
+                      be played. In USR_Play1File, vidRamAddr is passed 
+                      G_SDRAM_ImageAddr.
+                      
+                      -> vidRamSize
+                      The byte size of vidRamAddr.
+                      
+                      -> audRamAddr
+                      The ram address (in word unit) to hold the audio data to
+                      be played. In USR_Play1File, audRamAddr is passed 
+                      G_File_SDRAM_AudioBufAddr.
+                      
+                      -> audRamSize
+                      The byte size of audRamAddr. In USR_Play1File, audRamSize
+                      is  passed G_File_SDRAM_AudioBufSize.	
+                      
+Return Value       =  Return TRUE if requested file is found and played. FALSE
+                      if not found or avi file not accepted. 
+Global Read	   =  
+Global Set	   =
+Limitation	   =
+UI Messages        =  (K_File_UI_Start_PlayAviFile, file index)
+                      (K_File_UI_Periodical, K_Act_Go_PlayAvi)
+                      (K_File_UI_PlayVideoStrm1Frame, frame index)
+                      K_File_UI_End_PlayAviFile, K_File_UI_Error if error
+Detail Description =  When playing avi file, File_PlayAvi parse the avi file,
+                      then call File_PlayAviStream per video frame to play the 
+                      video frame at dram. 
+================================================================================
+
+================================================================================
+BYTE File_PlayWave(BYTE *name, WORD startCluster, ULONG ramAddr, ULONG ramSize)
+--------------------------------------------------------------------------------
+Brief Description  =  Play the wave file.
+Arguments	   =  -> name
+	              a DCF convension file name. NOTE: name is a 12 bytes array
+	              which consist of 8 byte name, 3 byte extension, 1 byte at
+	              name[11] must be 0x20 which means this is a file name. For
+	              your convenient, USR_SetAviName is provided to create the 
+	              name.
+	              
+                      -> startCluster
+                      If parsing 0, then File_PlayWave will serach the DCF folder
+                      for matching name requested. If parsing the start cluster
+                      of the requested file, File_PlayJpg will not search using
+                      the name, the file data is assessed start from the input
+                      start cluster. NOTE: If parsing nonzero to startCluster,
+                      G_DOS_FileSize must be set to the size of file. 
+                      
+                      -> ramAddr
+                      The ram address (in word unit) to hold the audio data to
+                      be played. In USR_Play1File, ramAddr is passed 
+                      G_File_SDRAM_AudioBufAddr.
+                      
+                      -> ramSize
+                      The byte size of ramAddr. In USR_Play1File, ramSize is 
+                      passed G_File_SDRAM_AudioBufSize.
+                      	
+Return Value       =  Return TRUE if requested file is found and played. FALSE
+                      if not found or wave file not accepted. 
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =  (K_File_UI_Start_PlayWaveFile, file index)
+                      (K_File_UI_Periodical, K_Act_Go_PlayAudio)
+                      K_File_UI_End_PlayWaveFile, K_File_UI_Error if error
+Detail Description =  When playing wave file, File_PlayWave parsing the wave 
+                      file, then called File_PlayWaveStream to play all audio 
+                      stream at dram. 
+================================================================================
+
+================================================================================
+BYTE USR_Delete1File(WORD fileIndex)
+--------------------------------------------------------------------------------
+Brief Description  =  Delete the file with requested file index at DCF folder.
+Arguments	   =  -> fileIndex
+                      Must start from 1 to 9999. For example, if passed 2, then
+                      eithier sunp0002.avi, sunp0002.jpg, sunp0002.wav is deleted.
+                      NOTE: name is not case sensitive, so sunp0002.avi, 
+                      SUNP0002.AVI are same.
+Return Value       =  FALSE is requested file not found.
+Global Read	   =  
+Global Set	   =  G_USR_FileCount, G_Card_UI_Action
+Limitation	   =
+UI Messages        =  K_File_UI_Start_Delete1File,
+                      (K_File_UI_Periodical,K_Act_Go_Delete1File)
+                      (K_File_UI_End_Delete1File, G_USR_FileCount )
+Detail Description =  USR_Delete1File call File_Delete1File to delete a file.
+================================================================================
+
+================================================================================
+BYTE USR_DeleteLastFile(void)
+--------------------------------------------------------------------------------
+Brief Description  =  Delete the latest capture file.
+Arguments	   =  None.
+Return Value       =  TRUE if DCF file is found and deleted else FALSE.
+Global Read	   =  
+Global Set	   =  G_USR_FileCount, G_Card_UI_Action
+Limitation	   =
+UI Messages        =  K_File_UI_Start_Delete1File,
+                      (K_File_UI_Periodical,K_Act_Go_Delete1File)
+                      (K_File_UI_End_Delete1File, G_USR_FileCount )
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE USR_DeleteAllFile(void)
+--------------------------------------------------------------------------------
+Brief Description  =  Delete all DCF file at DCF folder.
+Arguments	   =  None.
+Return Value       =  Return FALSE if something wrong happen.
+Global Read	   =
+Global Set	   =  G_USR_FileIndex, G_USR_FileCount, G_Card_UI_Action
+Limitation	   =
+UI Messages        =  K_File_UI_Start_DeleteAll
+                      (K_File_UI_End_DeleteAll, G_USR_FileCount)
+                      (K_File_UI_Periodical, K_Act_Go_DeletAll)
+Detail Description =  USR_DeleteAllFile call File_DeleteAllFile to delete all
+                      file.
+================================================================================
+
+================================================================================
+BYTE USR_UploadFdb(WORD fileCount)
+--------------------------------------------------------------------------------
+Brief Description  =  Upload DOS fdb structure of all DCF file at DCF folder.
+Arguments	   =  -> fileCount
+                      Should pass G_USR_FileCount.	
+Return Value       =  FALSE if somthing wrong happen.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  USR_UploadFdb call USR_SearchOurFdbToDram to search all fdb
+                      structure into dram, then upload all these fdb if requested
+                      by host. NOTE:When upload fdb structure, the requeted byte
+                      should be multiple of cluster size. For example, if 
+                      fileCount is 1500, and cluster size is 2048, then actual 
+                      requested byte should be Truncate((1500*32+(2048-1))/2048)
+                      *2048 = 49152, but actually 48000 bytes are significant.
+                      You could know the cluster size by vendor command. Note 
+                      also that, current implementation require that fileCount
+                      equal to G_USR_FileCount. G_USR_FileCount could be known 
+                      trough vendor command.
+================================================================================
+
+================================================================================
+WORD USR_SearchOurFdbToDram(void)
+--------------------------------------------------------------------------------
+Brief Description  =  Search all fdb of our DCF file into dram.
+Arguments	   =	
+Return Value       =
+Global Read	   =  G_DOS_CurrDirCluster
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  USR_SearchOurFdbToDram call DOS_SearchFdb to search all fdb
+                      of our DCF file into ram address specify by G_SDRAM_ImageAddr.
+                      The current serach folder is specify by G_DOS_CurrDirCluster.
+                      This G_DOS_CurrDirCluster normally hold the start cluster
+                      of "100Media" folder.
+================================================================================
+
+================================================================================
+BYTE USR_Upload1File(WORD fileIndex)
+--------------------------------------------------------------------------------
+Brief Description  =  Upload the requested file.
+Arguments	   =  -> fileIndex
+                      The pass value should be make sure that the file Index 
+                      actually have file. Fo example, if "sunp0002.avi",
+                      "sunp0005.jpg" are in "100Media" folder, then fileIndex 
+                      should only be 2, 5. To know what files are in DCF folder,
+                      host could use USR_UploadFdb to upload fdb structure.
+Return Value       =  FALSE is the requested file not found.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  As same to fdb upload process, the upload size should be 
+                      multiple of cluster size. For example, if the file is 79,
+                      456 bytes and cluster size is 16,384. Then 81,920 should
+                      be uploaded but only 79,456 bytes are significant. Host
+                      application should set the file size of the file to proper
+                      file size after upload the file from camera.
+================================================================================
+
+================================================================================
+BYTE USR_DirInitialize(void)
+--------------------------------------------------------------------------------
+Brief Description  =  Check all necessary DCF directory and DCF files. If not 
+                      found then create them.
+Arguments	   =  None. 	
+Return Value       =  TRUE if success else failure.
+Global Read	   =
+Global Set	   =  G_USR_Dir0Cluster, G_USR_Dir1Cluster, G_USR_FileIndex, 
+                      G_USR_FileCount, G_USR_Dir1Count
+Limitation	   =  (K_File_UI_Periodical, K_Act_Go_Initialize)
+UI Messages        =
+Detail Description =  This function use DOS_RootFindName check for existence of 
+                      "DCIM" directory, if not found then use DOS_RootMakeDir
+                      to create it, start cluster of "DCIM" is set to 
+                      G_USR_Dir0Cluster. Use DOS_FindName check for existence of 
+                      "100Media", if not found then use DOS_MakeDir to create
+                      it, start cluster of "100Media" is set to 
+                      G_USR_Dir1Cluster. Finally it call USR_FileInitialize to
+                      scan the DCF folder for our DCF files and set the 
+                      G_USR_FileIndex, G_USR_FileCount.
+================================================================================
+
+================================================================================
+BYTE USR_FileInitialize(void)
+--------------------------------------------------------------------------------
+Brief Description  =  Scan the DCF folder for our DCF files.
+Arguments	   =  None. 	
+Return Value       =  TRUE if success else failure.
+Global Read	   =
+Global Set	   =  G_USR_FileIndex, G_USR_FileCount
+Limitation	   =
+UI Messages        =  (K_File_UI_Periodical, K_Act_Go_Initialize)
+Detail Description =  After scan the DCF folder for our DCF files, the 
+                      G_USR_FileIndex, G_USR_FileCount variable are set. For
+                      example, if "sunp0001.jpg", "sunp0003.avi", "sunp0005.wav"
+                      "sample.jpg" exsist in "100Media" folder, then 
+                      G_USR_FileIndex is 6, G_USR_FileCount is 3.
+================================================================================
+
+================================================================================
+void USR_SetBaseName(BYTE *name, WORD fileIndex)
+--------------------------------------------------------------------------------
+Brief Description  =  Create a DCF basis name.
+Arguments	   =  -> name
+                         Pass in a 12 byte array pointer, then the name is filled
+                         with 8 byte DCF name. For example, fileIndex is 5, then
+                         the name is "sunp0005".
+                      -> fileIndex
+                         The file index of file name, normally you pass 
+                         G_USR_FileIndex.	
+Return Value       =  None.
+Global Read	   =  G_USR_Company_UpperSIG, G_USR_Company_LowerSIG
+Global Set	   =  
+Limitation	   =
+UI Messages        =
+Detail Description =  G_USR_Company_UpperSIG is define in cardui.c. It control
+                      the name[0-3] character, so if G_USR_Company_UpperSIG is
+                      "SUNP", then the file name start with "SUNP". You could 
+                      modify it to suite you own company charater. 
+================================================================================
+
+================================================================================
+void USR_SetJpgName(BYTE* name, WORD count)
+--------------------------------------------------------------------------------
+Brief Description  =  Create a DCF name for jpeg file.
+Arguments	   =  -> name
+                         Pass in a 12 byte array pointer, then the name is filled
+                         with 12 byte DCF name. For example, fileIndex is 5, then
+                         the name is "sunp0005.jpg". The name[11] is filled with
+                         0x20, which means this is file name.
+                      -> count
+                         The file index of file name, normally you pass 
+                         G_USR_FileIndex.	
+Return Value       =  None.
+Global Read	   =  G_USR_Company_UpperSIG, G_USR_Company_LowerSIG
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  This function call USR_SetBaseName to have basis DCF name,
+                      then fill the name[8-10] with "JPG", the name[11] with 
+                      0x20.  
+================================================================================
+
+================================================================================
+void USR_SetWaveName(BYTE* name, WORD count)
+--------------------------------------------------------------------------------
+Brief Description  =  Create a DCF name for wave file.
+Arguments	   =  -> name
+                         Pass in a 12 byte array pointer, then the name is filled
+                         with 12 byte DCF name. For example, fileIndex is 5, then
+                         the name is "sunp0005.wav". The name[11] is filled with
+                         0x20, which means this is file name.
+                      -> count
+                         The file index of file name, normally you pass 
+                         G_USR_FileIndex.	
+Return Value       =  None.
+Global Read	   =  G_USR_Company_UpperSIG, G_USR_Company_LowerSIG
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  This function call USR_SetBaseName to have basis DCF name,
+                      then fill the name[8-10] with "WAV", the name[11] with 
+                      0x20.  
+================================================================================
+
+================================================================================
+void USR_SetAviName(BYTE* name, WORD count)
+--------------------------------------------------------------------------------
+Brief Description  =  Create a DCF name for wave file.
+Arguments	   =  -> name
+                         Pass in a 12 byte array pointer, then the name is filled
+                         with 12 byte DCF name. For example, fileIndex is 5, then
+                         the name is "sunp0005.avi". The name[11] is filled with
+                         0x20, which means this is file name.
+                      -> count
+                         The file index of file name, normally you pass 
+                         G_USR_FileIndex.	
+Arguments	   =  G_USR_Company_UpperSIG, G_USR_Company_LowerSIG	
+Return Value       =  None.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  This function call USR_SetBaseName to have basis DCF name,
+                      then fill the name[8-10] with "AVI", the name[11] with 
+                      0x20.  
+================================================================================
+
+================================================================================
+void USR_SetDir0Name(BYTE* name)
+--------------------------------------------------------------------------------
+Brief Description  =  Create a DCF root folder name.
+Arguments	   =  -> name
+                         Pass in a 12 byte array pointer, then the name is filled
+                         with 12 byte DCF root folder name. For example, "DCIM".
+Return Value       =
+Global Read	   =  G_USR_Dir0Name
+Global Set	   =  
+Limitation	   =
+UI Messages        =
+Detail Description =  G_USR_Dir0Name is defined in cardui.c, you could modify it
+                      to suite your need.
+================================================================================
+
+================================================================================
+void USR_SetDir1Name(BYTE* name, WORD count)
+--------------------------------------------------------------------------------
+Brief Description  =
+Arguments	   =  -> name
+                         Pass in a 12 byte array pointer, then the name is filled
+                         with 12 byte DCF root folder name. For example, 
+                         "100Media".
+                      -> count
+                         The folder name index. For example if count is passed
+                         100, then name is "100Media". If 200, then name is
+                         "200Media".	
+Return Value       =
+Global Read	   =  G_USR_Dir1Name
+Global Set	   =  G_USR_Dir1Count
+Limitation	   =
+UI Messages        =
+Detail Description =  G_USR_Dir1Name is defined in cardui.c, you could modify it
+                      to suite your need. 
+================================================================================
+
+================================================================================
+void USR_CheckType(BYTE* name)
+--------------------------------------------------------------------------------
+Brief Description  = Check if the name belong to our DCF file name. If it is then
+                     and the file index greater than G_USR_FileIndex, then set
+                     G_USR_FileIndex to this file index. Also if the is our file,
+                     increase the G_USR_FileCount. 
+Arguments	   =	
+Return Value       =
+Global Read	   = G_USR_FileIndex
+Global Set	   = G_USR_FileIndex, G_USR_FileCount
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE USR_IsOurBaseName(BYTE* name)
+--------------------------------------------------------------------------------
+Brief Description  =  Check if the name[0-3] belong to our DCF company charater.
+Arguments	   =  -> name
+                      A 12 byte name pointer.	
+Return Value       =  TRUE if the name is else FALSE.
+Global Read	   =  G_USR_Company_UpperSIG, G_USR_Company_LowerSIG
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE USR_IsSameStr(BYTE*str1, BYTE*str2, WORD len)
+--------------------------------------------------------------------------------
+Brief Description  =  Compare if the bytes of str1 and str2 are same.
+Arguments	   =  -> str1
+                      source pointer 1.
+                      -> str2 
+                      source pointer 2.
+                      -> len
+                      length of byte to be compared.
+Return Value       =  Return TRUE if match else FALSE.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE USR_IsJpgExt(BYTE* name)
+--------------------------------------------------------------------------------
+Brief Description  = Check if the passed name belong to our DCF jpeg file name.
+Arguments	   =  -> name
+                      a 12 byte name pointer.	
+Return Value       =  TRUE if name is our jpeg file name, else FALSE.
+Arguments	   =	
+Return Value       =
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE USR_IsAviExt(BYTE* name)
+--------------------------------------------------------------------------------
+Brief Description  =  Check if the passed name belong to our DCF avi file name.
+Arguments	   =  -> name
+                      a 12 byte name pointer.	
+Return Value       =  TRUE if name is our wave file name, else FALSE.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE USR_IsWaveExt(BYTE* name)
+--------------------------------------------------------------------------------
+Brief Description  =  Check if the passed name belong to our DCF wave file name.
+Arguments	   =  -> name
+                      a 12 byte name pointer.	
+Return Value       =  TRUE if name is our wave file name, else FALSE.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE USR_IsOurFile(BYTE* name)
+--------------------------------------------------------------------------------
+Brief Description  =  Check if the passed name belong to our DCF file name.
+Arguments	   =  -> name
+                      a 12 byte name pointer.	
+Return Value       =  Non zero file type value if the file belong to our DCF 
+                      file, else FALSE. The file type value could be 
+                      K_USR_JPG_TYPE, K_USR_AVI_TYPE, K_USR_WAV_TYPE.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  USR_IsOurFile call USR_IsOurBaseName and USR_CheckExtType
+                      to determine if the passed name belong to our file.
+================================================================================
+
+================================================================================
+BYTE USR_MatchFdb(BYTE matchCond, BYTE *fdb, ULONG refCon)
+--------------------------------------------------------------------------------
+Brief Description  =  This is a filter function used to serach fdb.
+Arguments	   =  -> matchCond	
+                         The matchCond range value must between K_DOS_MatchMinUsr
+                         and K_DOS_MatchMaxUsr. Currently, K_USR_MatchIndexName, 
+                         K_USR_MatchOurFile are used.
+                      -> fdb
+                         pointer to valid fdb structure, passed by upper caller
+                         function.
+                      -> refCon
+                         Any value according to matchCond. For example, when
+                         K_USR_MatchIndexName, refCon is file index. When
+                         K_USR_MatchOurFile, refCon passed 0 means match all our
+                         DCF file, when passed K_USR_JPG_TYPE, match just all
+                         jpeg files. When K_DOS_MatchName, refCon is a name
+                         ponter.    
+Return Value       =  Non zero value if the fdb is wanted, else FALSE.
+Global Read	   =  
+                      
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  This filter function is called by DOS_FdbFilter, which 
+                      then called by DOS_FindFdb, DOS_SearchFdb, 
+                      File_DeleteAllFile. When the matchCond of these function  
+                      is between K_DOS_MatchMinUsr and K_DOS_MatchMaxUsr,  
+                      USR_MatchFdb is called. Since K_USR_MatchIndexName,
+                      K_USR_MatchOurFile is in the range, so USR_MatchFdb is
+                      called. 
+================================================================================
+
+================================================================================
+BYTE USR_MatchIndexName(BYTE *fdb, WORD fileIndex)
+--------------------------------------------------------------------------------
+Brief Description  =  Check that if the name in fdb match the DCF file name with 
+                      requested file index.
+Arguments	   =  -> fdb	
+                          A DOS fdd structure pointer.
+                      -> fileIndex
+                         Fie index requested to be matched. For example, if you 
+                         want to check that if the name in fdb is "sunp0006", 
+                         then passed 6 in fileIndex. If the name in fdb is 
+                         "sunp0006", then TRUE is return.
+Return Value       =  TRUE if matched, else FALSE.
+Global Read	   =  G_USR_Company_UpperSIG, G_USR_Company_LowerSIG
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  This function call USR_IsOurBaseName to check for name[0-3]
+                      matched to our company character, then check if name[4-7] 
+                      match the requested fileIndex. 
+================================================================================
+
+================================================================================
+BYTE USR_CheckExtType(BYTE *name)
+--------------------------------------------------------------------------------
+Brief Description  =  Check if the extension part in name belong to our DCF file
+                      type.
+Arguments	   =  -> name  
+                         Pass in a 12 byte array pointer that contain name such
+                         as name field of fdb structure.
+Return Value       =  TRUE if extention type is supported else FALSE.
+Global Read	   =
+Global Set	   =  G_USR_FileType
+Limitation	   =
+UI Messages        =
+Detail Description =  To know the file type, when return TRUE, G_USR_FileType 
+                      is set to either K_USR_JPG_TYPE,  K_USR_AVI_TYPE, 
+                      K_USR_WAV_TYPE. USR_IsJpgExt, USR_IsAviExt, USR_IsWaveExt
+                      are called to determined the type.
+================================================================================
+
+	
+//------------------------------------------------------------------------------
+// Chapter 07. Advance:DOS service function examples
+//------------------------------------------------------------------------------
+01. Create a directory
+============================================
+code	BYTE	C_USR_DpofDirName[] = 
+{
+	'M', 'I', 'S', 'C', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 0x10
+};
+
+xdata	BYTE	G_USR_DpofDirName[] = 
+{
+	'M', 'I', 'S', 'C', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 0x10
+};
+
+WORD G_USR_DpofCluster;
+BYTE sts;
+
+        // the STORAGE_Initialize will create "DCIM",
+        // "100Media" directory for you.
+        if (sts = STORAGE_Initialize(TRUE))
+        {
+                // create DPOF directory
+                sts = CreateDpofDir();
+        }
+
+void InitDpofDirName(BYTE* name) USING_0
+{
+        BYTE k;
+        
+        for ( k = 0; k < 12; k++)
+                G_USR_DpofDirName[k] = C_USR_DpofDirName[k];
+}
+
+BYTE CreateDpofDir(void) USING_0
+{
+        BYTE sts = TRUE;
+        
+        InitDpofDirName();
+        if ((startCluster = DOS_RootFindName(G_USR_DpofDirName)) == 0)
+        {
+                if ((startCluster = DOS_RootMakeDir(G_USR_DpofDirName, 1)) == 0)
+                	sts  = FALSE;
+        }
+        
+        // remeber the DPOF directory start cluster
+        G_USR_DpofCluster = startCluster;
+        
+        return sts;
+}
+        
+02. Changing between directories
+============================================
+code	BYTE	C_USR_DpofFileName[] = 
+{
+	'A', 'U', 'T', 'P', 'R', 'I', 'N', 'T', 'M ', 'R ', 'K ', 0x20
+};
+
+xdata	BYTE	G_USR_DpofFileName[] = 
+{
+	'A', 'U', 'T', 'P', 'R', 'I', 'N', 'T', 'M ', 'R ', 'K ', 0x20
+};
+
+// suppose this is dpof init data
+code	BYTE	C_USR_DpofInitData[]
+{
+        'D', 'P', 'O', 'F', ' ', 'S', 'T', 'A', 'N ', 'D ', 'A ', 'R', 'D', '\n'
+};
+
+BYTE sts;
+
+        if (sts = STORAGE_Initialize(TRUE))
+        {
+                // set the dram working buffer address 
+                // for dpof. Please arrange your own
+                // sdram map.
+                G_SDRAM_DpofWorkAddr = 0x0000;
+                
+                // create DPOF directory
+                sts = CreateDpofDir();
+                if (sts)
+                        sts = CreateDpofFile();
+        }
+void InitDpofFileName(BYTE* name) USING_0
+{
+        BYTE k;
+        
+        for ( k = 0; k < 12; k++)
+                G_USR_DpofFileName[k] = C_USR_DpofFileName[k];
+}
+
+ULONG InitDpofData(void) USING_0
+{
+        WORD    k;
+        
+        for ( k = 0; k < 14; k++)
+           G_ucDataBuffer[k] = C_USR_DpofInitData[k];             
+        SDRAM_Sram2Dram(G_ucDataBuffer, G_SDRAM_DpofWorkAddr, k);        
+        return k;
+}
+
+BYTE CreateDpofFile(void) USING_0
+{
+        WORD saveCurDir;
+        ULONG size;
+          
+        saveCurDir = DOS_GetCurrDir();
+        // set current folder to Dpof folder
+        DOS_SetCurrDir(G_USR_DpofCluster);
+        InitDpofFileName();
+        size = InitDpofData();
+        sts = File_Make(K_File_SrcDataDram2Card, G_SDRAM_DpofWorkAddr, G_USR_DpofFileName, size);
+        // restore the last current folder
+        DOS_SetCurrDir(saveCurDir);
+        
+        return sts;
+}
+
+03. Write dram data to card as new file
+============================================
+04. Write sram data to file as new file
+============================================
+05. Write video stream data to file
+============================================	
+06. Searching file
+============================================
+07. Upload file to host
+============================================
+08. Search pattern within file
+============================================
+09. Read data to dram
+============================================
+10. Read data to sram
+============================================
+
+//------------------------------------------------------------------------------
+// Chapter 08. Advance:DOS service function
+//------------------------------------------------------------------------------
+
+================================================================================
+Global variables
+--------------------------------------------------------------------------------
+
+WORD    G_DOS_CurrDirCluster
+--------------------------------
+Hold current directory start cluster number. Some function such as 
+File_Make create a file specify by this current directory. So by changing 
+this varaible to start cluster number of other directory, could control the
+File_Make to create a file inside that directory.
+
+WORD    G_DOS_CreateTime
+--------------------------------
+WORD    G_DOS_CreateDate
+--------------------------------
+These 2 variables control the create time and date of a file and directory. 
+Time = hour*2048 + minute*32 + second*2
+Data = (year-1980)*512 + month*32 + day
+
+ULONG 	G_DOS_FileSize
+--------------------------------
+When read file, this global is set.
+
+ULONG	G_DOS_FilePos
+--------------------------------
+When read file, this global is set.
+
+BYTE    G_DOS_SystemId
+--------------------------------
+MBS system id. Currently we support only 1, 4, 6.
+
+BYTE    G_DOS_FileSystemType
+--------------------------------
+When 0 is FAT12, 1 is FAT16, 2, is FAT16. We don't support FAT32 currently,
+M_Card_Initialize will return FALSE for FAT 32 and unrecognized file
+system.
+
+WORD    G_DOS_SectorSize
+--------------------------------
+Size of sector in bytes, should be 512. We current don't
+support sector that is not 512.
+
+WORD    G_DOS_ClusterSize
+--------------------------------
+Size of cluster in bytes.
+
+WORD	G_DOS_TotalFreeCluster
+--------------------------------
+Disk space represented in cluster unit.
+
+ULONG   G_DOS_FatAddr
+--------------------------------
+Start logical address of first FAT table.
+
+ULONG   G_DOS_FatEndAddr
+--------------------------------
+End logical address of first FAT table.
+
+WORD    G_DOS_SectorPerFat
+--------------------------------
+FAT table size in sector unit.
+
+WORD    G_DOS_TotalRootDir
+--------------------------------
+Number of fdb allowed in root directory area.
+
+ULONG   G_DOS_RootDirAddr
+--------------------------------
+Start logical address of root directory.
+
+ULONG   G_DOS_DataAddr
+--------------------------------
+Start logical address of storage media cluster area.
+
+ULONG   G_DOS_Fat2Addr
+--------------------------------
+Start logical address of second FAT table.
+
+ULONG   G_DOS_FatSize
+--------------------------------
+DOS FAT size in bytes.
+
+ULONG   G_DOS_SectorPerCard
+--------------------------------
+Size of storage media in sector unit that not counted 
+MBS and hidden sector.
+
+ULONG   G_DOS_PBSAddr
+--------------------------------
+Logical address of PBS.
+
+ULONG   G_DOS_HiddenSector
+--------------------------------
+Number of hidden sector.
+
+WORD    G_DOS_ReserveSector
+--------------------------------
+Number of reserve sector.
+
+WORD    G_DOS_Head
+--------------------------------
+Head of storage media, read from MBS.
+
+WORD    G_DOS_SectorPerTrack
+--------------------------------
+Sector per track of storage media, read from MBS.
+
+WORD    G_DOS_Cylinder
+--------------------------------
+Cylinder per of storage media, read from MBS.
+
+WORD    G_DOS_SectorPerCluster
+--------------------------------
+Cluster size in sector unit.
+
+ULONG 	G_DOS_SDRAM_WorkAddr
+--------------------------------
+Pointer to DOS working address. Initialze in Card_InitRam at cardlink.c
+
+ULONG 	G_DOS_SDRAM_WorkSize
+--------------------------------
+DOS working ram size. Must at least 128K byte.
+
+ULONG 	G_DOS_SDRAM_FAT1Addr
+--------------------------------
+Pointer to FAT at dram.
+
+WORD    G_Card_TotalSizeMB
+--------------------------------
+Size of storage media in mega unit.
+
+ULONG   G_Card_SectorPerCard
+--------------------------------
+Size of storage media in sector unit.
+
+WORD	G_Card_BytePerSector
+--------------------------------
+Byte per sector of storage media. Should be 512.
+
+================================================================================
+
+================================================================================
+Constants
+--------------------------------------------------------------------------------
+K_DOS_SectorSize
+--------------------------------
+
+M_Card_File_Read, DOS_ReadSector dstPath value:
+K_DOS_DstSram
+--------------------------------
+K_DOS_DstDram
+--------------------------------
+K_DOS_DstUsb
+--------------------------------
+
+DOS_WriteSector, DOS_WriteMoreSector dstPath value: 
+K_DOS_SrcSram
+--------------------------------
+K_DOS_SrcDram
+--------------------------------
+K_DOS_SrcUsb
+--------------------------------
+
+M_Card_File_Write srcPath value:
+K_File_SrcAviFifo2Card
+--------------------------------
+K_File_SrcAviDram2Card
+--------------------------------
+K_File_SrcDataDram2Card
+--------------------------------
+
+matchCond value:
+K_DOS_MatchName 
+--------------------------------
+K_DOS_MatchFree
+--------------------------------
+
+user value range for matchCond:
+K_DOS_MatchMinUsr 
+--------------------------------
+K_DOS_MatchMaxUsr
+--------------------------------
+
+File_Open and File_Close rwMode value:
+K_DOS_NewFile
+--------------------------------
+K_DOS_ReadFile
+--------------------------------
+K_DOS_RootReadFile
+--------------------------------
+
+================================================================================
+
+================================================================================
+BYTE File_Make(BYTE srcPath, ULONG ramAddr, BYTE* name, ULONG fileSize)
+--------------------------------------------------------------------------------
+Brief Description  =  Store a data as file on current folder at flash card.
+Arguments	   =  -> srcPath
+                      Currently, must passed K_File_SrcDataDram2Card.
+                      
+                      -> ramAddr
+                      Pointer to ram that hold the data to be saved to card. The
+                      value is word unit. 
+                      
+                      -> name
+                      A file name.
+                      
+                      -> fileSize
+                      Size of data to be saved.	
+                      
+Return Value       =  TRUE if success else fail.
+Global Read	   =
+Global Set	   =
+Limitation	   =  File_Make currently could not create a file at root 
+                      directory.
+UI Messages        =  (K_File_UI_Start_Save_File, file size)
+                      (K_File_UI_Periodical, K_Act_Go_SaveFile)
+                      (K_File_UI_End_Save_File, TRUE if success else fail)
+Detail Description =  File_Make call File_Open with K_DOS_NewFile. 
+================================================================================
+
+================================================================================
+BYTE File_Delete(BYTE* name)
+--------------------------------------------------------------------------------
+Brief Description  =  Detele the file with requested name at current folder.
+Arguments	   =  -> name
+                      A file name.
+Return Value       =  TRUE if file found and deleted else fail.
+Global Read	   =  G_Card_UI_Action
+Global Set	   =
+Limitation	   =
+UI Messages        =  (K_File_UI_Periodical, G_Card_UI_Action)
+Detail Description =  File_Delete call File_Delete1File with matchCond passed
+                      K_DOS_MatchName, refCon pass name pointer.
+================================================================================
+
+================================================================================
+WORD File_Open(BYTE *name, BYTE rwMode, WORD numCluster)
+--------------------------------------------------------------------------------
+Brief Description  =  Open a file to prepre for read and write action.
+Arguments	   =  -> name
+                      a 12 byte DCF name pointer
+                      
+                      -> rwMode 
+                      K_DOS_NewFile
+                      Prepare open a new file for writing. When this mode, should
+                      set the numCluster to the initial number of cluster that
+                      are going to write. The numCluster is normally passed
+                      (file size + cluster size - 1)/(cluster size).
+                      K_DOS_ReadFile
+                      Prepare open a file for reading. The file is supposed at
+                      current folder. When this mode, if pass 0 to numCluster,
+                      the file will be searched using name argument, if pass
+                      start cluster of a file, then name is not used and serach.
+                      K_DOS_RootReadFile
+                      Prepare open a file for reading. The file is supposed at
+                      root folder. When this mode, if pass 0 to numCluster,
+                      the file will be searched using name argument, if pass
+                      start cluster of a file, then name is not used and serach.
+                     
+                      -> numCluster
+                      See rwMode 
+                      	
+Return Value       =  return non zero handle if file is found. If disk full or 
+                      file not found return FALSE.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE File_Close(WORD fHandle, BYTE* name, BYTE rwMode, ULONG fileSize)
+--------------------------------------------------------------------------------
+Brief Description  =  Ending read and write process of the file.
+Arguments	   =  -> fHandle 
+                      Pass the file handle return from File_Open.
+                      
+                      -> name
+                      a 12 byte DCF name pointer
+                      
+                      -> rwMode
+                      See File_Open rwMode.
+                      
+                      -> fileSize	
+                      When rwMode is K_DOS_NewFile, should specify the file size. 
+Return Value       =  FALSE if something wrong.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  This function will add fdb structure of the file, update
+                      the FAT table to flash card.
+================================================================================
+
+================================================================================
+BYTE File_Delete1File(BYTE matchCond, ULONG refCon)
+--------------------------------------------------------------------------------
+Brief Description  =  Delete a file at current folder according to matchCond.
+Arguments	   =  -> matchCond
+                      Value must bewteen K_DOS_MatchMinUsr and K_DOS_MatchMaxUsr.
+                      Other values reserve for Sunplus.
+                      
+                      -> refCon	
+                      Definition according to matchCond. For example, when
+                      K_DOS_MatchName, refCon is a name pointer.
+                      K_DOS_MatchFree, refCon not used.
+                      K_USR_MatchIndexName, refCon is file index.
+                      K_USR_MatchOurFile, refCon is file type value such as 
+                      K_USR_OUR_TYPE, K_USR_JPG_TYPE, K_USR_AVI_TYPE, 
+                      K_USR_WAV_TYPE.
+                      
+Return Value       =
+Global Read	   =  G_Card_UI_Action
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  File_Delete1File is called by USR_Delete1File with matchCond
+                      passing K_USR_MatchIndexName,  refCon the file index. When
+                      File_Delete call File_Delete1File, matchCond pass
+                      K_DOS_MatchName, refCon pass the name pointer. You could 
+                      write your own delete file condition, by passing the 
+                      matchCond with value between K_DOS_MatchMinUsr and 
+                      K_DOS_MatchMaxUsr and put some code in USR_MatchFdb switch
+                      case. The USR_MatchFdb function is in dosusr.c.
+================================================================================
+
+================================================================================
+BYTE File_DeleteAllFile(BYTE matchCond, ULONG refCon)
+--------------------------------------------------------------------------------
+Brief Description  =  Delete all files at current folder according to matchCond.
+Arguments	   =  -> matchCond
+                      See File_Delete1File. But you normall won't pass match 
+                      condition that match just 1 file, for example 
+                      K_USR_MatchIndexName.	
+                      -> refCon 
+                      See File_Delete1File.	
+Return Value       =
+Global Read	   =  (K_File_UI_Periodical, G_Card_UI_Action)
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  File_DeleteAllFile is called by USR_DeleteAllFile with
+                      matchCond passed K_USR_MatchOurFile, refCon pass 0. 
+================================================================================
+
+================================================================================
+BYTE M_Card_File_Write(WORD fHandle, BYTE srcPath, ULONG writeSize, ULONG ramAddr, 
+		BYTE findHeaderPage)
+--------------------------------------------------------------------------------
+Brief Description  =  Writing data to a file at storage media.
+Arguments	   =  -> fHandle
+                      Passing the file hanle return from File_Open.
+                      
+                      -> srcPath
+                      Current implementation must pass K_File_SrcDataDram2Card. 
+                      Other value K_File_SrcAviFifo2Card, K_File_SrcAviDram2Card 
+                      must use carefully, we don't encorouge to use these mode.
+                      
+                      -> writeSize
+                      The size of data to be written. The size must be multiple of
+                      512.
+                      
+                      -> ramAddr 
+                      The pointer to ram that hold the data to be written. The
+                      address is word unit.
+                      
+                      -> findHeaderPage 
+                      When recording avi, you may want to keep a 512 byte page for
+                      header information. If this is case, pass 1 to findHeaderPage.
+                      	
+Return Value       =  If somthing wrong happen return FALSE else TRUE.
+Global Read	   =
+Global Set	   =
+Limitation	   =  NOTE that, this function assume sequential write, you must
+                      carefully arrange your write action.
+UI Messages        = (K_File_UI_Periodical, K_Act_Go_SaveFile)
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE M_Card_File_Read(WORD fHandle, BYTE dstPath, ULONG readSize, ULONG ramAddr, 
+		ULONG fpos)
+--------------------------------------------------------------------------------
+Brief Description  =  Reading data from a file at storage media.
+Arguments	   =  -> fHandle
+                      Passing the file hanle return from File_Open.
+                      
+                      -> dstPath
+                      K_DOS_DstSram
+                      When this mode, the sram data is assume put in 
+                      G_ucDataBuffer and the readSize must 512.
+                      
+                      K_DOS_DstDram
+                      When this mode, the ramAddr must be specify.
+                      
+                      -> readSize
+                      The readSize must be multiple of 512.
+                      
+                      -> ramAddr
+                      The pointer to ram to put the data to be read. The 
+                      address is in word unit. When K_DOS_DstSram mode, this is 
+                      don't care. 
+                      
+                      -> fpos
+                      The offset counted from start file that to be read. The 
+                      fpos must be multiple of 512. NOTE that don't specify 
+                      fpos over file size. You could know the file size of
+                      currently open file from G_DOS_FileSize.
+                      	
+Return Value       =  If somthing wrong happen return FALSE else TRUE.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE DOS_ReadSector(BYTE dstPath, ULONG logAddr, ULONG ramAddr)
+--------------------------------------------------------------------------------
+Brief Description  =  Read 512 byte sector from storage media to sram or dram.
+Arguments	   =  -> dstPath
+                         K_DOS_DstSram
+                         When this mode, the data read is put in G_ucDataBuffer.
+                         
+                         K_DOS_DstDram
+                         When this mode, the data read is put in specify dram
+                         address.
+                         
+                         K_DOS_DstUsb
+                         When this mode, read tha data to usb bus.
+                         
+                      -> logAddr
+                         The logical address to be read. Must 512 multiple.
+                         
+                      -> ramAddr
+                         The pointer to ram to hold the data to be read. The
+                         address is in word unit.	
+Return Value       =  If something wrong happen, return FALSE.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE DOS_ReadMoreSector(BYTE dstPath, ULONG logAddr, ULONG ramAddr, ULONG size)
+--------------------------------------------------------------------------------
+Brief Description  =  Read many 512 byte sectors from storage media to dram.
+Arguments	   =  -> dstPath
+                         K_DOS_DstSram
+                         When this mode, the data read is put in G_ucDataBuffer.
+
+                         K_DOS_DstDram
+                         When this mode, the data read is put in specify dram
+                         address.
+                         
+                      -> logAddr
+                         The logical address to be read. Must 512 multiple.
+                         
+                      -> ramAddr
+                         The pointer to ram to hold the data to be read. The
+                         address is in word unit.
+                         
+                      -> size
+                         Number of bytes to be read. Size must 512 multiple.
+                         When K_DOS_DstSram mode, the size must be 512.	
+                         
+Return Value       =  If something wrong happen, return FALSE.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE DOS_WriteSector(BYTE dstPath, ULONG logAddr, ULONG ramAddr)
+--------------------------------------------------------------------------------
+Brief Description  =  Write 512 byte sector from dram to storage media.
+Arguments	   =  -> dstPath
+                      Currently must specify K_DOS_SrcDram.
+                      
+                      -> logAddr
+                      The logical address to be read. Must 512 multiple.
+                       
+                      -> ramAddr
+                         The pointer to ram to hold the data to be written. The
+                         address is in word unit.
+Return Value       =  If something wrong happen, return FALSE.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE DOS_WriteMoreSector(BYTE dstPath, ULONG logAddr, ULONG ramAddr, ULONG size)
+--------------------------------------------------------------------------------
+Brief Description  =  Write many 512 byte sectors from dram to storage media.
+Arguments	   =  -> dstPath
+                      Currently must specify K_DOS_SrcDram.
+                      
+                      -> logAddr
+                      The logical address to be read. Must 512 multiple.
+                      
+                      -> ramAddr
+                         The pointer to ram to hold the data to be written. The
+                         address is in word unit.
+                      
+                      -> size
+                         Number of bytes to be written. Size must 512 multiple.
+Return Value       =  If something wrong happen, return FALSE.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+WORD DOS_RootFindName(BYTE* name)
+--------------------------------------------------------------------------------
+Brief Description  =  Find the request name at root directory.
+Arguments	   =  -> name
+                      A 12 byte name. If the name[11] is 0x20 means find the 
+                      name. If the name[11] is 0x10, means find the directory
+                      name. 
+Return Value       =  Return 0 if name not found. If found, and the name is
+                      directory, then this is the start cluster of fdb area
+                      of directory. If the name is file, then this is the start
+                      cluster of file data. 
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+WORD DOS_RootMakeDir(BYTE* name, WORD numCluster)
+--------------------------------------------------------------------------------
+Brief Description  =  Create a directory at root directory.  
+Arguments	   =  -> name
+                      A 12 byte name. The name[11] must be 0x20 means directory. 
+                      
+                      -> numCluster
+                      Number of cluster reserve for fdb area of directory. 
+                      The more cluster reserve, the more file could be created
+                      in this directory initially. For example, if numCluster 
+                      is 2, the cluster size is 2048, then 2*2048/32 = 128 files 
+                      could be created in this directory initially. When the 
+                      diretory fdb area is full, the function that created file
+                      will automatically expand the fdb area of directory.
+                      
+Return Value       =  Return 0 if directory not created. If created return the
+                      start cluster of fdb area of a a directory. You could then
+                      remember this return value for directory changing later.
+                      
+Global Read	   =  
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE DOS_RootAddBaseFdb(BYTE* name, WORD startCluster, ULONG fileSize)
+--------------------------------------------------------------------------------
+Brief Description  =  Add a fdb structure at root directory area of storage 
+                      media.
+Arguments	   =  -> name
+                      A 12 byte name. If the name[11] is 0x20 means add file 
+                      fdb. If the name[11] is 0x10, means add directory fdb.
+                      
+                      -> startCluster
+                      The start cluster of this fdb structure. If directory,
+                      this is the fdb area of directory. If file, this is the
+                      start cluster of file at root directory. You must sure
+                      that, the start cluster belong only to this fdb.
+                      
+                      -> fileSize
+                      When adding file fdb, should specify the fle size. When
+                      adding directory fdb, should 0.
+                      
+Return Value       =
+Global Read	   =  G_DOS_CreateTime, G_DOS_CreateDate
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  DOS_RootAddBaseFdb call DOS_FillBaseFdb to fill fdb struc-
+                      ture, then call DOS_RootAddFdb with K_DOS_MatchFree to add
+                      the fdb structure. Since DOS_RootAddBaseFdb read the  
+                      G_DOS_CreateTime, G_DOS_CreateDate to fill the fdb struc-
+                      ture. You should set these 2 variables if care about 
+                      creation time and date.
+                     
+================================================================================
+
+================================================================================
+BYTE DOS_RootAddFdb(BYTE *fdb, BYTE matchCond, ULONG refCon)
+--------------------------------------------------------------------------------
+Brief Description  =  Add a fdb structure at root directory area of storage 
+                      media.
+Arguments	   =  -> fdb
+                      The pointer to fdb structure to be add into root directory
+                      at storage media.
+                      
+                      -> matchCond
+                      K_DOS_MatchFree
+                      Find a free fdb area at root directory of storage media
+                      to copy the fdb requested.
+                      
+                      -> refCon 
+                      If K_DOS_MatchFree, 0 is passed.
+                      	
+Return Value       =  If fdb fail to add, the return FALSE.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+WORD DOS_FindName(BYTE* name)
+--------------------------------------------------------------------------------
+Brief Description  =  Find the request name at current directory.
+Arguments	   =  -> name
+                      A 12 byte name. If the name[11] is 0x20 means find the 
+                      name. If the name[11] is 0x10, means find the directory
+                      name. 
+Return Value       =  Return 0 if name not found. If found, and the name is
+                      directory, then this is the start cluster of fdb area
+                      of directory. If the name is file, then this is the start
+                      cluster of file data. 
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+WORD DOS_MakeDir(BYTE* name, WORD numCluster)
+--------------------------------------------------------------------------------
+Brief Description  =  Create a directory at current directory.  
+Arguments	   =  -> name
+                      A 12 byte name. The name[11] must be 0x20 means directory. 
+                      
+                      -> numCluster
+                      Number of cluster reserve for fdb area of directory. 
+                      The more cluster reserve, the more file could be created
+                      in this directory initially. For example, if numCluster 
+                      is 2, the cluster size is 2048, then 2*2048/32 = 128 files 
+                      could be created in this directory initially. When the 
+                      diretory fdb area is full, the function that created file
+                      will automatically expand the fdb area of directory.
+                      
+Return Value       =  Return 0 if directory not created. If created return the
+                      start cluster of fdb area of a a directory. You could then
+                      remember this return value for directory changing later.
+                      
+Arguments	   =	
+Return Value       =
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE DOS_AddBaseFdb(BYTE* name, WORD startCluster, ULONG fileSize)
+--------------------------------------------------------------------------------
+Brief Description  =  Add a fdb structure at current directory area of storage 
+                      media.
+Arguments	   =  -> name
+                      A 12 byte name. If the name[11] is 0x20 means add file 
+                      fdb. If the name[11] is 0x10, means add directory fdb.
+                      
+                      -> startCluster
+                      The start cluster of this fdb structure. If directory,
+                      this is the fdb area of directory. If file, this is the
+                      start cluster of file at root directory. You must sure
+                      that, the start cluster belong only to this fdb.
+                      
+                      -> fileSize
+                      When adding file fdb, should specify the fle size. When
+                      adding directory fdb, should 0.
+                      
+Return Value       =
+Global Read	   =  G_DOS_CreateTime, G_DOS_CreateDate
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  DOS_AddBaseFdb call DOS_FillBaseFdb to fill fdb struc-
+                      ture, then call DOS_AddFdb with K_DOS_MatchFree to add
+                      the fdb structure. Since DOS_AddBaseFdb read the  
+                      G_DOS_CreateTime, G_DOS_CreateDate to fill the fdb struc-
+                      ture. You should set these 2 variables if care about 
+                      creation time and date.  
+Arguments	   =	
+Return Value       =
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+BYTE DOS_AddFdb(BYTE *fdb, BYTE matchCond, ULONG refCon)
+--------------------------------------------------------------------------------
+Brief Description  =  Add a fdb structure at current directory area of storage 
+                      media.
+Arguments	   =  -> fdb
+                      The pointer to fdb structure to be add into current directory
+                      at storage media.
+                      
+                      -> matchCond
+                      K_DOS_MatchFree
+                      Find a free fdb area at current directory of storage media
+                      to copy the fdb requested.
+                      
+                      -> refCon 
+                      If K_DOS_MatchFree, 0 is passed.
+                      	
+Return Value       =  If fdb fail to add, the return FALSE.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+void DOS_FillBaseFdb(BYTE *fdb, BYTE *name, WORD startCluster, ULONG fileSize)
+--------------------------------------------------------------------------------
+Brief Description  =  
+Arguments	   =  -> fdb
+                      The pointer to a 32 byte fdb structure.
+                      
+                      -> name
+                      A 12 byte name. If the name[11] is 0x20 means fill file 
+                      fdb. If the name[11] is 0x10, means fill directory fdb.
+                      
+                      -> startCluster
+                      The start cluster of this fdb structure. If directory,
+                      this is the fdb area of directory. If file, this is the
+                      start cluster of file at root directory. You must sure
+                      that, the start cluster belong only to this fdb.
+
+                      -> fileSize
+                      When adding file fdb, should specify the fle size. When
+                      adding directory fdb, should 0.
+                      
+Return Value       =
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  
+================================================================================
+
+================================================================================
+WORD DOS_FindFdb(BYTE matchCond, ULONG refCon, ULONG logAddr, WORD siz, 
+		 WORD *fdbOffset, ULONG *fdbLogAddr)
+--------------------------------------------------------------------------------
+Brief Description  =  Find the fdb that meet matchCond and refCon.
+Arguments	   =  -> matchCond
+                      K_DOS_MatchName
+                      K_DOS_MatchFree
+                      K_USR_MatchIndexName
+                      K_USR_MatchOurFile
+                      -> refCon
+                      according to matchCond
+                      
+                      -> logAddr
+                      logical address of the fdb area of the directory, must
+                      multiple of 512.
+                      
+                      -> siz
+                      size to parse for this fdb area, must multiple of 512.
+                      
+                      -> fdbOffset
+                      Pointer to a word to hold the fdb offset. After
+                      <- fdbOffset
+                      This value is valid only when function return is nonzero. 
+                      The offset describe the location of fdb within G_ucDataBuffer.
+                      The fdbOffset is always multiple of 32. For example,
+                      if fdbOffset return value is 32, then G_ucDataBuffer[32-
+                      63] is the fdb content.
+                      
+                      -> fdbLogAddr	
+                      Pointer to a long to hold the fdb logical address at storage
+                      media.
+                      
+                      <- fdbLogAddr
+                      This value is valid only when function return is nonzero. 
+                      The logical address of the found fdb that meet matchCond 
+                      and refCon.
+                      	
+Return Value       =  Return the the start cluster of fdb that meet matchCond 
+                      and refCon, else return 0.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  DOS_FindFdb is called by many functions such as 
+                      DOS_RootFindName, DOS_RootAddFdb, DOS_FindFdb, DOS_FindName,
+                      DOS_AddFdb, File_Delete1File, DOS_Upload1File, etc. When the
+                      matchCond is passed value beteween K_DOS_MatchMinUsr and
+                      K_DOS_MatchMaxUsr, then USR_MatchFdb is called. USR_MatchFdb
+                      is passed read fdb for parsing if it is fdb that meet
+                      matchCond and refCon, if it is then return nozero value
+                      from USR_MatchFdb elkse FALSE.
+================================================================================
+
+================================================================================
+WORD DOS_SearchFdb(BYTE matchCond, ULONG refCon, ULONG ramStartAddr, 
+		   ULONG ramEndAddr, WORD *pLastCluster, WORD *fdbOffset);
+--------------------------------------------------------------------------------
+Brief Description  =  Search the current folder for fdb that meet the matchCond
+		      and refCon and put them unto dram.
+		      
+Arguments	   =  -> matchCond
+                      See DOS_FindFdb.
+                      
+                      -> refCon
+                      See DOS_FindFdb.
+                      
+                      -> ramStartAddr
+                      Pointer to a ram address to hold the found fdbs. If 0 is 
+                      passed, fdb found don't put in dram, this means you want
+                      just to cound how many fdb meet the matchCond and
+                      
+                      -> ramEndAddr
+                      ramEndAddr must greater than ramStartAddr. ramEndAddr
+                      should be multiple of 16 for fdb size is 32 and word unit.
+                      When ramEndAddr is full or either the directory fdb all
+                      have been serached, this function quit.
+                      
+                      -> pLastCluster
+                      A word pointer.
+                      
+                      <- pLastCluster
+                      The cluster of directory fdb area that recent serach.
+                      
+                      -> fdbOffset
+                      A word pointer.
+                      
+                      <- fdbOffset	
+		      Don't care.
+		                            
+Return Value       =  Return the found count.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  This function is good for you have all fdb of files that
+		      meet your search contidion to pout in dram. Then you may
+		      later want to sort than and use for your purpose.
+		      
+================================================================================
+
+================================================================================
+ULONG DOS_FindFile(WORD startCluster, BYTE matchCond, ULONG refCon, 
+		   WORD *fdbOffset);
+--------------------------------------------------------------------------------
+Brief Description  =
+Arguments	   =  -> startCluster
+		      start cluster of directory fdb area. If 0 use the current 
+		      folder.
+		      
+                      -> matchCond
+                      See DOS_FindFdb.
+                      
+                      -> refCon
+                      See DOS_FindFdb.
+                      
+                      -> fdbOffset
+                      Don't care.
+                      
+                      <- fdbOffset  	
+Return Value       =  If nonzero value, files are found.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =   DOS_FindFile call DOS_SearchFdb.
+================================================================================
+
+================================================================================
+WORD DOS_GetCurrDir(void)
+--------------------------------------------------------------------------------
+Brief Description  =  Get the current folder start cluster.
+Arguments	   =	
+Return Value       =
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+================================================================================
+void DOS_SetCurrDir(WORD currDir)
+--------------------------------------------------------------------------------
+Brief Description  =  Set the current folder start cluster to currDir.
+Arguments	   =  -> currDir
+                      Start cluster of a directory fdb area.	
+Return Value       =
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =   By setting the current folder to start cluster of other
+                       directory, this is equal to DOS "cd" command. After that,
+                       all file, directory create, delete, search is under this
+                       current folder.
+================================================================================
+
+================================================================================
+BYTE DOS_Initialize(void)
+--------------------------------------------------------------------------------
+Brief Description  =  Loading the DOS file system from storage media. If DCF
+                      folder not created, then create. Also, search for all our 
+                      DCF file and set some global variables.
+Arguments	   =	
+Return Value       =  If the file system don't support, sector size is not 512,
+                      or something wrong, then FALSE is return.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  This function is called in M_Card_Initialize. You call it
+                      directly unless you understand what are you doing. 
+                      DOS_Initialize then call DOS_LoadMBS, DOS_LoadPBS, 
+                      USR_DirInitialize, USR_FileInitialize etc to do DOS 
+                      initialization process.   
+================================================================================
+
+================================================================================
+BYTE DOS_LoadMBS(ULONG* pbsAddr)
+--------------------------------------------------------------------------------
+Brief Description  =  Read the MBS of DOS file sstem at storage media. Many
+                      DOS related globals have been set.
+Arguments	   =  -> pbsAddr
+                      The pointer to a long variable to hold the PBS logical
+                      address.
+                      <- pbsAddr
+                      The PBS logical address.	
+Return Value       =  If the file system don't support, sector size is not 512,
+                      or something wrong, then FALSE is return.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  This function is called in M_Card_Initialize. You call it
+                      directly unless you understand what are you doing.
+================================================================================
+
+================================================================================
+BYTE DOS_LoadPBS(ULONG pbsAddr)
+--------------------------------------------------------------------------------
+Brief Description  =  Read the PBS of DOS file ststem at storage media. Many
+                      DOS related globals have been set.
+Arguments	   =  -> pbsAddr
+                      The logical address of PBS structure. This is normally
+                      read from MBS structure.	
+Return Value       =  If the file system don't support, sector size is not 512,
+                      or something wrong, then FALSE is return.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  This function is called in M_Card_Initialize. You call it
+                      directly unless you understand what are you doing.
+================================================================================
+
+================================================================================
+BYTE DOS_LoadFat(void)
+--------------------------------------------------------------------------------
+Brief Description  =  Loading the FAT from storage media to dram at 
+                      G_DOS_SDRAM_FAT1Addr.
+Arguments	   =	
+Return Value       =  FALSE if somthing wrong.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  This function is called in M_Card_Initialize. You call it
+                      directly unless you understand what are you doing.
+================================================================================
+
+================================================================================
+BYTE DOS_SaveFat(WORD startCluster)
+--------------------------------------------------------------------------------
+Brief Description  =
+Arguments	   =  -> startCluster
+                      If 0, whole FAT at sdram is updated to storage media. If
+                      nonzero, you must also set G_DOS_FileEndCluster to describe
+                      only partial of FAT table should be updated. For example,
+                      if your file have cluster 2,5,7,10. Then specify 
+                      startCluster to 2, G_DOS_FileEndCluster to 10 to update
+                      only related partial of FAT table to speed up file creation
+                      action.
+Return Value       =  FALSE if somthing wrong.
+Global Read	   =  G_DOS_SDRAM_FAT1Addr, G_DOS_FileEndCluster
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description =  This function is called in File_Close. You call it
+                      directly unless you understand what are you doing.
+================================================================================
+
+================================================================================
+ULONG DOS_ClusterLogAddr(WORD startCluster)
+--------------------------------------------------------------------------------
+Brief Description  =  Given a cluster number, this function calculate the logical
+                      address.
+Arguments	   =	
+Return Value       =  return the logical address of the requested cluster.
+Global Read	   =
+Global Set	   =
+Limitation	   =
+UI Messages        =
+Detail Description = 
+================================================================================
+
+//------------------------------------------------------------------------------
+// Chapter 09. Advance:More application examples
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+// Chapter 10. Asic:Develop card module for new asic
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+// Chapter 11. Asic:Develop card module for new card
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+

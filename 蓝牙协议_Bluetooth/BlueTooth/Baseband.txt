@@ -1,0 +1,48 @@
+2.3  Channel Control
+2.3.1  Controller States
+    Bluetooth controller operates in two major states: Standby and Connection . There are seven substates which are used to add slaves or make connections in the piconet. These are page, page scan, inquiry, inquiry scan, master response, slave response and inquiry response .
+
+    The Standby state is the default low power state in the Bluetooth unit. Only the native clock is running and there is no interaction with any device whatsoever. In the Connection state, the master and slave can exchange packet , using the channel (master) access code and the master Bluetooth clock. The hopping scheme used is the channel hopping scheme.The other states (page, inquiry etc are described below)
+
+2.3.2  Connection Setup (Inquiry/Paging)
+    Normally, a connection between two devices occur in the following fashion: If nothing is known about a remote device, both the inquiry(1) and page(2)  procedure have to be followed. If some details are known about a remote device, only the paging procedure (2) is needed 
+
+Step 1: 
+The inquiry procedure enables a device to discover which devices are in range, and determine the addresses and clocks for the devices. 
+   1.1: The inquiry procedure involve a unit (the source) sending out inquiry packets (inquiry state) and then receiving the inquiry reply 
+1.2: The unit that receives the inquiry packets (the destination), will hopefully be in the inquiry scan state to receive the inquiry packets. 
+1.3: The destination will then enter the inquiry response state and send an inquiry reply to the source. 
+
+After the inquiry procedure has completed, a connection can be established using the paging procedure. 
+  
+Step 2: 
+With the paging procedure, an actual connection can be established. The paging procedure typically follows the inquiry procedure. Only the Bluetooth device address is required to set up a connection. Knowledge about the clock (clock estimate) will accelerate the setup procedure. A unit that establishes a connection will carry out a page procedure and will automatically be the master of the connection. The procedure occurs as follows: 
+   2.1:   A device (the source) pages another device (the destination ). Page state 
+2.2: The destination receives the page. Page Scan state 
+2.3: The destination sends a reply to the source. Slave Response state : (Step 1) 
+2.4: The source sends an FHS packet to the destination. Master Response state : (Step 1) 
+2.5: The destination sends it's second reply to the source. Slave Response state   : (Step 2) 
+2.6: The destination & source then switch to the source channel parameters.  Master Response state: Step 2 & Slave Response state: Step 3 
+
+    The Connection state starts with a POLL packet sent by the master to verify that slave has switched to the master's timing and channel frequency hopping. The slave can respond with any type of packet.
+
+ 
+
+2.3.3  Connection Modes
+    A Bluetooth device in the Connection state can be in any of the four following modes: Active, Hold, Sniff and Park mode. 
+
+Active Mode: In the active mode, the Bluetooth unit actively participates on the channel. The master schedules the transmission based on traffic demands to and from the different slaves. In addition, it supports regular transmissions to keep slaves synchronized to the channel. Active slaves listen in the master-to-slave slots for packets. If an active slave is not addressed, it may sleep until the next new master transmission. 
+Sniff Mode: Devices synchronized to a piconet can enter power-saving modes in which device activity is lowered. In the SNIFF mode, a slave device listens to the piconet at reduced rate, thus reducing its duty cycle. The SNIFF interval is programmable and depends on the application. It has the highest duty cycle (least power efficient ) of all 3 power saving modes (sniff, hold & park). 
+Hold Mode: Devices synchronized to a piconet can enter power-saving modes in which device activity is lowered. The master unit can put slave units into HOLD mode, where only an internal timer is running. Slave units can also demand to be put into HOLD mode. Data transfer restarts instantly when units transition out of HOLD mode. It has an intermediate duty cycle (medium power efficient ) of the 3 power saving modes (sniff, hold & park). 
+Park Mode: In the PARK mode, a device is still synchronized to the piconet but does not participate in the traffic. Parked devices have given up their MAC (AM_ADDR) address and occasional listen to the traffic of the master to re-synchronize and check on broadcast messages. It has the lowest duty cycle (power efficiency) of all 3 power saving modes (sniff, hold & park). 
+2.3.4  Scatternet
+    Multiple piconets may cover the same area. Since each piconet has a different master, the piconets hop independently, each with their own channel hopping sequence and phase as determined by the respective master. In addition, the packets carried on the channels are preceded by different channel access codes as determined by the master device addresses. As more piconets are added, the probability of collisions increases; a graceful degradation of performance results as is common in frequency-hopping spread spectrum systems.
+
+    If multiple piconets cover the same area, a unit can participate in two or more overlaying piconets by applying time multiplexing. To participate on the proper channel, it should use the associated master device address and proper clock offset to obtain the correct phase. A Bluetooth unit can act as a slave in several piconets, but only as a master in a single piconet. A group of piconets in which connections consists between different piconets is called a scatternet.
+
+    Sometimes an existing master or slave may wish to swap roles (i.e a master-slave switch) , this can take place in two steps: 
+
+First a TDD switch of the considered master and slave, followed by a piconet switch of the both participants. 
+Then, if so desired, other slaves of the old piconet can be transferred to the new piconet. 
+  When a unit have acknowledged the reception of the FHS packet, this unit uses the new piconet parameters defined by the new master and the piconet switch is completed.
+

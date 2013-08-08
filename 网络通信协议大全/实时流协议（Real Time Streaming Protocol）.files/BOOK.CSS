@@ -1,0 +1,15 @@
+.book-navigation .menu {
+	PADDING-RIGHT: 0px; BORDER-TOP: #888 1px solid; PADDING-LEFT: 3em; PADDING-BOTTOM: 0px; PADDING-TOP: 1em
+}
+.book-navigation .page-links {
+	PADDING-RIGHT: 0.5em; BORDER-TOP: #888 1px solid; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; PADDING-TOP: 0.5em; BORDER-BOTTOM: #888 1px solid; TEXT-ALIGN: center
+}
+.book-navigation .page-previous {
+	DISPLAY: block; FLOAT: left; WIDTH: 42%; TEXT-ALIGN: left
+}
+.book-navigation .page-up {
+	DISPLAY: block; FLOAT: left; MARGIN: 0px 5%; WIDTH: 4%
+}
+.book-navigation .page-next {
+	DISPLAY: block; FLOAT: right; WIDTH: 42%; TEXT-ALIGN: right
+}

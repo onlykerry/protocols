@@ -1,0 +1,309 @@
+TH.active IMG {
+	DISPLAY: inline
+}
+TR.even {
+	PADDING-RIGHT: 0.6em; PADDING-LEFT: 0.6em; PADDING-BOTTOM: 0.1em; PADDING-TOP: 0.1em; BORDER-BOTTOM: #ccc 1px solid; BACKGROUND-COLOR: #eee
+}
+TR.odd {
+	PADDING-RIGHT: 0.6em; PADDING-LEFT: 0.6em; PADDING-BOTTOM: 0.1em; PADDING-TOP: 0.1em; BORDER-BOTTOM: #ccc 1px solid; BACKGROUND-COLOR: #eee
+}
+TD.active {
+	BACKGROUND-COLOR: #ddd
+}
+TBODY {
+	BORDER-TOP: #ccc 1px solid
+}
+TBODY TH {
+	BORDER-BOTTOM: #ccc 1px solid
+}
+THEAD TH {
+	PADDING-RIGHT: 1em; BORDER-BOTTOM: #ccc 3px solid; TEXT-ALIGN: left
+}
+.breadcrumb {
+	PADDING-BOTTOM: 0.5em
+}
+.error {
+	COLOR: #f00
+}
+DIV.error {
+	BORDER-RIGHT: #d77 1px solid; BORDER-TOP: #d77 1px solid; BORDER-LEFT: #d77 1px solid; BORDER-BOTTOM: #d77 1px solid
+}
+DIV.error {
+	BACKGROUND: #fcc; COLOR: #200
+}
+TR.error {
+	BACKGROUND: #fcc; COLOR: #200
+}
+DIV.warning {
+	BACKGROUND: #ffd
+}
+TR.warning {
+	BACKGROUND: #ffd
+}
+DIV.ok {
+	BACKGROUND: #dfd
+}
+TR.ok {
+	BACKGROUND: #dfd
+}
+.item-list .icon {
+	CLEAR: right; PADDING-LEFT: 0.25em; FLOAT: right; COLOR: #555
+}
+.item-list .title {
+	FONT-WEIGHT: bold
+}
+.item-list UL {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0.75em; PADDING-TOP: 0px
+}
+.item-list UL LI {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0.25em 1.5em; PADDING-TOP: 0px; LIST-STYLE-TYPE: disc
+}
+.form-item {
+	MARGIN-TOP: 1em; MARGIN-BOTTOM: 1em
+}
+TR.odd .form-item {
+	MARGIN-TOP: 0px; MARGIN-BOTTOM: 0px; WHITE-SPACE: nowrap
+}
+TR.even .form-item {
+	MARGIN-TOP: 0px; MARGIN-BOTTOM: 0px; WHITE-SPACE: nowrap
+}
+TR.merge-down {
+	BORDER-BOTTOM-WIDTH: 0px! important
+}
+TR.merge-down TD {
+	BORDER-BOTTOM-WIDTH: 0px! important
+}
+TR.merge-down TH {
+	BORDER-BOTTOM-WIDTH: 0px! important
+}
+TR.merge-up {
+	BORDER-TOP-WIDTH: 0px! important
+}
+TR.merge-up TD {
+	BORDER-TOP-WIDTH: 0px! important
+}
+TR.merge-up TH {
+	BORDER-TOP-WIDTH: 0px! important
+}
+.form-item INPUT.error {
+	BORDER-RIGHT: red 2px solid; BORDER-TOP: red 2px solid; BORDER-LEFT: red 2px solid; BORDER-BOTTOM: red 2px solid
+}
+.form-item TEXTAREA.error {
+	BORDER-RIGHT: red 2px solid; BORDER-TOP: red 2px solid; BORDER-LEFT: red 2px solid; BORDER-BOTTOM: red 2px solid
+}
+.form-item SELECT.error {
+	BORDER-RIGHT: red 2px solid; BORDER-TOP: red 2px solid; BORDER-LEFT: red 2px solid; BORDER-BOTTOM: red 2px solid
+}
+.form-item .description {
+	FONT-SIZE: 0.85em
+}
+.form-item LABEL {
+	DISPLAY: block; FONT-WEIGHT: bold
+}
+.form-item LABEL.option {
+	DISPLAY: inline; FONT-WEIGHT: normal
+}
+.form-checkboxes {
+	MARGIN: 1em 0px
+}
+.form-radios {
+	MARGIN: 1em 0px
+}
+.form-checkboxes .form-item {
+	MARGIN-TOP: 0.4em; MARGIN-BOTTOM: 0.4em
+}
+.form-radios .form-item {
+	MARGIN-TOP: 0.4em; MARGIN-BOTTOM: 0.4em
+}
+.marker {
+	COLOR: #f00
+}
+.form-required {
+	COLOR: #f00
+}
+.more-link {
+	TEXT-ALIGN: right
+}
+.more-help-link {
+	FONT-SIZE: 0.85em; TEXT-ALIGN: right
+}
+.nowrap {
+	WHITE-SPACE: nowrap
+}
+.pager {
+	CLEAR: both; TEXT-ALIGN: center
+}
+.pager A {
+	PADDING-RIGHT: 0.5em; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; PADDING-TOP: 0.5em
+}
+.pager STRONG.pager-current {
+	PADDING-RIGHT: 0.5em; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; PADDING-TOP: 0.5em
+}
+.tips {
+	MARGIN-TOP: 0px; FONT-SIZE: 0.9em; MARGIN-BOTTOM: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+DL.multiselect DD.b {
+	WIDTH: 14em; FONT-FAMILY: inherit
+}
+DL.multiselect DD.b .form-item {
+	WIDTH: 14em; FONT-FAMILY: inherit
+}
+DL.multiselect DD.b SELECT {
+	WIDTH: 14em; FONT-FAMILY: inherit
+}
+DL.multiselect DD.a {
+	WIDTH: 8em
+}
+DL.multiselect DD.a .form-item {
+	WIDTH: 8em
+}
+DL.multiselect DT {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FLOAT: left; PADDING-BOTTOM: 0px; MARGIN: 0px 1em 0px 0px; LINE-HEIGHT: 1.75em; PADDING-TOP: 0px
+}
+DL.multiselect DD {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FLOAT: left; PADDING-BOTTOM: 0px; MARGIN: 0px 1em 0px 0px; LINE-HEIGHT: 1.75em; PADDING-TOP: 0px
+}
+DL.multiselect .form-item {
+	MARGIN: 0px; HEIGHT: 1.75em
+}
+.container-inline DIV {
+	DISPLAY: inline
+}
+.container-inline LABEL {
+	DISPLAY: inline
+}
+UL.menu {
+	BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; LIST-STYLE-TYPE: none; TEXT-ALIGN: left; BORDER-BOTTOM-STYLE: none
+}
+UL.menu LI {
+	MARGIN: 0px 0px 0px 0.5em
+}
+LI.expanded {
+	PADDING-RIGHT: 0.5em; PADDING-LEFT: 0px; LIST-STYLE-IMAGE: url(../../misc/menu-expanded.png); PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0.2em; LIST-STYLE-TYPE: circle
+}
+LI.collapsed {
+	PADDING-RIGHT: 0.5em; PADDING-LEFT: 0px; LIST-STYLE-IMAGE: url(../../misc/menu-collapsed.png); PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0.2em; LIST-STYLE-TYPE: disc
+}
+LI.leaf {
+	PADDING-RIGHT: 0.5em; PADDING-LEFT: 0px; LIST-STYLE-IMAGE: url(../../misc/menu-leaf.png); PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0.2em; LIST-STYLE-TYPE: square
+}
+LI A.active {
+	COLOR: #000
+}
+TD.menu-disabled {
+	BACKGROUND: #ccc
+}
+UL.links {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+UL.inline {
+	DISPLAY: inline
+}
+UL.links LI {
+	PADDING-RIGHT: 0.5em; DISPLAY: inline; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+.block UL {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 1em; PADDING-BOTTOM: 0.25em; MARGIN: 0px; PADDING-TOP: 0px
+}
+UL.primary {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 1em; PADDING-BOTTOM: 0px; MARGIN: 5px; LINE-HEIGHT: normal; PADDING-TOP: 0px; BORDER-BOTTOM: #bbb 1px solid; WHITE-SPACE: nowrap; LIST-STYLE-TYPE: none; BORDER-COLLAPSE: collapse; HEIGHT: auto
+}
+UL.primary LI {
+	DISPLAY: inline
+}
+UL.primary LI A {
+	BORDER-RIGHT: #bbb 1px solid; PADDING-RIGHT: 1em; BORDER-TOP: #bbb 1px solid; PADDING-LEFT: 1em; PADDING-BOTTOM: 0px; BORDER-LEFT: #bbb 1px solid; MARGIN-RIGHT: 0.5em; PADDING-TOP: 0px; BORDER-BOTTOM: #bbb 1px; HEIGHT: auto; BACKGROUND-COLOR: #ddd; TEXT-DECORATION: none
+}
+UL.primary LI.active A {
+	BORDER-RIGHT: #bbb 1px solid; BORDER-TOP: #bbb 1px solid; BORDER-LEFT: #bbb 1px solid; BORDER-BOTTOM: #fff 1px solid; BACKGROUND-COLOR: #fff
+}
+UL.primary LI A:hover {
+	BORDER-LEFT-COLOR: #ccc; BORDER-BOTTOM-COLOR: #eee; BORDER-TOP-COLOR: #ccc; BACKGROUND-COLOR: #eee; BORDER-RIGHT-COLOR: #ccc
+}
+UL.secondary {
+	PADDING-RIGHT: 1em; PADDING-LEFT: 1em; PADDING-BOTTOM: 0.5em; MARGIN: 5px; PADDING-TOP: 0.5em; BORDER-BOTTOM: #bbb 1px solid
+}
+UL.secondary LI {
+	BORDER-RIGHT: #ccc 1px solid; PADDING-RIGHT: 1em; DISPLAY: inline; PADDING-LEFT: 1em; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+UL.secondary A {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; TEXT-DECORATION: none
+}
+UL.secondary A.active {
+	BORDER-BOTTOM: #999 4px solid
+}
+#autocomplete {
+	BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; Z-INDEX: 100; OVERFLOW: hidden; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid; POSITION: absolute
+}
+#autocomplete UL {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+#autocomplete LI {
+	BACKGROUND: #fff; CURSOR: default; COLOR: #000; WHITE-SPACE: pre
+}
+#autocomplete LI.selected {
+	BACKGROUND: #0072b9; COLOR: #fff
+}
+HTML.js INPUT.form-autocomplete {
+	BACKGROUND-POSITION: 100% 2px; BACKGROUND-IMAGE: url(../../misc/throbber.gif); BACKGROUND-REPEAT: no-repeat
+}
+HTML.js INPUT.throbbing {
+	BACKGROUND-POSITION: 100% -18px
+}
+HTML.js FIELDSET.collapsed {
+	BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; MARGIN-BOTTOM: 0px; HEIGHT: 1em; BORDER-RIGHT-WIDTH: 0px
+}
+HTML.js FIELDSET.collapsed  {
+	DISPLAY: none
+}
+HTML.js FIELDSET.collapsed LEGEND {
+	DISPLAY: block
+}
+HTML.js FIELDSET.collapsible LEGEND A {
+	PADDING-LEFT: 15px; BACKGROUND: url(../../misc/menu-expanded.png) no-repeat 5px 75%
+}
+HTML.js FIELDSET.collapsed LEGEND A {
+	BACKGROUND-POSITION: 5px 50%; BACKGROUND-IMAGE: url(../../misc/menu-collapsed.png)
+}
+ HTML.js FIELDSET.collapsed LEGEND {
+	DISPLAY: inline
+}
+ HTML.js FIELDSET.collapsed LEGEND  {
+	DISPLAY: inline
+}
+ HTML.js FIELDSET.collapsed TABLE  {
+	DISPLAY: inline
+}
+HTML.js FIELDSET.collapsible LEGEND A {
+	DISPLAY: block
+}
+HTML.js FIELDSET.collapsible .fieldset-wrapper {
+	OVERFLOW: auto
+}
+.resizable-textarea {
+	WIDTH: 95%
+}
+.resizable-textarea .grippie {
+	BORDER-RIGHT: #ddd 1px solid; BORDER-TOP: #ddd 0px solid; BACKGROUND: url(../../misc/grippie.png) #eee no-repeat center 2px; OVERFLOW: hidden; BORDER-LEFT: #ddd 1px solid; CURSOR: s-resize; BORDER-BOTTOM: #ddd 1px solid; HEIGHT: 9px
+}
+HTML.js .resizable-textarea TEXTAREA {
+	DISPLAY: block; MARGIN-BOTTOM: 0px; WIDTH: 100%
+}
+.progress {
+	FONT-WEIGHT: bold
+}
+.progress .bar {
+	BORDER-RIGHT: #00375a 1px solid; BORDER-TOP: #00375a 1px solid; MARGIN-TOP: 0.2em; BACKGROUND: url(../../misc/progress.gif) #fff; BORDER-LEFT: #00375a 1px solid; BORDER-BOTTOM: #00375a 1px solid; HEIGHT: 1.5em
+}
+.progress .filled {
+	BACKGROUND: #0072b9; WIDTH: 0%; BORDER-BOTTOM: #004a73 0.5em solid; HEIGHT: 1em
+}
+.progress .percentage {
+	FLOAT: right
+}
+#first-time STRONG {
+	PADDING-RIGHT: 0px; DISPLAY: block; PADDING-LEFT: 0px; PADDING-BOTTOM: 0.5em; PADDING-TOP: 1.5em
+}
+TR.selected TD {
+	BACKGROUND: #ffc
+}

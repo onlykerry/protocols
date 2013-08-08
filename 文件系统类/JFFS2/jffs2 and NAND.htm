@@ -1,0 +1,284 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0049)http://www.aleph1.co.uk/yaffs/jffs2_and_nand.html -->
+<HTML><HEAD><TITLE>jffs2 and NAND</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=CONTENT-TYPE>
+<META content="MSHTML 5.00.3700.6699" name=GENERATOR>
+<META content=test-sound name=AUTHOR>
+<META content=20011023;7420000 name=CREATED>
+<META content="C Manning" name=CHANGEDBY>
+<META content=20011023;7420000 name=CHANGED>
+<STYLE>H1 {
+	FONT-FAMILY: "Arial", sans-serif; FONT-SIZE: 16pt; MARGIN-BOTTOM: 0.11cm; widows: 2; orphans: 2
+}
+H3 {
+	FONT-FAMILY: "Arial", sans-serif; FONT-SIZE: 13pt; MARGIN-BOTTOM: 0.11cm; widows: 2; orphans: 2
+}
+</STYLE>
+</HEAD>
+<BODY>
+<H1>JFFS2 and NAND</H1>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">For the purposes of this discussion, the term NAND 
+will mean both AND and NAND type flash memories, both sharing similar properties 
+from a system perspective. </P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<H3>A bit of history?.</H3>
+<P style="MARGIN-BOTTOM: 0cm">History on my perspective, not the history of 
+JFFS2.</P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">Some years ago I wrote a flash file system for 
+Trimble. Trimble patented this system. This FFS runs on NOR flash and uses a 
+concepts very similar to JFFS to overcome problems associated with FTLs and 
+flash. This FFS was rigorously tested for block failure, stress tested in 
+various ways and deliberately crashed with an emulator at critical stages to 
+attempt to damage data integrity. The FFS held up to all this.</P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">Thus, when looking at JFFS2 I can immediately 
+understand why certain things are being done and various benefits of this 
+approach over FTLs.</P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">At first I thought that using an FTL would be 
+better than JFFS2 for NAND because NAND has a different set of constraints. 
+After a bit of analysis, I came around to thinking that using JFFS2 would still 
+be better than an FTL mainly because JFFS2 dispenses with the need for a logical 
+to physical translation layer.</P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<H3>NOR and NAND</H3>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">The following table highlights some of the 
+important properties of NOR and NAND flash. This table holds true for most 
+devices, though there are some odd-ball devices out there.</P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<TABLE border=1 borderColor=#000000 cellPadding=1 cellSpacing=0 width=568>
+  <COLGROUP>
+  <COL width=281>
+  <COL width=281>
+  <TBODY>
+  <TR vAlign=top>
+    <TD width=281>
+      <P><B>NOR</B></P></TD>
+    <TD width=281>
+      <P><B>NAND</B></P></TD></TR>
+  <TR vAlign=top>
+    <TD width=281>
+      <P>Cost $2/MB</P></TD>
+    <TD width=281>
+      <P>Cost $0.5 / MB</P></TD></TR>
+  <TR vAlign=top>
+    <TD width=281>
+      <P>Low density (approx 8MB max device size)</P></TD>
+    <TD width=281>
+      <P>Higher density (approx 128MB max device size)</P></TD></TR>
+  <TR vAlign=top>
+    <TD width=281>
+      <P style="MARGIN-BOTTOM: 0cm">Linear random access:</P>
+      <UL>
+        <LI>
+        <P style="MARGIN-BOTTOM: 0cm">Like RAM</P>
+        <LI>
+        <P>Can be used for XIP</P></LI></UL></TD>
+    <TD width=281>
+      <P style="MARGIN-BOTTOM: 0cm">Sector read/write:</P>
+      <UL>
+        <LI>
+        <P style="MARGIN-BOTTOM: 0cm">Almost like a disk.</P>
+        <LI>
+        <P>Can't be used for XIP</P></LI></UL></TD></TR>
+  <TR vAlign=top>
+    <TD width=281>
+      <P>Structured as erasable blocks of 8kB to 128kB typical.</P></TD>
+    <TD width=281>
+      <P>Structured as erasable blocks of 32x512-byte pages. Each page has 
+      16-bytes of extra management data.</P></TD></TR>
+  <TR vAlign=top>
+    <TD width=281>
+      <P>Endurance 100k to 1M erasures</P></TD>
+    <TD width=281>
+      <P>Endurance 100k to 1M erasures</P></TD></TR>
+  <TR vAlign=top>
+    <TD width=281>
+      <P>Erase time 1second/erasable block</P></TD>
+    <TD width=281>
+      <P>Erase time 2ms</P></TD></TR>
+  <TR vAlign=top>
+    <TD width=281>
+      <P>Designed as ROM replacements</P></TD>
+    <TD width=281>
+      <P>Designed as mass storage replacements</P></TD></TR>
+  <TR vAlign=top>
+    <TD width=281>
+      <P>Byte-by-byte programming allowing single-bit modification. Any single 
+      bit can be modified from a 1 to a 0 by programming that byte. However, the 
+      only way to modify a 0 to a 1 is to erase the entire erasable 
+block.</P></TD>
+    <TD width=281>
+      <P>Page or partial-page programming. A page may be programmed a maximum 
+      number of times. After that number of times, the erasable block must be 
+      erased to allow further programming. Write operations can only modify 1s 
+      to 0s. Changing 0s to 1s requires an erasure.</P></TD></TR>
+  <TR vAlign=top>
+    <TD width=281>
+      <P>Random access programming. </P></TD>
+    <TD width=281>
+      <P>Pages must be written sequentially within a block.</P></TD></TR>
+  <TR vAlign=top>
+    <TD width=281>
+      <P>No bad blocks when delivered, but the devices wear out. Thus file 
+      systems should be fault tolerant.</P></TD>
+    <TD width=281>
+      <P>Bad blocks are expected when the devices are delivered. Further 
+      degradation is expected with use. Thus fault tolerance is an absolute 
+      necessity. </P></TD></TR></TBODY></TABLE>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">It is important to note the various differences 
+between NOR and NAND flash, because these are material in choosing the 
+appropriate file systems for each. In particular:</P>
+<UL>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">The erasure times are very different. This 
+  impacts on the selection of appropriate garbage collection and erasure 
+  strategies. NOR's 1 second erasure time is significant and needs to be 
+  considered; NAND's 2msec erasure time is virtually insignificant.</P></LI></UL>
+<UL>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">The programming access restrictions that apply 
+  to NAND do not apply to NOR.</P>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">Errors are far more likely in NAND devices, 
+  therefore error detection and correction is highly desirable.</P>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">NAND flash is arranged in pages/sectors of 512b 
+  and is inherently block structured.</P></LI></UL>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">Both families of flash technology have significant 
+usage restrictions which require special consideration when using the devices 
+for file storage:</P>
+<UL>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">All flash memory blocks can only endure a 
+  limited number of erasure cycles. Some wear levelling strategy is required to 
+  prevent often-used sectors wearing out faster.</P>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">Sectors, are smaller than an erasable block. 
+  Thus, some garbage collection strategy is required to reclaim deleted/dirty 
+  sectors. To accomplish this, the "good data" must be copied off the selected 
+  block so that the whole block can be erased without losing data.</P>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">If a part of a file needs to be overwritten, it 
+  is a limitation of flash memory that the new data cannot just overwrite the 
+  data at the same physical location. Instead the data must be written at a new 
+  location. Thus, some sort of logical to physical mapping layer (ie. FTL) or 
+  alternative data storage approach is required (eg. JFFS2). Such logical to 
+  physical decoupling is also required to perform garbage 
+collection.</P></LI></UL>
+<P style="MARGIN-BOTTOM: 0cm; MARGIN-LEFT: 0.64cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<H3>Flash file systems in general</H3>
+<P style="MARGIN-BOTTOM: 0cm">Flash file systems can essentially be implemented 
+in two possible ways:</P>
+<UL>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">Custom-built file system. ie. the whole file 
+  system is designed so as to operate with flash memory. An example of this is 
+  JFFS2 or Microsoft FFS2.</P>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">Use a standard file system with a custom block 
+  driver (ie Flash Translation Layer - FTL).</P></LI></UL>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">Each of these approaches have their pros and cons. 
+FTLs are particularly suited to situations where the file system is 
+pre-ordained; a custom file system is able to be more "flash friendly".</P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<H3>An appraisal of the JFFS2 file system</H3>
+<P style="MARGIN-BOTTOM: 0cm">JFFS, and JFFS2, achieve the logical decoupling 
+between logical file positions and physical memory by using journaling. For this 
+to work, the entire file system must be designed to support journaling - as 
+appropriate to flash memory. This is not excessively restrictive with 
+non-removable media and embedded systems since there is no need to conform to a 
+legacy file system layout.</P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">JFFS2 is designed to support NOR flash, but is 
+currently not suited to NAND flash since it does not handle bad blocks. If this 
+deficiency was addressed would it be a better choice for NAND than an FTL? 
+Probably not directly, some other tweaks would be needed.</P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">Journaling is particularly useful: Garbage 
+collection, bad block handling and the restrictions which prevent flash sectors 
+being overwritten mean that data in flash file systems is forever being moved 
+around. For FTLs this means storing logical to physical mappings. Journaling 
+neatly sidesteps this overhead.</P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">One of the most thorny issues with flash file 
+systems is that there are many patents covering both FTL-like block drivers and 
+various approaches to custom file systems.</P>
+<P style="MARGIN-BOTTOM: 0cm">These patents are particularly restrictive in 
+FTL-like block drivers (especially the M-Systems patents). JFFS2 does not 
+violate any patents I am aware of, but it probably comes quite close to some - 
+particularly the Trimble one. Thus it is highly beneficial to have a GPL'ed 
+system that can be extended.</P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<H3>Work needed</H3>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">The following effort is required to make JFFS2 
+work with NAND:</P>
+<UL>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">New MTDs for NAND flash. A new interface is 
+  probably required for NAND since many of the functions for NOR make no sense 
+  on NAND.</P></LI></UL>
+<UL>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">Bad block handling. This could be handled in a 
+  NOR-specific layer, although it should really be generically supported since 
+  NOR can fail too.</P>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">ECC for data security. Code available from 
+  Samsung www. This can be handled as part of the write and read. When a 
+  journaling node is written, it should be verified. If the data cannot be 
+  retrieved, then a new node is created. </P>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">Fixed size journaling nodes (since NAND is page 
+  oriented with limited writes per page). This might make compression 
+  challenging?. maybe compression can't be used with NAND? Anyway, fixed-size 
+  journaling nodes probably reduce fragmentation too (since there's an integer 
+  number of these per erasable block).</P></LI></UL>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm; MARGIN-LEFT: 0.64cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">The following are possible improvements:</P>
+<UL>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">Tuning garbage collection/erasure strategies to 
+  suite NAND (eg. NAND erasure time is much faster). Using fixed-size nodes will 
+  probably strip out a chunk of code too.</P>
+  <LI>
+  <P style="MARGIN-BOTTOM: 0cm">Attempting to use the spare 16 bytes per page 
+  for journalling tags (if there's a useful amount of space left after ECC and 
+  bad block management).</P></LI></UL>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">Thus, my preliminary suggestion would be to add a 
+NAND sub-system to JFFS2. This subsystem would use the same journaling file 
+system core. Fixing the size of journaling nodes to "pages" of 512 bytes quite 
+likely simplifies the interfaces, node management and garbage collection.</P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm">Error handling would fit within the NAND 
+subsystem. Since NOR fails too, bad block handling is really required for NOR 
+too. Whether the same management is appropriate for both is TBD. ECC is only 
+required for NAND.</P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P align=center style="MARGIN-BOTTOM: 0cm"><A name=_1065327724></A><A 
+name=_1065291949></A><IMG align=bottom border=0 height=190 name=Graphic1 
+src="JFFS2 and NAND.files/sv9379380.gif" width=227></P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P>
+<H3>"References"</H3>
+<P style="MARGIN-BOTTOM: 0cm">Samsung and Toshiba NAND part data sheets and www. 
+Samsung in particular has useful applications notes and code.</P>
+<P style="MARGIN-BOTTOM: 0cm">JFFS2 presentation materials. 
+http://sources.redhat.com/jffs2/</P>
+<P style="MARGIN-BOTTOM: 0cm"><BR></P></BODY></HTML>

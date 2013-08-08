@@ -1,0 +1,248 @@
+<html>
+
+<head>
+<title>Embedded Flash File Systems - Guaranteed Integrity Across Unexpected Power Losses</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<META name = "description"  content = "TargetFFS-NAND and TargetFFS-NOR are embedded flash file systems for NAND and NOR flash with guaranteed integrity across unexpected power losses">
+<META name = "keywords" content = "embedded flash file systems">
+<link rel="stylesheet" type="text/css" href="blunk3.css">
+
+
+</head>
+
+<body topmargin="0" leftmargin="0">
+
+<table border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td colspan="2" bgcolor="#F5F5F5">
+      <table border="0" width="100%" cellpadding="2">
+        <tr>
+          <td bgcolor="#800000" align="center" width="20%"><a class="toolbar" href="index.htm">Home</a></td>
+          <td bgcolor="#800000" align="center" width="20%"><a class="toolbar" href="differ.htm">The&nbsp;Blunk&nbsp;Difference</a></td>
+          <td bgcolor="#800000" align="center" width="20%"><a class="toolbar" href="datasheets.pdf">Datasheets</a></td>
+          <td bgcolor="#800000" align="center" width="20%"><a class="toolbar" href="order.htm">Price&nbsp;&&nbsp;Ordering</a></td>
+          <td bgcolor="#800000" align="center" width="20%"><a class="toolbar" href="contact.htm">Contact&nbsp;Us</a></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" bgcolor="#F5F5F5" align="center">
+      <table border="0" width="135" cellspacing="1" cellpadding="3">
+        <tr>
+          <td class="sidelink"><b><a class="sideheader" href="os.htm">RTOS</a></b><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a href="os.htm" class="sidelink">Overview</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a href="os_features.htm" class="sidelink">Features</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a href="kernelaware.htm" class="sidelink">KernelAware</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a href="eventtrace.htm" class="sidelink">Event Trace</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a href="os.pdf" target="_blank" class="sidelink">Datasheet</a></td>
+        </tr>
+        <tr>
+          <td class="sidelink"><b><a class="sideheader" href="ffs.htm">Flash File System</a></b><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="ffs.htm">Overview</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="ffs_features.htm">Features</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="ffs_nor.htm">NOR Operation</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="ffs_nand.htm">NAND Operation</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="ffs_faq.htm"><strong>FAQ</strong></a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="ffsbenchmark.pdf" target="_blank">Benchmark</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="ffs.pdf" target="_blank">Datasheet</a></td>
+        </tr>
+        <tr>
+          <td class="sidelink"><b><a class="sideheader" href="zfs.htm">Compressed Static File System</a></b><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="zfs.htm">Overview</a></td>
+        </tr>
+        <tr>
+          <td class="sidelink"><b><a class="sideheader" href="tcp.htm">TCP/IP</a></b><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="tcp.htm">Overview</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="tcp_features.htm">Features</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="tcp.pdf" target="_blank">Datasheet</a></td>
+        </tr>
+        <tr>
+          <td class="sidelink"><b><a class="sideheader" href="web.htm">Embedded Web Server</a></b><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a href="web.htm" class="sidelink">Benefits/Features</a></td>
+        </tr>
+        <tr>
+          <td class="sidelink"><b><a class="sideheader" href="wifi.htm">Wi-Fi Drivers</a></b><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a href="wifib.htm" class="sidelink">802.11b</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a href="wifig.htm" class="sidelink">802.11g</a></td>
+        </tr>
+        <tr>
+          <td class="sidelink"><b><a class="sideheader" href="lapb.htm">Embedded LAPB</a></b><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="lapb.htm">Overview</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="lapb1.htm">Features</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="blunkbox.htm">The BlunkBox</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="lapb.pdf" target="_blank">Datasheet</a></td>
+        </tr>
+        <tr>
+          <td class="sidelink"><b><a class="sideheader" href="boardsupport.htm">Board Support Packages</a></b><br>
+            <i>PowerPC</i><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="a3000.htm">A3000/MPC8245</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="mbx860.htm">MBX860</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="fads860.htm">MPC8XX FADS</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="xp860t.htm">XP860T</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="vipc860.htm">VIPC860</a><br>
+            <i>ColdFire</i><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="m5272c3.htm">M5272C3</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="m5282evb.htm">M5282EVB</a><br>
+            <i><a class="sidelink" href="contact.htm">Call for a quote on custom BSPs</a></i></td>
+        </tr>
+        <tr>
+          <td class="sidelink"><b><a class="sideheader" href="sccdrivers.htm">SCC Drivers</a></b><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="hdlc860.htm">HDLC860</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="hdlc360.htm">HDLC360</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="hdlc302.htm">HDLC302</a><br>
+            <i><a class="sidelink" href="contact.htm">Call for a quote on custom SCC drivers</a></i></td>
+        </tr>
+        <tr>
+          <td class="sidelink"><b><a class="sideheader" href="drivers.htm">IndustryPack Drivers</a></b><a href="drivers.htm"><br>
+            </a>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="digital.htm">IP-Digital</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="uart.htm">IP-UART</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="ethernet.htm">IP-Ethernet</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="comm302.htm">IP-Comm302 HDLC</a><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="comm360.htm">IP-Comm360 HDLC</a><br>
+            <i><a class="sidelink" href="contact.htm">Call for a quote on custom drivers</a></i></td>
+        </tr>
+        <tr>
+          <td class="sidelink"><b><a class="sideheader" href="datasheets.pdf">Datasheets</a></b><br>
+            <img border="0" src="spaceboy.gif" width="10" height="10"><a class="sidelink" href="datasheets.pdf" target="_blank">All Datasheets</a><br>
+        </tr>
+        <tr>
+          <td class="sidelink"><b><a class="sideheader" href="order.htm">Price &amp; Ordering Information</a></b></td>
+        </tr>
+        <tr>
+          <td class="sidelink"><b><a class="sideheader" href="contact.htm">Contact Us</a></b></td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+      <p><b>Integrated with<br>
+		<a href="http://www.metrowerks.com"><img src="metrowerks.gif" width="105" height="50"></a><br>
+		CodeWarrior</b></p>
+      <p>&nbsp;</p>
+    </td>
+    <td valign="top" align="center">
+    <FONT FACE="Verdana, Arial" SIZE="2">
+    <img border="0" src="spaceboy.gif" width="10" height="25"><br>
+    <a href="index.htm"><img border="0" src="logo0.gif" width="447" height="73"></a><br>
+    <img border="0" src="spaceboy.gif" width="10" height="25">
+    <img border="0" src="spaceboy.gif" width="10" height="10">    
+
+
+
+
+ <table border="0" width="600">
+      <tr>
+        <td width="600" valign="top">
+	<H1>TargetFFS™</H1>
+    <H2>Embedded Flash File Systems</H2>
+    <H3>FAQ</H3>
+
+<FONT FACE="Verdana, Arial" SIZE=2>
+<h6>What is so unique about TargetFFS?</h6>
+<blockquote>The key benefit of TargetFFS is the ability to recover from unexpected power losses and resets.</blockquote>
+
+<h6>How do you know the power loss recovery works?</h6>
+<blockquote>Not only was the system designed with this in mind, TargetFFS has undergone and passed extensive automated power fail torture
+testing.</blockquote>
+
+<h6>What type of file system does the TargetFFS driver use?  Is there a description of the file system available?</h6>
+
+<blockquote>TargetFFS is not a driver, but a complete file system, all the way to the Standard C/POSIX API. We are able to provide recovery from unexpected power loss precisely because TargetFFS is designed from the ground up to implement a file system on flash memory devices. This is an elusive feature in flash translation layer solutions designed to run underneath a standard hard disk file system.</blockquote>
+
+<h6>Are there any specifications on the throughput (sustained read/write
+rates) for your driver?</h6>
+
+<blockquote>That is a question best answered by benchmarking on your target board, because there are dependencies on so many things, especially on how your application uses the file system. In general, the fuller you keep the file system, the slower it will be. To support continued writes, TargetFFS must periodically erase a flash block after copying all data in use off the block.</blockquote>
+
+<blockquote>The more full a flash volume is, the more often these copy/erase cycles must be performed. Our <a href="ffsbenchmark.pdf" target="_blank">benchmark</a> graph shows some measurements we took of TargetFFS relative write speed versus percent of free space in the volume. The speed decrease is a little less than linear.</blockquote>
+
+<h6>How long does it take to mount a flash file system volume?</h6>
+
+<blockquote>TargetFFS has been optimized for fast mounts.  Although mount times are dependent on the contents of the file system, processor 
+speed, and other hardware performance characteristics, typical mount times are less than 2 seconds for a volume with 1700 files/directories.</blockquote>
+
+<h6>We're looking for a flash file system to implement some file system dependencies that we have in our product.  We're currently releasing a browser that assumes some sort of ANSI or near ANSI file system.  Our simulator uses the file system of the desktop.</h6>
+
+<blockquote>The TargetFFS API includes the ANSI C library file-related calls and the file-related calls in POSIX. One will have to mangle the names, most likely, to prevent linker collision with the runtime library of the RTOS one is using.</blockquote>
+
+<h6>We're using a Cirrus Logic board right now without an OS.  Does your file system require an OS?</h6>
+
+<blockquote>TargetFFS doesn't require an OS. It uses two semaphores to protect its critical sections when there is multitasking, but in an environment like yours the semaphore routines (semPost(), semPend(), semCreate()) can just be empty functions, no-ops.</blockquote>
+
+<h6>Have you ported to other OSs?</h6>
+
+<blockquote>We have our own RTOS, <a href="os.htm">TargetOS</a>. We don't proactively port to other OSs. We keep the code strict ANSI and provide a porting guide that makes it simple to bring up TargetFFS with any RTOS.</blockquote>
+
+<blockquote>The porting guide is an appendix in the manual, and the issues come down
+to:
+<ol>
+	<li>1. Implementing the TargetOS semPost(), semPend(), semCreate() calls with the RTOS you are using. These are just simple counting semaphores, so virtually any RTOS has equivalent support.
+	<li>2. Doing whatever name mangling is required. If you are using an RTOS that has its own Standard C library and you are using the stdio.h routines from it, then you will have to "mangle" the names of the TargetFFS routines to prevent linker collision. This is easy to do with macros in an include file.
+</ol></blockquote>
+
+<h6>What flash memory vendors have TargetFFS been integrated with? Does TargetFFS support Intel flash?</h6>
+
+<blockquote>TargetFFS works with any block-erasable, byte-writeable NOR or NAND flash. The driver layer is small and simple. The three sample drivers, included in the manual, include drivers for AMD and Intel parts.</blockquote>
+
+<h6>I am interested in flash file system for Intel StrataFlash part# 28F320J3 or Advanced Boot Block Flash part# 28F160C3.</h6>
+
+<blockquote>TargetFFS has a thin device driver layer, which consists of the following four functions:
+<ol>
+   <li>write 1 byte
+   <li>write 512 bytes
+   <li>read 512 bytes
+   <li>erase block
+</ol>
+
+There are three example drivers in the manual. One is for StrataFlash part# 28F640J3A. This should be easily adapted for whichever StrataFlash part you choose to use.</blockquote>
+
+<h6>What is the footprint when merging the full package?</h6>
+
+<blockquote>
+TargetFFS is built as a library, so only the routines that are used are pulled in. The footprint pulled in by one of our sample applications was 60KB. Something around 64KB is typical for RAM use for buffers and the like.</blockquote>
+
+<h6>Can we merge part of the package - for small boot images?</h6>
+
+<blockquote>
+Since it is a library, only those parts needed are pulled in, but don't expect it to vary too much. The TargetFFS footprint is not affected by the size of any file it contains in a volume.
+</blockquote>
+
+<h6>Does your file system support boot images - meaning that the boot images have to be programmed in specific address (exp. 0xFFF00000 in PPC microprocessors) and continuous code?</h6>
+
+<blockquote>
+TargetFFS supports boot images by allowing the flash chip to be shared. You don't have to turn the whole chip over to TargetFFS. In the driver, you specify the base address that TargetFFS accesses and the number of 512-byte sectors above the base address which it can use, like so:<br><br>
+
+<font face="Courier New">
+
+     /*---------------------------------------*/<br>
+     /* Register flash volume with TargetFFS. */<br>
+     /*---------------------------------------*/<br>
+     vol.name = "flash";<br>
+     vol.block_size = BLOCK_SIZE;<br>
+     vol.num_sectors = (BLOCK_SIZE * NUM_BLOCKS) / SECTOR_SIZE;<br>
+     vol.mem_base = STRATA_BASE;<br>
+     vol.write_byte = write_byte;<br>
+     vol.write_sector = write_sector;<br>
+     vol.read_sector = read_sector;<br>
+     vol.erase_block = erase_block;<br>
+     if (FsNorAddVol(&vol))<br>
+       perror("FlashAddVol failed: ");<br><br></font>
+
+
+There is some more discussion of this in the manual, in Chapter 2.
+</blockquote>
+
+<h6>Does your file system support non-contiguous flash addresses?</h6>
+
+<blockquote>
+Yes, the file system of TargetFFS only accesses the flash through the driver layer. So, it is easy to support non-contiguous flash addresses by doing the appropriate translation in the driver.
+</blockquote>
+&nbsp;   
+        </td>
+      </tr>
+ </table>
+
+
+
+</body>
+</html>

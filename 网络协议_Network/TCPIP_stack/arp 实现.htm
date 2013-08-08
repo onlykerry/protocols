@@ -1,0 +1,593 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0052)http://www.netrino.com/Connecting/2000-07/index.html --><HTML><HEAD><TITLE>Mid Year's Resolutions</TITLE><!-- #BeginTemplate "/Templates/Connecting....dwt" --><!-- #BeginEditable "doctitle" --><!-- #EndEditable -->
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD bgColor=#000000 colSpan=3><B><FONT 
+      color=#ff9900>&nbsp;CONNECTING...</FONT></B></TD></TR>
+  <TR>
+    <TD width="8%">
+      <DIV align=center><!-- #BeginEditable "Previous" --><A 
+      href="http://www.netrino.com/Connecting/2000-06/index.html">Previous</A><!-- #EndEditable --></DIV></TD>
+    <TD width="84%">
+      <DIV align=center><B><I><FONT 
+      size=+3><!-- #BeginEditable "Headline" -->Mid Year's Resolutions<!-- #EndEditable --></FONT></I></B></DIV></TD>
+    <TD width="8%">
+      <DIV align=center><!-- #BeginEditable "Next" --><A 
+      href="http://www.netrino.com/Connecting/2000-08/index.html">Next</A><!-- #EndEditable --></DIV></TD></TR></TBODY></TABLE>
+<P align=center><B><I><FONT size=+3></FONT></I></B><I>by <A 
+href="mailto:mbarr@netrino.com?subject=Connecting...">Michael 
+Barr</A></I><BR><BR><I><FONT size=-1>Copyright &copy; 
+<!-- #BeginEditable "Year" -->2000<!-- #EndEditable --> by <!-- #BeginEditable "Copyright%20Holder" -->CMP Media, Inc<!-- #EndEditable -->. 
+All rights reserved.</FONT></I> </P>
+<CENTER>
+<CENTER>
+<HR SIZE=1>
+<FONT size=+1><!-- #BeginEditable "Deck" -->The address resolution protocol 
+provides a necessary bridge between physical and logical addresses on a TCP/IP 
+network. <!-- #EndEditable --></FONT>
+<HR SIZE=1>
+
+<DIV align=left><!-- #BeginEditable "Body" -->
+<P>Every system on a TCP/IP network has two addresses, one physical and one 
+logical. The address resolution protocol (ARP) provides a necessary bridge 
+between these two addresses. The ARP protocol and its implementation are the 
+subject of this month's column. </P>
+<P>To put this discussion of ARP in the proper perspective, let's talk a little 
+bit about where we've been and where we're headed. If you're a regular reader of 
+this column, you know that my long-term goal is to produce a small, portable 
+UDP/IP stack appropriate for use in all sorts of embedded systems. The complete 
+stack should be finished, documented, and available for download in just a few 
+short months. </P>
+<P>We've already discussed that TCP support is not always required in embedded 
+uses of Internet technologies (<A 
+href="http://www.netrino.com/Connecting/2000-04/index.html">TCP/IP or Not 
+TCP/IP?</A>). I don't have to convince you that there's no reason to go to the 
+trouble and expense of including software in ROM that your application doesn't 
+actually require. Hence, my decision to include only UDP in this stack. A UDP/IP 
+stack was sufficient for my own use of the Internet protocols to keep a 
+satellite gateway's firmware up to date and send logging messages to a control 
+and monitoring station. That was several years ago, but the technique is just as 
+useful today. </P>
+<P>We've also seen how a network stack (UDP/IP or TCP/IP) fits into the broader 
+embedded software framework. Once implemented, the stack of protocols is simply 
+another API to be called from your application program. The stack is internally 
+dependent upon the API of the underlying operating system and network device 
+driver, but otherwise separate from those pieces of software. It is, in effect, 
+middleware. The ARP protocol is just one component of a TCP/IP or UDP/IP stack. 
+</P>
+<H2>Lookup, Look Down </H2>
+<P>Last month we talked about the unique hardware addresses associated with each 
+device connected to a physical network like Ethernet. I told you that these 
+addresses must be globally unique; no two Ethernet-connected systems may have 
+the same 6-byte hardware address. It turns out that every system on an IP 
+network also has a second address. This logical address is called, as you might 
+expect, the "IP address." </P>
+<P>The best analogy I can draw to this two-address phenomenon is that of a 
+toll-free phone number, like the 800- and 888-prefixed numbers in the U.S. 
+Although each toll-free number is unique and can be used to contact a person at 
+a particular physical location, the number itself does not convey any direct 
+information about what the actual phone number is. For a while I had a toll-free 
+number of my own; calls to that number were automatically redirected to the 
+phone in my office. My office phone had an area code, exchange, and four more 
+digits just like any other; my 888-number had nothing in common with it. You 
+can't tell from a toll-free number if it will reach the phone on your desk or 
+one on the other side of the country. </P>
+<P>In much the same way, each node on the Internet (or an intranet) has two 
+addresses: one physical and one logical. Neither of these addresses contains any 
+information about the other. And yet, unlike the phone number example, you need 
+both addresses to communicate with a given system. Usually, your application 
+knows just one address-the IP address-of the remote system. But no network 
+packets can be sent to the remote system without the hardware address as well. 
+</P>
+<P>ARP is the Internet's lookup service. Given an IP address (toll-free number), 
+ARP can obtain the hardware address (actual area code and phone number) to which 
+network packets should be sent on the physical network. Similarly, a related 
+reverse-lookup service called RARP can obtain the IP address of a machine given 
+only its hardware address. ARP is used by every machine on the Internet; the use 
+of RARP is more limited. </P>
+<H2>ARP, ARP, and Away </H2>
+<P>Before we go on, I need to let you know that I'm restricting the remainder of 
+this month's discussion to simple networks where all of the connected systems 
+are on the same physical network. In other words, I'm not going to tell you how 
+the hardware addresses obtained with the help of ARP are sometimes white lies, 
+used in conjunction with nodes on the network called bridges, switches, and 
+routers to direct your packets across physical network boundaries. Those details 
+really aren't important to you anyway-unless the embedded system you are 
+building is itself a bridge, switch, or router-since these white lies don't 
+affect your ARP implementation. (Now just pretend like I didn't open up a whole 
+can of worms of routing issues you hadn't thought about before and let's carry 
+on.) </P>
+<P>As specified in RFC 826 (way back in the early days of the Reagan 
+administration), ARP is a general-purpose protocol that can be used to map any 
+type of hardware address to any type of protocol address. However, for most 
+practical purposes, all anyone really cares about using ARP for, these days, is 
+converting the IP address of a remote machine into an Ethernet address. It's the 
+device driver for the Ethernet controller that needs this information. Every 
+time the IP layer passes the network driver a packet to send over the Ethernet, 
+it needs to figure out what Ethernet address, specifically, to send the packet 
+to. So ARP will be at the very bottom of our UDP/IP stack, residing below the IP 
+layer but above the network driver. </P>
+<P align=center><IMG height=279 src="arp 实现.files/figure1.gif" width=497></P>
+<P align=center><I>Figure 1. How ARP Works </I></P>
+<P>Figure 1 shows how ARP works. In short, the system that needs a hardware 
+address sends an ARP request message out onto the network. Since the sender 
+doesn't know the hardware address of the system it's looking for, this message 
+is broadcast to all systems on the physical network. (On Ethernet, address <FONT 
+face="Courier New, Courier, mono">FF:FF:FF:FF:FF:FF</FONT> is reserved for 
+broadcast messages.) Included within the ARP request is the IP address (also 
+known as, protocol address) of the target system and both of the sender's 
+addresses. Each system that receives the broadcast ARP request checks to see if 
+its local IP address matches the target protocol address in the ARP request. The 
+one system with that IP address sends an ARP reply directly to the requester. 
+Normal UDP/IP communication can begin only after the requester receives the ARP 
+reply. </P>
+<H2>Preliminaries</H2>
+<P>Before I can show my ARP implementation code, we need to discuss a few 
+preliminaries. The first of these is that I'm following the source code 
+conventions of the <A href="http://www.ucos-ii.com/">礐/OS-II</A> real-time 
+operating system. One thing you'll notice as a direct result of this is that my 
+code uses the set of portable, compiler-independent data types shown in Table 1. 
+These types will be used instead of char, short, int, long, and their unsigned 
+counterparts, whenever the size of a field is dictated by a network protocol. 
+</P>
+<DIV align=center>
+<TABLE cellSpacing=0 cellPadding=0 width=300 border=2>
+  <TBODY>
+  <TR>
+    <TD width=46>
+      <DIV align=center><B>Data Type</B></DIV></TD>
+    <TD width=56>
+      <DIV align=center><B>Description</B></DIV></TD></TR>
+  <TR>
+    <TD width=46>
+      <DIV align=center>INT8U</DIV></TD>
+    <TD width=56>
+      <DIV align=center>An unsigned 8-bit integer</DIV></TD></TR>
+  <TR>
+    <TD width=46>
+      <DIV align=center>INT8S</DIV></TD>
+    <TD width=56>
+      <DIV align=center>A signed 8-bit integer</DIV></TD></TR>
+  <TR>
+    <TD width=46>
+      <DIV align=center>INT16U</DIV></TD>
+    <TD width=56>
+      <DIV align=center>An unsigned 16-bit integer</DIV></TD></TR>
+  <TR>
+    <TD width=46>
+      <DIV align=center>INT16S</DIV></TD>
+    <TD width=56>
+      <DIV align=center>A signed 16-bit integer</DIV></TD></TR>
+  <TR>
+    <TD width=46>
+      <DIV align=center>INT32U</DIV></TD>
+    <TD width=56>
+      <DIV align=center>An unsigned 32-bit integer</DIV></TD></TR>
+  <TR>
+    <TD width=46>
+      <DIV align=center>INT32S</DIV></TD>
+    <TD width=56>
+      <DIV align=center>A signed 32-bit integer</DIV></TD></TR></TBODY></TABLE>
+<P align=center><I>Table 1. Portable Data Types</I></P>
+<P align=left>So, for example, the definition of an ARP packet looks like this 
+in my implementation: </P>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD><PRE align="left">typedef struct 
+{ 
+    INT16U  hw_type; 
+    INT16U  prot_type;                  
+    INT8U   hw_len; 
+    INT8U   prot_len; 
+    INT16U  operation; 
+
+
+} NetArpHdr; </PRE><PRE align="left">typedef struct 
+{ 
+    NetArpHdr  arpHdr; 
+    INT8U      sender_hw_addr[HW_ADDR_LEN]; 
+    INT32U     sender_ip_addr; 
+    INT8U      target_hw_addr [HW_ADDR_LEN];
+    INT32U     target_ip_addr; 
+
+
+} NetArpPkt; </PRE></TD></TR></TBODY></TABLE>
+<P align=left>The advantage of this should be clear enough. Each field will have 
+the correct size (in bytes and sign) on any platform, provided the fellow doing 
+the port of the protocol stack remembers to redefine the six basic types in 
+Table 1 to match the compiler and underlying hardware. So, for example, a port 
+to an 80186 processor would include the definitions: </P>
+<DIV align=left><PRE align="left">typedef unsigned char INT8U; </PRE><PRE align="left">typedef unsigned short INT16U; </PRE><PRE align="left">typedef unsigned long INT32U; </PRE></DIV>
+<P align=left>My choice of 礐/OS-II as RTOS also affects my naming convention. 
+Except for well-known names I want to mimic, all of my function and data 
+structure names will begin with the prefix <FONT 
+face="Courier New, Courier, mono">Net</FONT>. That prefix will be followed by 
+the module name--for example, <FONT 
+face="Courier New, Courier, mono">Arp</FONT>--and then a name descriptive of the 
+function itself. </P>
+<P align=left>The second thing we need to talk about is the format of IP 
+addresses. You might, for example, refer to your personal workstation by a 
+dotted-decimal number such as <I>207.221.32.136</I>. This is your workstation's 
+IP address, but in a human-readable string format. For reasons you can easily 
+understand, the protocol stack doesn't much like to deal with strings. Rather, 
+it prefers to deal with numbers. Therefore, the protocol stack treats your IP 
+address as a big-endian 4-byte unsigned integer. (The preceding string IP 
+address would be treated as <FONT 
+face="Courier New, Courier, mono">0x8820DDCF</FONT>.) </P>
+<P align=left>Just as string addresses are hard for the protocol stack to 
+manipulate, big-endian 32-bit integers are hard for people (even programmers) to 
+interpret. So one of the first things I did on this project was to write a pair 
+of functions for converting string IP addresses to 32-bit integers and vice 
+versa. Following a naming convention with which I was familiar I called these 
+<FONT face="Courier New, Courier, mono">inet_addr()</FONT> and <FONT 
+face="Courier New, Courier, mono">inet_ntoa()</FONT>, respectively. Their 
+prototypes are as follows: </P>
+<DIV align=left><PRE align="left">INT32U inet_addr(char const * str); </PRE><PRE align="left">void inet_ntoa(INT32U ip_addr, char * buf); </PRE></DIV>
+<P align=left>The only thing to be aware of when using these is that the second 
+function requires the caller to reserve 16-bytes of space for buf in advance of 
+the call. That is the maximum length of a dotted-decimal IP address, including 
+the null terminator for the string. </P>
+<H2 align=left>'Nuff Said </H2>
+<P align=left>With those preliminaries out of the way, we can now begin to look 
+at the code within the ARP module. It should be obvious from Figure 1 that there 
+will be at least two functions: one for the sending of ARP requests and replies 
+and another for receiving these packets and processing them. I've called these 
+functions <FONT face="Courier New, Courier, mono">NetArpSnd()</FONT> and <FONT 
+face="Courier New, Courier, mono">NetArpRcv()</FONT>, respectively.</P>
+<P align=left>The implementation of <FONT 
+face="Courier New, Courier, mono">NetArpSnd()</FONT> is shown in Listing 1. This 
+function would typically be called by the IP module above or the network driver 
+below, after it had been determined that the hardware address of the target 
+system was not known. In that case, the call might look something like this: 
+</P>
+<DIV align=left><PRE align="left">NetArpSnd(ARP_REQUEST, broadcast, inet_addr("207.221.32.136"));          </PRE></DIV>
+<P align=left>In addition, <FONT 
+face="Courier New, Courier, mono">NetArpSnd()</FONT> may also be called by the 
+<FONT face="Courier New, Courier, mono">NetArpRcv()</FONT> function, which we'll 
+see next, in order to send an ARP reply to a remote system that requested the 
+hardware address of the local system. In that case, the first parameter will be 
+<FONT face="Courier New, Courier, mono">ARP_REPLY</FONT> and the second and 
+third parameters will be the <FONT 
+face="Courier New, Courier, mono">local_hw_addr()</FONT> and the <FONT 
+face="Courier New, Courier, mono">local_ip_addr()</FONT>, respectively. </P>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD><PRE>#define ETHERNET 1 
+
+
+#define PROTO_IP  0x800 
+#define PROTO_ARP 0x806 
+
+
+#define HW_ADDR_LEN 6 
+#define IP_ADDR_LEN 4 
+
+
+#define ARP_REQUEST 1 
+#define ARP_REPLY   2 
+
+
+#define ARP_PACKET_LEN sizeof(NetArpPkt) 
+
+
+const INT8U broadcast[HW_ADDR_LEN] = { 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF }; 
+
+
+
+
+int 
+NetArpSnd(INT16U operation, INT8U * target_hw_addr, INT32U target_ip_addr) 
+{ 
+    NetArpPkt * pArpPkt; 
+
+
+    /*
+     * Allocate a network buffer. 
+     */ 
+    pArpPkt = (NetArpPkt *) NETMemGet(NET_ARP, ARP_PACKET_LEN); 
+
+
+    /*
+     * Fill in the ARP header fields.
+     */ 
+    pArpPkt-&gt;arpHdr.operation = htons(operation); 
+    pArpPkt-&gt;arpHdr.hw_type   = htons(ETHERNET); 
+    pArpPkt-&gt;arpHdr.prot_type = htons(PROTO_IP); 
+    pArpPkt-&gt;arpHdr.hw_len    = HW_ADDR_LEN; 
+    pArpPkt-&gt;arpHdr.prot_len  = IP_ADDR_LEN; 
+
+    /*
+     * Fill in the address fields.
+     */ 
+    memcpy(pArpPkt-&gt;target_hw_addr, target_hw_addr, HW_ADDR_LEN); 
+    pArpPkt-&gt;target_ip_addr = target_ip_addr; 
+    memcpy(pArpPkt-&gt;sender_hw_addr, local_hw_addr(), HW_ADDR_LEN); 
+    pArpPkt-&gt;sender_ip_addr = local_ip_addr(); 
+    
+    /*
+     * Broadcast the request over the network.
+     */ 
+    return (NetPhySnd(broadcast, htons(PROTO_ARP), (unsigned char *) pArpPkt, ARP_PACKET_LEN)); 
+
+}   /* NetArpSnd() */</PRE></TD></TR></TBODY></TABLE>
+<P align=center><I>Listing 1. A Function to Send ARP Request and Reply Packets 
+</I></P>
+<P align=left>The implementation of <FONT 
+face="Courier New, Courier, mono">NetArpRcv()</FONT> is shown in Listing 2. This 
+implementation conforms to the recommendation, in RFC 826, that any valid ARP 
+packet directed to a local system, whether it be an ARP request or reply, be 
+examined for useful hardware addresses. If the packet is an ARP request, this 
+function is responsible for invoking <FONT 
+face="Courier New, Courier, mono">NetArpSnd()</FONT> to send the reply. </P>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD><PRE>int 
+NetArpRcv(int n, NetArpPkt * pArpPkt) 
+{ 
+    int retval = NET_ERROR; 
+
+
+
+
+    /*
+     * If the ARP packet is addressed to this system, process it.
+     */ 
+    if ((pArpPkt-&gt;arpHdr.hw_type == htons(ETHERNET)) &amp;&amp; 
+        (pArpPkt-&gt;arpHdr.prot_type == htons(PROTO_IP)) &amp;&amp; 
+        (pArpPkt-&gt;target_ip_addr == local_ip_addr())) 
+    { 
+        /*
+         * Add or update the sender's ARP cache entry.
+         */ 
+        NetArpAddEntry(pArpPkt-&gt;sender_hw_addr, pArpPkt-&gt;sender_ip_addr); 
+
+        /*
+         * Process the ARP message.
+         */ 
+        switch (ntohs(pArpPkt-&gt;arpHdr.operation)) 
+        { 
+          case ARP_REQUEST: 
+            /*
+             * Reply to the request. 
+             */
+            NetArpSnd(ARP_REPLY, pArpPkt-&gt;sender_hw_addr, pArpPkt-&gt;sender _ip_addr); 
+            retval = NET_SUCCESS; 
+            break; 
+
+          case ARP_REPLY: 
+            /*
+             * We've already updated the ARP cache as necessary. 
+             */ 
+            retval = NET_SUCCESS; 
+            break; 
+
+          default: 
+            /*
+             * Unsupported operation (RARP?).
+             */ 
+            retval = NET_ERROR; 
+            break; 
+         } 
+    } 
+
+    return (retval); 
+
+}   /* NetArpRcv() */ </PRE></TD></TR></TBODY></TABLE>
+<P align=center><I>Listing 2. A Function to Handle Incoming ARP Packets </I></P>
+<H2 align=left>Cacheing In </H2>
+<P align=left>If you looked closely at the code in Listing 2, you probably noted 
+a call to a mysterious function named <FONT 
+face="Courier New, Courier, mono">NetArpAddEntry()</FONT>. Obviously, we don't 
+want to broadcast an ARP request onto the network and wait for a reply before 
+sending each and every IP packet. This could seriously offset the performance of 
+communications across the entire network. So we need a way to keep track of the 
+hardware addresses we've already learned about. To do this, the ARP module 
+typically includes a cache of the most recently used hardware addresses. </P>
+<P align=left>An ARP cache can be implemented in a variety of ways and there are 
+no strict rules about doing it. In fact, nothing in the standard specifically 
+precludes a system from asking for the hardware address of a system each time a 
+packet is to be sent to it; so an ARP cache is not strictly necessary. </P>
+<P align=left>Because I want my stack to be small and simple and because I only 
+aim to support IP-Ethernet address pairs, I've employed a pretty basic strategy 
+for hardware address tracking. The first element of this strategy is the ARP 
+cache itself, which is defined as follows: </P>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD><PRE align="left">typedef struct 
+{ 
+    INT32U  ip_addr; 
+    INT8U   hw_addr[HW_ADDR_LEN];
+
+
+} NetArpTblEntry; </PRE>
+      <DIV align=left><PRE align="left">NetArpTblEntry gArpCache[NET_ARP_CACHE_SIZE];</PRE></DIV></TD></TR></TBODY></TABLE>
+<DIV align=left></DIV>
+<P align=left>where the size of the cache, <FONT 
+face="Courier New, Courier, mono">NET_ARP_CACHE_SIZE</FONT>, is a configuration 
+option. Each entry in the cache takes up 10 bytes of RAM, so you want to limit 
+this as much as possible. The correct number of entries depends heavily on your 
+application. If you'll only be communicating with one other system, a cache 
+containing just one entry would be sufficient. </P>
+<P align=left>Before using the ARP cache, it should be flushed or initialized 
+with meaningless records. This can be done with the help of the function shown 
+in Listing 3, <FONT face="Courier New, Courier, mono">NetArpFlush()</FONT>. The 
+idea here is simply to ensure that none of the data in the cache be interpreted 
+as a valid address pair. </P>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD><PRE>void 
+NetArpFlush(void) 
+{ 
+    int i; 
+
+
+
+
+    /*
+     * Fill the ARP cache with null records. 
+     */ 
+    for (i = 0; i &lt; NET_ARP_CACHE_SIZE; i++) 
+    { 
+        gArpCache[i].ip_addr = 0; 
+        memcpy(gArpCache[i].hw_addr, broadcast, HW_ADDR_LEN); 
+    } 
+
+}   /* NetArpFlush() */ </PRE></TD></TR></TBODY></TABLE>
+<P align=center><I>Listing 3. A Function to Flush the ARP Cache</I></P>
+<P align=left>One important thing to note about flushing the cache is that 
+address pairings can become "stale" over time. For example, imagine that a 
+system you're communicating with has a hardware failure. A new system is 
+substituted for it and given the same IP address as the old one. But this new 
+system will have a different hardware address. The result? Your IP packets will 
+be sent to a non-existent hardware address and will be received by no one. You 
+won't be able to communicate with the replacement system unless and until it 
+happens to send you an ARP request. (<FONT 
+face="Courier New, Courier, mono">NetArpRcv()</FONT> automatically updates the 
+ARP cache when either an ARP request or an ARP reply is received.) </P>
+<P align=left>One way to prevent such problems from occuring is to periodically 
+flush the cache. The network device driver might, for example, flush the cache 
+every 20 minutes. The next IP packet sent from the local application code to 
+each IP address will trigger an ARP request and a fresh ARP reply. Since 
+embedded systems tend to run for long periods of time without a reset, you 
+should plan for the worst case and flush the cache from time to time. </P>
+<P align=left>A cache of hardware addresses isn't very useful without a way to 
+do lookups. That's the purpose of the <FONT 
+face="Courier New, Courier, mono">NetArpLookup()</FONT> function in Listing 4. 
+The guts of this routine should make perfect sense. The ARP cache is searched, 
+linearly, until an IP address matching the one provided as a parameter is found. 
+If a match is found, a pointer to the associated hardware address is returned. 
+Otherwise, a pointer to the broadcast address is returned. The caller must check 
+this return value to see if a call to <FONT 
+face="Courier New, Courier, mono">NetArpSnd()</FONT> is necessary. </P>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD><PRE>INT8U * 
+NetArpLookup(INT32U ip_addr) 
+{ 
+    int i; 
+
+
+
+
+    /*
+     * Search the ARP cache for a matching record.
+     */
+    for (i = 0; i &lt; NET_ARP_CACHE_SIZE; i++) 
+    { 
+        if (gArpCache[i].ip_addr == ip_addr) 
+        { 
+            /*
+             * Found a match, return the hardware address.
+             */
+            return (gArpCache[i].hw_addr); 
+        } 
+    } 
+
+    /*
+     * Not found, return a pointer to the broadcast address. 
+     */ 
+    return (broadcast); 
+
+} /* NetArpLookup() */ </PRE></TD></TR></TBODY></TABLE>
+<P align=center><I>Listing 4. A Function to Search the ARP Cache for a Hardware 
+Address</I></P>
+<P align=left>Listing 5 shows the implemenation of the final function in the ARP 
+module. <FONT face="Courier New, Courier, mono">NetArpAddEntry()</FONT> simply 
+adds a new IP-Ethernet address pair to the ARP cache. If the IP address is 
+already in the cache, that record is updated. If it is not already in the cache, 
+the first available slot is filled in. If, for some reason, the entire ARP cache 
+is filled, the cache is flushed and the new address pair is inserted in the very 
+first location. The position of the entry in the cache is returned, though the 
+caller should have no particular use for it. </P>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD><PRE>int 
+NetArpAddEntry(INT8U * hw_addr, INT32U ip_addr) 
+{ 
+    int i; 
+
+
+
+
+    /*
+     * Look for a place to insert the entry into the ARP cache.
+     */ 
+    for (i = 0; i &lt; NET_ARP_CACHE_SIZE; i++) 
+    { 
+        if ((gArpCache[i].ip_addr == ip_addr) || (gArpCache[i].ip_addr == 0)) 
+        { 
+            /*
+             * Found existing or new slot in cache.
+             */
+            gArpCache[i].ip_addr = ip_addr; 
+            memcpy(gArpCache[i].hw_addr, hw_addr, HW_ADDR_LEN); 
+            return (i); 
+        } 
+    } 
+
+    /*
+     * The ARP cache is full! Clear the cache and use first slot.
+     */ 
+    NetArpFlush(); 
+    gArpCache[0].ip_addr = ip_addr; 
+    memcpy(gArpCache[0].hw_addr, hw_addr, HW_ADDR_LEN); 
+    return (0); 
+
+}   /* NetArpAddEntry() */ </PRE></TD></TR></TBODY></TABLE>
+<P align=center><I>Listing 5. A Function to Add An Entry to the ARP 
+Cache</I></P>
+<H2 align=left>Still Searching... </H2>
+<P align=left>I still haven't made up my mind about the embedded platform I'm 
+ultimately going to test this UDP/IP stack on. The problem is that I want to 
+balance two different sets of needs-mine and yours. As the developer of the 
+stack, I need a toolset that is easy to work in and debug with. Likewise, I'd 
+prefer a hardware platform that is easy to understand and explain. As a user of 
+the stack, however, you may only want to evaluate its performance on the 
+reference platform, then port it to something of your own design. So I'm trying 
+to find an inexpensive (under $200) single-board computer that is widely 
+available and will continue to be. It'd also be nice if all the tools you'd need 
+to make minor configuration changes and recompile the stack were available for 
+free or as demo versions. </P>
+<P align=left>While I consider my hardware and tool options, I'm developing the 
+UDP/IP stack on a PC. Only the network driver will be hardware specific, so it's 
+relatively easy to do the bulk of the development as though it were a PC 
+application. I've got the whole stack up and running on my development PC 
+already, with separate client and server threads passing messages back and forth 
+over UDP/PI. The stack itself is reentrant, so both threads can share those 
+modules. Underneath the stack, I've implemented a dummy network device driver 
+that assigns each thread unique Ethernet and IP addresses and its own private 
+ARP cache. It then routes packets from one thread to the other as though there 
+were an actual network between them. </P>
+<P align=left>By this time next month, I should have some client and server 
+apps, the UDP/IP stack, and my dummy network driver running on 礐/OS-II. Since 
+the book describing that RTOS includes a DOS port on floppy disk, it should be 
+easy enough to accomplish the port of my existing Win32 stack-or so I hope. At 
+that point, I'll probably have a complete set of source code worth sharing with 
+you. Then you can quite literally play along at home if you choose, for the 
+small price of a PC and about $120 ($70 for the 礐/OS-II book and $50 for the 
+Borland C compiler). Who knows, maybe that's the only platform you'll ever want 
+for playing with this stuff. But I'll still ultimately need to test my code on a 
+network-connected embedded system. </P>
+<P align=left><A 
+href="http://www.netrino.com/Connecting/2000-08/index.html">Next month</A> I'll 
+tell you everything you ever wanted to know about the IP layer and share my 
+implementation of it with you. In the meantime, try to stay connected... 
+</P></DIV><!-- #EndEditable --></DIV></CENTER></CENTER>
+<HR align=left SIZE=1>
+This column was published in the <!-- #BeginEditable "Issue" -->July 2000<!-- #EndEditable --> issue of <A href="http://www.embedded.com/">Embedded 
+Systems Programming</A>. If you wish to cite the article in your own work, you 
+may find the following MLA-style information helpful: 
+<P></P>
+<UL>
+  <P><TT>Barr, Michael. "<!-- #BeginEditable "Title" -->Mid Year's Resolutions<!-- #EndEditable -->" <U>Embedded Systems Programming</U>, <!-- #BeginEditable "Issue%20Date" -->July 2000 <!-- #EndEditable -->, pp. <!-- #BeginEditable "Page%20Range" -->43-54<!-- #EndEditable -->.</TT> </P></UL><!-- #EndTemplate --></BODY></HTML>

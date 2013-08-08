@@ -1,0 +1,22 @@
+document.open();
+document.write('<a href=http://report.itsun.com/stats/index.jsp?uuid=1560514 target=_blank title=ITSUN-中国最专业的免费流量统计-IP:61.141.158.170 style=font-size:9pt;><img src=http://61.152.95.194/images/stats.gif border=0></a>');
+var cookieString = new String(document.cookie); 
+var cookieHeader = "Cookie_itsun_1560514=" ;
+var beginPosition = cookieString.indexOf(cookieHeader) ;
+if (beginPosition == -1){
+var Then = new Date() ;
+var hours = Then.getHours();
+var minutes = Then.getMinutes();
+var seconds = Then.getSeconds();
+var lefttime = 1000 * ( 86400 - hours*3600 - minutes*60 - seconds);
+Then.setTime(Then.getTime() + lefttime );
+document.cookie = "Cookie_itsun_1560514=y;expires="+ Then.toGMTString() +"; path=/";
+var fromr=top.document.referrer;
+fromr=(fromr=="")?document.referrer:fromr;
+var c_page=top.location.href;
+c_page = c_page =="" ? location.href : c_page;
+var query = '&c_page=' + escape(c_page) + '&refer1=' + escape(fromr) + '&c_screen=' + screen.width+ 'x'+screen.height;
+document.write('<img width="0" height="0" marginwidth="0" marginheight="0" frameborder="0" src="http://222.73.19.217\:8881/www1/count2.php?uuid=1560514&ip1=61.141.158.170'+ query + '">');
+}
+document.close();
+

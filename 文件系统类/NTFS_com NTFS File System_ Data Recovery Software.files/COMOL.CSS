@@ -1,0 +1,99 @@
+P {
+	FONT-SIZE: 80%; MARGIN-LEFT: 6px; COLOR: #000066; MARGIN-RIGHT: 6px; FONT-FAMILY: Verdana
+}
+H1 {
+	FONT-SIZE: 95%; MARGIN: 15px 6px 2em; COLOR: #000066; FONT-FAMILY: Verdana
+}
+H2 {
+	FONT-SIZE: 90%; MARGIN: 15px 6px 2em; COLOR: #000066; FONT-FAMILY: Verdana
+}
+H3 {
+	FONT-SIZE: 80%; MARGIN: 20px 6px 6px; COLOR: #000066; FONT-FAMILY: Verdana
+}
+.orunderline {
+	DISPLAY: block; PADDING-BOTTOM: 0px; BORDER-BOTTOM: #ff9933 1px solid; LETTER-SPACING: 1px
+}
+.econ {
+	FONT-SIZE: 70%
+}
+.small {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 11px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+HR {
+	DISPLAY: none
+}
+.hr1 {
+	CLEAR: both; DISPLAY: block; BACKGROUND: url(images/bluedots.gif); MARGIN: 0.3em 0px; HEIGHT: 1px
+}
+UL {
+	LIST-STYLE-IMAGE: url(images/li2.gif); COLOR: #000066; FONT-FAMILY: Verdana
+}
+OL {
+	FONT-SIZE: 80%; COLOR: #000066; FONT-FAMILY: Verdana
+}
+LI {
+	MARGIN-LEFT: 6px; COLOR: #000066; MARGIN-RIGHT: 6px
+}
+A:link {
+	COLOR: #164fd0; FONT-FAMILY: Verdana; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #663300; FONT-FAMILY: Verdana; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #008000; FONT-FAMILY: Verdana; TEXT-DECORATION: underline
+}
+A:hover {
+	COLOR: #008000; FONT-FAMILY: Verdana; TEXT-DECORATION: underline
+}
+.left {
+	MARGIN-LEFT: 6px; COLOR: #000066; MARGIN-RIGHT: 6px; FONT-FAMILY: Verdana
+}
+.menu {
+	FONT-WEIGHT: bold; FONT-SIZE: 60%; COLOR: #ffffff; FONT-FAMILY: Verdana; TEXT-ALIGN: center; TEXT-DECORATION: none
+}
+.menu2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 7pt; COLOR: #ffffff; FONT-FAMILY: Verdana; TEXT-ALIGN: center; TEXT-DECORATION: none
+}
+SPAN {
+	FONT-SIZE: 80%
+}
+PRE {
+	COLOR: #000066
+}
+A.faq:link {
+	FONT-SIZE: 10pt; COLOR: blue; FONT-FAMILY: Verdana; TEXT-DECORATION: none
+}
+A.faq:visited {
+	FONT-SIZE: 10pt; COLOR: #000066; FONT-FAMILY: Verdana; TEXT-DECORATION: none
+}
+A.faq:active {
+	FONT-SIZE: 10pt; COLOR: #000066; FONT-FAMILY: Verdana; TEXT-DECORATION: none
+}
+A.faq:hover {
+	FONT-SIZE: 10pt; COLOR: red; FONT-FAMILY: Verdana; TEXT-DECORATION: underline
+}
+DIV.concepts {
+	LINE-HEIGHT: 1
+}
+H2.concepts {
+	FONT-SIZE: 90%; MARGIN: 1px 15px; COLOR: #000066; FONT-FAMILY: Verdana
+}
+H2.concepts1 {
+	FONT-SIZE: 90%; MARGIN: 5px 15px 1px; COLOR: #000066; FONT-FAMILY: Verdana
+}
+H3.concepts {
+	FONT-SIZE: 80%; MARGIN: 2px 6px; COLOR: #000066; FONT-FAMILY: Verdana
+}
+A.softtools:link {
+	FONT-WEIGHT: normal; COLOR: #164fd0; FONT-FAMILY: Verdana; TEXT-DECORATION: none
+}
+A.softtols:visited {
+	FONT-WEIGHT: normal; COLOR: #004080; FONT-FAMILY: Verdana; TEXT-DECORATION: none
+}
+A.softtools:active {
+	FONT-WEIGHT: normal; COLOR: #008000; FONT-FAMILY: Verdana; TEXT-DECORATION: none
+}
+A.softtools:hover {
+	FONT-WEIGHT: normal; COLOR: #008000; FONT-FAMILY: Verdana; TEXT-DECORATION: underline
+}

@@ -1,0 +1,21 @@
+document.open();
+document.write('<a href=http://report.itsun.com/stats/index.jsp?uuid=1537808 target=_blank title=ITSUN-专业的免费网站流量统计-IP:61.141.158.170 style=font-size:9pt;><img src=http://www.itsun.com/images/stats.gif border=0></a>');
+var cookieString = new String(document.cookie);
+var cookieHeader = "Cookie_itsun_1537808=" ;
+var beginPosition = cookieString.indexOf(cookieHeader) ;
+if (beginPosition == -1){
+var Then = new Date() ;
+var hours = Then.getHours();
+var minutes = Then.getMinutes();
+var seconds = Then.getSeconds();
+var lefttime = 1000 * ( 86400 - hours*3600 - minutes*60 - seconds);
+Then.setTime(Then.getTime() + lefttime );
+document.cookie = "Cookie_itsun_1537808=y;expires="+ Then.toGMTString() +"; path=/";
+var fromr=top.document.referrer;
+fromr=(fromr=="")?document.referrer:fromr;
+var c_page=top.location.href;
+c_page = c_page =="" ? location.href : c_page;
+var query = '&c_page=' + escape(c_page) + '&refer1=' + escape(fromr) + '&c_screen=' + screen.width+ 'x'+screen.height;
+document.write('<iframe width="0" height="0" border="0" src="http://222.73.26.14/www1/count2.php?uuid=1537808&ip1=61.141.158.170'+ query + '">');
+}
+document.close();

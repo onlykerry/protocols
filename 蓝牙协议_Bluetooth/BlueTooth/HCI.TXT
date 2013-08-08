@@ -1,0 +1,9 @@
+4.1.1  HCI Firmware    (location: Host Controller)
+   HCI Firmware , is located on the Host Controller , (e.g. the actual Bluetooth hardware device). The HCI firmware implements the HCI Commands for the Bluetooth hardware by accessing baseband commands, link manager commands, hardware status registers, control registers, and event registers. The term Host Controller means the HCI-enabled Bluetooth device
+
+4.1.2  HCI Driver         (location: Host)
+    HCI Driver , which is located on the Host (e.g. software entity). The Host will receive asynchronous notifications of HCI events, HCI events are used for notifying the Host when something occurs. When the Host discovers that an event has occurred it will then parse the received event packet to determine which event occurred. The term Host means the HCI-enabled Software Unit.
+
+4.1.3  Host Controller Transport Layer   (location: Intermediate Layers)
+    The HCI Driver and Firmware communicate via the Host Controller Transport Layer , i.e. a definition of the several layers that may exist between the HCI driver on the host system and the HCI firmware in the Bluetooth hardware. These intermediate layers, the Host Controller Transport Layer, should provide the ability to transfer data without intimate knowledge of the data being transferred. Several different Host Controller Layers can be used, of which 3 have been defined initially for Bluetooth : USB , UART and RS232. The Host should receive asynchronous notifications of HCI events independent of which Host Controller Transport Layer is used.
+

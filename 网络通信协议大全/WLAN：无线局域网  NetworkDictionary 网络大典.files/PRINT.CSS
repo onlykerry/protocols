@@ -1,0 +1,87 @@
+BODY {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000
+}
+INPUT {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000
+}
+TEXTAREA {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000
+}
+SELECT {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000
+}
+DIV#header {
+	HEIGHT: 130px
+}
+UL.primary-links {
+	DISPLAY: none
+}
+UL.secondary-links {
+	DISPLAY: none
+}
+#header-region {
+	DISPLAY: none
+}
+.sidebar {
+	DISPLAY: none
+}
+BODY.sidebars {
+	WIDTH: 640px
+}
+BODY.sideber-left {
+	WIDTH: 640px
+}
+BODY.sidebar-right {
+	WIDTH: 640px
+}
+BODY {
+	WIDTH: 640px
+}
+BODY.sidebar-left #center {
+	MARGIN: 0px
+}
+BODY.sidebar-right #center {
+	MARGIN: 0px
+}
+BODY.sidebars #center {
+	MARGIN: 0px
+}
+BODY.sidebar-left #squeeze {
+	MARGIN: 0px
+}
+BODY.sidebar-right #squeeze {
+	MARGIN: 0px
+}
+BODY.sidebars #squeeze {
+	MARGIN: 0px
+}
+#wrapper {
+	CLEAR: both; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; LEFT: 0px; FLOAT: none; PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: auto; PADDING-TOP: 0px; POSITION: static
+}
+#wrapper #container .breadcrumb {
+	CLEAR: both; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; LEFT: 0px; FLOAT: none; PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: auto; PADDING-TOP: 0px; POSITION: static
+}
+#wrapper #container #center {
+	CLEAR: both; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; LEFT: 0px; FLOAT: none; PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: auto; PADDING-TOP: 0px; POSITION: static
+}
+#wrapper #container #center .right-corner {
+	CLEAR: both; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; LEFT: 0px; FLOAT: none; PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: auto; PADDING-TOP: 0px; POSITION: static
+}
+#wrapper #container #center .right-corner .left-corner {
+	CLEAR: both; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; LEFT: 0px; FLOAT: none; PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: auto; PADDING-TOP: 0px; POSITION: static
+}
+#wrapper #container #footer {
+	CLEAR: both; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; LEFT: 0px; FLOAT: none; PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: auto; PADDING-TOP: 0px; POSITION: static
+}
+#wrapper #container #center #squeeze {
+	CLEAR: both; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; LEFT: 0px; FLOAT: none; PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: auto; PADDING-TOP: 0px; POSITION: static
+}
+#wrapper #container #header H1 {
+	COLOR: #000; text-shadow: none
+}
+#wrapper #container #header H1 A:link {
+	COLOR: #000; text-shadow: none
+}
+#wrapper #container #header H1 A:visited {
+	COLOR: #000; text-shadow: none
+}

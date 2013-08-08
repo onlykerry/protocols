@@ -1,0 +1,39 @@
+BODY {
+	FONT-SIZE: 80%; TEXT-ALIGN: center
+}
+#header-region {
+	TEXT-ALIGN: left
+}
+#wrapper #container {
+	TEXT-ALIGN: left
+}
+#wrapper #container #center {
+	OVERFLOW: hidden
+}
+#wrapper #container #center .right-corner .left-corner {
+	HEIGHT: 400px
+}
+FIELDSET {
+	BACKGROUND: none transparent scroll repeat 0% 0%
+}
+UL.primary {
+	POSITION: relative
+}
+HTML.js FIELDSET.collapsible {
+	POSITION: relative; TOP: -1em
+}
+HTML.js FIELDSET.collapsed {
+	MARGIN-BOTTOM: 1em; TOP: 0px
+}
+TD.menu-disabled {
+	FILTER: alpha(opacity=50)
+}
+#header-region {
+	HEIGHT: 1em
+}
+#attach-hide LABEL {
+	BACKGROUND-COLOR: #ffffff
+}
+#uploadprogress DIV.message {
+	BACKGROUND-COLOR: #ffffff
+}

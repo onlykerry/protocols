@@ -1,0 +1,651 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0053)http://www.networkdictionary.cn/?q=protocols/rtsp.php -->
+<HTML lang=zh-hans xml:lang="zh-hans" 
+xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>RTSP：实时流协议（Real Time Streaming Protocol） | NetworkDictionary 网络大典</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META content="实时流协议 RTSP 建立并控制一个或几个时间同步的连续流媒体。" name=description>
+<META content=index,follow name=robots>
+<META content="RTSP：实时流协议（Real Time Streaming Protocol）" name=Keywords>
+<META 
+content="实时流协议（RTSP）建立并控制一个或几个时间同步的连续流媒体，如音频和视频。尽管连续媒体流与控制流交叉是可能的，RTSP 本身并不发送连续流。换言之，RTSP" 
+name=Description>
+<META content="RTSP：实时流协议（Real Time Streaming Protocol）" name=DC.title><LINK 
+href="/protocols/ncs.php" rel=prev><LINK href="/protocols/VOIP-IETF.php" 
+rel=up><LINK href="/protocols/sap.php" rel=next>
+<STYLE type=text/css media=all>@import url( /modules/aggregator/aggregator.css );
+</STYLE>
+
+<STYLE type=text/css media=all>@import url( /modules/book/book.css );
+</STYLE>
+
+<STYLE type=text/css media=all>@import url( /modules/node/node.css );
+</STYLE>
+
+<STYLE type=text/css media=all>@import url( /modules/system/defaults.css );
+</STYLE>
+
+<STYLE type=text/css media=all>@import url( /modules/system/system.css );
+</STYLE>
+
+<STYLE type=text/css media=all>@import url( /modules/user/user.css );
+</STYLE>
+
+<STYLE type=text/css media=all>@import url( /modules/comment/comment.css );
+</STYLE>
+
+<STYLE type=text/css media=all>@import url( /themes/Page/style.css );
+</STYLE>
+
+<STYLE type=text/css media=print>@import url( /themes/Page/print.css );
+</STYLE>
+<!--[if lt IE 7]>
+<STYLE type=text/css media=all>@import url( /themes/Page/fix-ie.css );
+</STYLE>
+<![endif]-->
+<META content="MSHTML 6.00.2900.3199" name=GENERATOR></HEAD>
+<BODY class=sidebar-left>
+<DIV class=page>
+<DIV id=header-c1>
+<DIV id=logo>
+<H1><A title="" href="http://www.networkdictionary.cn/"><IMG id=logo alt="" 
+src="实时流协议（Real Time Streaming Protocol）.files/Page_logo.gif"><SPAN></SPAN></A></H1></DIV>
+<DIV id=header-user>
+<LI><A href="http://www.networkdictionary.cn/user/"><IMG height=20 
+src="实时流协议（Real Time Streaming Protocol）.files/btn_signin.gif" width=60 
+border=0></A> </LI>
+<LI><A href="http://www.networkdictionary.cn/user/register"><IMG height=20 
+src="实时流协议（Real Time Streaming Protocol）.files/btn_register.gif" width=60 
+border=0></A> </LI></DIV></DIV>
+<DIV id=header-c2>
+<SCRIPT language=JavaScript src="" type=text/javascript></SCRIPT>
+
+<SCRIPT language=JavaScript type=text/javascript>
+<!--
+   if (!document.phpAds_used) document.phpAds_used = ',';
+   phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
+   
+   document.write ("<" + "script language='JavaScript' type='text/javascript' src='");
+   document.write ("http://www.networkdictionary.cn/ads/adjs.php?n=" + phpAds_random);
+   document.write ("&amp;what=zone:1");
+   document.write ("&amp;exclude=" + document.phpAds_used);
+   if (document.referrer)
+      document.write ("&amp;referer=" + escape(document.referrer));
+   document.write ("'><" + "/script>");
+//-->
+</SCRIPT>
+<NOSCRIPT><A href="http://www.networkdictionary.cn/ads/adclick.php?n=a57bc46c" 
+target=_blank><IMG alt="" src="" border=0></A></NOSCRIPT> </DIV></DIV>
+<DIV id=header-nav>
+<DIV id=header-nav-c1>
+<LI><A class=white 
+href="http://www.networkdictionary.cn/"><STRONG>首页</STRONG></A> </LI>
+<LI><A class=white 
+href="http://www.networkdictionary.cn/Information-Center.php"><STRONG>知识库</STRONG></A> 
+</LI>
+<LI><A class=white 
+href="http://www.networkdictionary.cn/dictionary.php"><STRONG>词条库</STRONG></A> 
+</LI>
+<LI><A class=white 
+href="http://www.networkdictionary.cn/user"><STRONG>用户服务</STRONG></A> </LI>
+<LI><A class=white 
+href="http://www.networkdictionary.cn/contactus/index.php"><STRONG>联系我们</STRONG></A> 
+</LI>
+<LI><A class=white href="http://www.javvin.net/" 
+target=_blank><STRONG>商城</STRONG></A> </LI></DIV>
+<DIV id=header-nav-c2>
+<FORM id=search-theme-form action=/search/node method=post>
+<DIV class=container-inline id=search><INPUT class=form-text 
+id=edit-search-theme-form-keys title=请输入你想搜索的关键词。 maxLength=128 size=15 
+name=search_theme_form_keys> <INPUT class=form-submit id=edit-submit type=submit value=搜索 name=op> <INPUT 
+id=edit-search-theme-form type=hidden value=search_theme_form name=form_id> 
+</DIV></FORM>&nbsp;&nbsp;<A class=white 
+href="http://www.networkdictionary.cn/search/">Advanced Search</A></DIV>
+<DIV id=header-nav-c3><A class=white 
+href="http://www.networkdictionary.com/">English Site</A></DIV></DIV>
+<DIV class=page>
+<DIV id=sidebar-left>
+<DIV id=block-menu-148-top>
+<H5>知识库</H5></DIV>
+<DIV id=block-menu-148>
+<DIV id=block-menu-148-content>
+<UL class=menu>
+  <LI class=expanded><A 
+  href="http://www.networkdictionary.cn/protocols/index.php">协议标准</A> 
+  <UL class=menu>
+    <LI class=leaf><A 
+    href="http://www.networkdictionary.cn/protocols/man.php">城域网</A> 
+    <LI class=leaf><A 
+    href="http://www.networkdictionary.cn/protocols/san.php">存储区域网络</A> 
+    <LI class=collapsed><A 
+    href="http://www.networkdictionary.cn/protocols/lan.php">局域网</A> 
+    <LI class=collapsed><A 
+    href="http://www.networkdictionary.cn/protocols/wan.php">广域网</A> 
+    <LI class=leaf><A 
+    href="http://www.networkdictionary.cn/protocols/Microsoft.php">微软</A> 
+    <LI class=collapsed><A 
+    href="http://www.networkdictionary.cn/protocols/cisco.php">思科</A> 
+    <LI class=leaf><A 
+    href="http://www.networkdictionary.cn/protocols/dec.php">惠普 DECnet</A> 
+    <LI class=leaf><A 
+    href="http://www.networkdictionary.cn/protocols/wlan.php">无线局域网</A> 
+    <LI class=leaf><A 
+    href="http://www.networkdictionary.cn/protocols/MobileWireless.php">移动及无线技术</A> 
+
+    <LI class=collapsed><A 
+    href="http://www.networkdictionary.cn/protocols/securityvpn.php">网络安全技术</A> 
+    <LI class=leaf><A 
+    href="http://www.networkdictionary.cn/protocols/apple.php">AppleTalk</A> 
+    <LI class=collapsed><A 
+    href="http://www.networkdictionary.cn/protocols/ibm.php">IBM SNA</A> 
+    <LI class=collapsed><A 
+    href="http://www.networkdictionary.cn/protocols/iso.php">ISO</A> 
+    <LI class=leaf><A 
+    href="http://www.networkdictionary.cn/protocols/novell.php">Novell 
+    NetWare</A> 
+    <LI class=leaf><A 
+    href="http://www.networkdictionary.cn/rfc/index.php">RFC</A> 
+    <LI class=leaf><A 
+    href="http://www.networkdictionary.cn/protocols/ss7c7.php">SS7/C7</A> 
+    <LI class=leaf><A 
+    href="http://www.networkdictionary.cn/protocols/sun.php">SUN</A> 
+    <LI class=collapsed><A 
+    href="http://www.networkdictionary.cn/protocols/tcpip.php">TCP/IP</A> 
+    <LI class=expanded><A 
+    href="http://www.networkdictionary.cn/protocols/voip.php">VOIP</A> 
+    <UL class=menu>
+      <LI class=leaf><A 
+      href="http://www.networkdictionary.cn/protocols/VOIP-Others.php">其它</A> 
+      <LI class=leaf><A 
+      href="http://www.networkdictionary.cn/protocols/VOIP-Cisco-Skinny.php">Cisco 
+      Skinny</A> 
+      <LI class=leaf><A 
+      href="http://www.networkdictionary.cn/protocols/VOIP-IETF.php">IETF</A> 
+      <LI class=leaf><A 
+      href="http://www.networkdictionary.cn/protocols/VOIP-ITU-T-H323.php">ITU-T 
+      H.323</A> 
+      <LI class=leaf><A 
+      href="http://www.networkdictionary.cn/protocols/VOIP-Media-CODEC.php">Media/CODEC</A> 
+      </LI></UL>
+    <LI class=leaf><A 
+    href="http://www.networkdictionary.cn/protocols/others.php">其他</A> 
+    <LI class=collapsed><A 
+    href="http://www.networkdictionary.cn/protocols/dictionary.php">网络协议词典</A> 
+    </LI></UL>
+  <LI class=collapsed><A 
+  href="http://www.networkdictionary.cn/networking">网络技术</A> 
+  <LI class=collapsed><A href="http://www.networkdictionary.cn/telecom">电信技术</A> 
+
+  <LI class=collapsed><A 
+  href="http://www.networkdictionary.cn/wireless">无线技术</A> 
+  <LI class=collapsed><A 
+  href="http://www.networkdictionary.cn/hardware/index.php">硬件知识</A> 
+  <LI class=collapsed><A 
+  href="http://www.networkdictionary.cn/software/index.php">软件知识</A> 
+  <LI class=collapsed><A 
+  href="http://www.networkdictionary.cn/security">信息安全</A> 
+  <LI class=leaf><A 
+  href="http://www.networkdictionary.cn/howto/index.php">方法技巧</A> 
+  <LI class=collapsed><A 
+  href="http://www.networkdictionary.cn/who/index.php">技术名录</A> 
+  <LI class=leaf><A 
+  href="http://wiki.networkdictionary.cn/index.php/äºä»¶">新闻事件</A> 
+</LI></UL></DIV></DIV>
+<DIV id=block-menu-148-bottom></DIV><A 
+href="http://www.networkdictionary.cn/hotspot"><IMG class=img-left height=35 
+alt=热点文章 src="实时流协议（Real Time Streaming Protocol）.files/inner_btn_hot.gif" 
+width=170></A> <A href="http://www.networkdictionary.cn/tracker"><IMG 
+class=img-left height=35 alt=最新文章 
+src="实时流协议（Real Time Streaming Protocol）.files/inner_btn_new.gif" width=170></A> 
+
+<DIV id=sidebar-left-ads>
+<SCRIPT language=JavaScript 
+src="实时流协议（Real Time Streaming Protocol）.files/google-ad-vt-input.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="实时流协议（Real Time Streaming Protocol）.files/show_ads.js" 
+type=text/javascript></SCRIPT>
+</DIV></DIV>
+<DIV id=center>
+<DIV id=center-nav><A href="http://www.networkdictionary.cn/blog/"><IMG 
+height=40 alt=网络大典博客 
+src="实时流协议（Real Time Streaming Protocol）.files/inner_nav_blog.gif" width=80></A> 
+<A href="http://wiki.networkdictionary.cn/"><IMG height=40 alt=网络大典维基 
+src="实时流协议（Real Time Streaming Protocol）.files/inner_nav_wiki.gif" width=80></A> 
+<A href="http://ask.networkdictionary.cn/"><IMG height=40 alt=网络大典问答 
+src="实时流协议（Real Time Streaming Protocol）.files/inner_nav_ask.gif" width=80></A> 
+<A href="http://group.networkdictionary.cn/"><IMG height=40 alt=网络大典群组 
+src="实时流协议（Real Time Streaming Protocol）.files/inner_nav_groups.gif" 
+width=80></A> <A href="http://www.javvin.net/"><IMG height=40 alt=佳文科技产品 
+src="实时流协议（Real Time Streaming Protocol）.files/inner_nav_techshop.gif" 
+width=80></A> <A href="http://www.networkdictionary.cn/"><IMG height=40 
+alt=网络大典首页 src="实时流协议（Real Time Streaming Protocol）.files/inner_nav_home.gif" 
+width=80></A> </DIV>
+<DIV class=breadcrumb><A href="http://www.networkdictionary.cn/">主页</A> › <A 
+href="http://www.networkdictionary.cn/protocols/index.php">协议标准</A> › <A 
+href="http://www.networkdictionary.cn/protocols/voip.php">VOIP</A> › <A 
+href="http://www.networkdictionary.cn/protocols/VOIP-IETF.php">IETF</A></DIV>
+<DIV class=clear-block id=tabs-wrapper>
+<H2 class=with-tabs>RTSP：实时流协议（Real Time Streaming Protocol）</H2>
+<UL class="tabs primary">
+  <LI class=active><A class=active 
+  href="http://www.networkdictionary.cn/protocols/rtsp.php">查看</A> 
+  <LI><A href="http://www.networkdictionary.cn/node/776/track">跟踪</A> 
+</LI></UL></DIV>
+<DIV class=node id=node-776>
+<DIV class=content>
+<P>实时流协议（RTSP）建立并控制一个或几个时间同步的连续流媒体，如音频和视频。尽管连续媒体流与控制流交叉是可能的，RTSP 
+本身并不发送连续流。换言之，RTSP 充当多媒体服务器的网络远程控制。RTSP 
+提供了一个可扩展框架，实现实时数据（如音频与视频）的受控、按需传送。数据源包括实况数据与存储的剪辑。RTSP 用于控制多个数据发送会话，提供了选择发送通道（如 
+UDP、组播 UDP 与 TCP 等）的方式，并提供了选择基于 RTP 的发送机制的方法。 </P>
+<P>目前还没有 RTSP 连接的概念；服务器维护由识别符标识的会话。RTSP 会话不会绑定到传输层连接，如 TCP。在 RTSP 会话期间，RTSP 
+客户端可打开或关闭多个对服务器的可靠传输连接以发出 RTSP 请求。它也可选择使用无连接传输协议，如 UDP。 </P>
+<P>RTSP 控制的流可能用到 RTP，但 RTSP 操作并不依赖用于传输连续媒体的传输机制。RTSP 在语法和操作上与 HTTP/1.1 类似，因此 
+HTTP 的扩展机制在多数情况下可加入 RTSP。然而，在很多重要方面 RTSP 仍不同于 HTTP ： </P>
+<UL>
+  <LI>RTSP 引入了大量新方法并具有一个不同的协议标识符： 
+  <LI>在大多数情况下，RTSP 服务器需要保持缺省状态，与 HTTP 的无状态相对； 
+  <LI>RTSP 中客户端和服务器都可以发出请求； 
+  <LI>在多数情况下，数据由不同的协议传输； 
+  <LI>RTSP 使用 ISO 10646 （UTF-8）而并非 ISO 8859-1，与当前的国际标准 HTML 相一致； 
+  <LI>URI 请求总是包含绝对 URI。为了与过去的错误相互兼容，HTTP/1.1 只在请求过程中传送绝对路径并将主机名置于另外的头字段。 
+</LI></UL>
+<P>该协议支持如下操作： </P>
+<UL>
+  <LI>从媒体服务器上检索媒体：用户可通过 HTTP 或其它方法提交一个演示描述请求； 
+  <LI>媒体服务器邀请进入会议： 媒体服务器可被邀请参加正进行的会议，或回放媒体，或记录部分或全部演示； 
+  <LI>将新媒体加到现有演示中：如服务器能告诉客户端接下来可用的媒体内容，对现场直播显得尤其有用。 </LI></UL>
+<TABLE cellSpacing=0 cellPadding=5 border=0>
+  <TBODY>
+  <TR>
+    <TD width=25><IMG height=20 
+      src="实时流协议（Real Time Streaming Protocol）.files/arrow.gif" width=20></TD>
+    <TD>协议结构</TD></TR></TBODY></TABLE>
+<P align=left>RTSP 是一种文本协议，采用 UTF-8 编 码中的 ISO 10646 字符集。一行可通过 CRLF 终止，但接收端需要做好解释 
+CR 和 LF 作为一行终止符 的准备。关于头字段概述如下： </P>
+<TABLE cellSpacing=1 cellPadding=5 bgColor=#999999 border=0>
+  <TBODY>
+  <TR bgColor=#efefef>
+    <TD><STRONG>Header</STRONG></TD>
+    <TD><STRONG>Type</STRONG></TD>
+    <TD><STRONG>Support</STRONG></TD>
+    <TD><STRONG>Methods</STRONG></TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Accept</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>entity</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Accept-Encoding</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>entity</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Accept-Language</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Allow</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Authorization</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Bandwidth</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Blocksize</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>All but OPTIONS, TEARDOWN</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Cache-Control</TD>
+    <TD>G</TD>
+    <TD>opt.</TD>
+    <TD>SETUP</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Conference</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>SETUP</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Connection</TD>
+    <TD>G</TD>
+    <TD>req.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Content-Base</TD>
+    <TD>E</TD>
+    <TD>opt.</TD>
+    <TD>entity</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Content-Encoding</TD>
+    <TD>E</TD>
+    <TD>req.</TD>
+    <TD>SET_PARAMETER</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Content-Encoding</TD>
+    <TD>E</TD>
+    <TD>req.</TD>
+    <TD>DESCRIBE, ANNOUNCE</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Content-Language</TD>
+    <TD>E</TD>
+    <TD>req.</TD>
+    <TD>DESCRIBE, ANNOUNCE</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Content-Length</TD>
+    <TD>E</TD>
+    <TD>req.</TD>
+    <TD>SET_PARAMETER, ANNOUNCE</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Content-Length</TD>
+    <TD>E</TD>
+    <TD>req.</TD>
+    <TD>entity</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Content-Location</TD>
+    <TD>E</TD>
+    <TD>opt.</TD>
+    <TD>entity</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Content-Type</TD>
+    <TD>E</TD>
+    <TD>req.</TD>
+    <TD>SET_PARAMETER, ANNOUNCE</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Content-Type</TD>
+    <TD>R</TD>
+    <TD>req.</TD>
+    <TD>entity</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>CSeq</TD>
+    <TD>G</TD>
+    <TD>req.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Date</TD>
+    <TD>G</TD>
+    <TD>opt.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Expires</TD>
+    <TD>E</TD>
+    <TD>opt.</TD>
+    <TD>DESCRIBE, ANNOUNCE</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>From</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>If-Modified-Since</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>DESCRIBE, SETUP</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Last-Modified</TD>
+    <TD>E</TD>
+    <TD>opt.</TD>
+    <TD>entity</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Proxy-Authenticate</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Proxy-Require</TD>
+    <TD>R</TD>
+    <TD>req.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Public</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Range</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>PLAY, PAUSE, RECORD</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Range</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>PLAY, PAUSE, RECORD</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Referer</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Require</TD>
+    <TD>R</TD>
+    <TD>req.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Retry-After</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>RTP-Info</TD>
+    <TD>R</TD>
+    <TD>req.</TD>
+    <TD>PLAY</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Scale</TD>
+    <TD>Rr</TD>
+    <TD>opt.</TD>
+    <TD>PLAY, RECORD</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Session</TD>
+    <TD>Rr</TD>
+    <TD>req.</TD>
+    <TD>All but SETUP, OPTIONS</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Server</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Speed</TD>
+    <TD>Rr</TD>
+    <TD>opt.</TD>
+    <TD>PLAY</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Transport</TD>
+    <TD>Rr</TD>
+    <TD>req.</TD>
+    <TD>SETUP</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Unsupported</TD>
+    <TD>R</TD>
+    <TD>req.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>User-Agent</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>Via</TD>
+    <TD>G</TD>
+    <TD>opt.</TD>
+    <TD>all</TD></TR>
+  <TR bgColor=#ffffff>
+    <TD>WWW-Authenticate</TD>
+    <TD>R</TD>
+    <TD>opt.</TD>
+    <TD>all</TD></TR></TBODY></TABLE>
+<P>类型 "g" 表示请求和响应中的通用请求头；类型 "R" 表示请求头；类型 "r" 表示响应头；类型 "e" 表示实体头字段。在 "support" 
+一栏中 标有 "req." 的字段 必须由接收者以特殊的方法实现；而 "opt." 的字段是可选的。注意，不是所有 "req." 
+字段在该类型的每个请求中都会被发送。 "req." 只表示客户机（支持响应头）和服务器（支持请求头）必须执行该字段。最后一栏列出了关于头字段产生作用的方法；其中 
+"entity" 针对于返回一个信息主体的所有方法。 </P>
+<P>相关协议：<A href="http://www.networkdictionary.cn/protocols/udp.php" 
+target=_blank>UDP</A>、<A 
+href="http://www.networkdictionary.cn/protocols/tcp.php" 
+target=_blank>TCP</A>、<A 
+href="http://www.networkdictionary.cn/protocols/http.php" 
+target=_blank>HTTP</A>、<A 
+href="http://www.networkdictionary.cn/protocols/shttp.php" 
+target=_blank>S-HTTP</A>、<A 
+href="http://www.networkdictionary.cn/protocols/rtp.php" target=_blank>RTP</A> 
+</P>
+<P>组织来源：RTSP 由 IETF（<A href="http://www.ietf.org/" 
+target=_blank>http://www.ietf.org/</A>）定义在 RFC 2326中。 </P>
+<P>相关链接：<BR><A href="http://www.javvin.com/protocol/rfc2326.pdf" 
+target=_blank>http://www.javvin.com/protocol/rfc2326.pdf</A>: Real Time 
+Streaming Protocol </P>
+<DIV class=book-navigation>
+<DIV class="page-links clear-block"><A class=page-previous title=转到上一页 
+href="http://www.networkdictionary.cn/protocols/ncs.php">‹ 
+NCS：基于电缆网络的呼叫控制信令（Network-Based Call Signaling Protocol）</A><A class=page-up 
+title=转到上级页面 
+href="http://www.networkdictionary.cn/protocols/VOIP-IETF.php">向上</A><A 
+class=page-next title=转到下一页 
+href="http://www.networkdictionary.cn/protocols/sap.php">SAP：会话通知协议（Session 
+Announcement Protocol） ›</A></DIV></DIV></DIV>
+<DIV class="clear-block clear">
+<DIV class=meta></DIV>
+<DIV class=links>
+<UL class="links inline">
+  <LI class="first book_printer"><A class=book_printer title=显示该手册页及其子页面的打印版本。 
+  href="http://www.networkdictionary.cn/book/export/html/776">适合打印的版本</A> 
+  <LI class=comment_add><A class=comment_add title=分享您有关本文的看法与观点。 
+  href="http://www.networkdictionary.cn/comment/reply/776#comment-form">添加新评论</A> 
+
+  <LI class="last statistics_counter"><SPAN class=statistics_counter>1381 
+  次阅读</SPAN> </LI></UL></DIV></DIV></DIV>
+<DIV id=comments></DIV><SPAN class=clear></SPAN></DIV>
+<DIV id=sidebar-right>
+<DIV id=right-ads-top></DIV>
+<DIV class=right-ads-content>
+<SCRIPT language=JavaScript src="" type=text/javascript></SCRIPT>
+
+<SCRIPT language=JavaScript type=text/javascript>
+			<!--
+			if (!document.phpAds_used) document.phpAds_used = ',';
+				phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
+				document.write ("<" + "script language='JavaScript' type='text/javascript' src='");
+				document.write ("http://www.networkdictionary.cn/ads/adjs.php?n=" + phpAds_random);
+				document.write ("&amp;what=zone:2");
+				document.write ("&amp;exclude=" + document.phpAds_used);
+			if (document.referrer)
+				document.write ("&amp;referer=" + escape(document.referrer));
+				document.write ("'><" + "/script>");
+			//-->
+			</SCRIPT>
+<NOSCRIPT><A href="http://www.networkdictionary.cn/ads/adclick.php?n=a198c5ad" 
+target=_blank><IMG alt="" src="" border=0></A></NOSCRIPT> </DIV>
+<DIV class=right-ads-content>
+<SCRIPT language=JavaScript src="" type=text/javascript></SCRIPT>
+
+<SCRIPT language=JavaScript type=text/javascript>
+				<!--
+				if (!document.phpAds_used) document.phpAds_used = ',';
+					phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
+					document.write ("<" + "script language='JavaScript' type='text/javascript' src='");
+					document.write ("http://www.networkdictionary.cn/ads/adjs.php?n=" + phpAds_random);
+					document.write ("&amp;what=zone:3");
+					document.write ("&amp;exclude=" + document.phpAds_used);
+				if (document.referrer)
+					document.write ("&amp;referer=" + escape(document.referrer));
+					document.write ("'><" + "/script>");
+				//-->
+			</SCRIPT>
+<NOSCRIPT><A href="http://www.networkdictionary.cn/ads/adclick.php?n=a4832ab8" 
+target=_blank><IMG alt="" src="" border=0></A></NOSCRIPT> </DIV>
+<DIV class=right-ads-content>
+<SCRIPT language=JavaScript src="" type=text/javascript></SCRIPT>
+
+<SCRIPT language=JavaScript type=text/javascript>
+				<!--
+				if (!document.phpAds_used) document.phpAds_used = ',';
+					phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
+					document.write ("<" + "script language='JavaScript' type='text/javascript' src='");
+					document.write ("http://www.networkdictionary.cn/ads/adjs.php?n=" + phpAds_random);
+					document.write ("&amp;what=zone:4");
+					document.write ("&amp;exclude=" + document.phpAds_used);
+				if (document.referrer)
+					document.write ("&amp;referer=" + escape(document.referrer));
+					document.write ("'><" + "/script>");
+				//-->
+			</SCRIPT>
+<NOSCRIPT><A href="http://www.networkdictionary.cn/ads/adclick.php?n=a7e7c5f6" 
+target=_blank><IMG alt="" src="" border=0></A></NOSCRIPT> </DIV>
+<DIV id=right-ads-bottom></DIV>
+<DIV style="MARGIN-TOP: 5px">
+<SCRIPT type=text/javascript><!--
+google_ad_client = "pub-6035020584341153";
+google_alternate_color = "FFFFFF";
+google_ad_width = 200;
+google_ad_height = 200;
+google_ad_format = "200x200_as";
+google_ad_type = "text_image";
+//2007-11-06: networkdictionary, networkdictionary-chinese
+google_ad_channel = "7433215944+5240913643";
+google_color_border = "B3B3B3";
+google_color_bg = "E6E6E6";
+google_color_link = "0066CC";
+google_color_text = "000000";
+google_color_url = "0066CC";
+google_ui_features = "rc:6";
+//-->
+</SCRIPT>
+
+<SCRIPT src="实时流协议（Real Time Streaming Protocol）.files/show_ads.js" 
+type=text/javascript>
+</SCRIPT>
+</DIV></DIV></DIV>
+<DIV class=page>
+<DIV id=BottomAds>
+<SCRIPT language=JavaScript src="" type=text/javascript></SCRIPT>
+
+<SCRIPT language=JavaScript type=text/javascript>
+<!--
+   if (!document.phpAds_used) document.phpAds_used = ',';
+   phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
+   
+   document.write ("<" + "script language='JavaScript' type='text/javascript' src='");
+   document.write ("http://www.networkdictionary.cn/ads/adjs.php?n=" + phpAds_random);
+   document.write ("&amp;what=zone:1");
+   document.write ("&amp;exclude=" + document.phpAds_used);
+   if (document.referrer)
+      document.write ("&amp;referer=" + escape(document.referrer));
+   document.write ("'><" + "/script>");
+//-->
+</SCRIPT>
+<NOSCRIPT><A href="http://www.networkdictionary.cn/ads/adclick.php?n=a57bc46c" 
+target=_blank><IMG alt="" src="" border=0></A></NOSCRIPT> </DIV></DIV>
+<DIV id=footer><A 
+href="http://www.networkdictionary.cn/CopyrightStatement.php">版权声明</A> 
+&nbsp;|&nbsp; <A href="http://www.networkdictionary.cn/hr.php">招聘信息</A> 
+&nbsp;|&nbsp; <A 
+href="mailto:?subject=I found a website&amp;body=http://www.networkdictionary.cn">告诉朋友</A> 
+&nbsp;|&nbsp; <A 
+href="http://www.networkdictionary.cn/author/index.php">欢迎投稿</A> &nbsp;|&nbsp; 
+<A href="http://www.networkdictionary.cn/links/index.php">友情链接</A> &nbsp;|&nbsp; 
+<A href="http://www.networkdictionary.cn/contactus/index.php">联系我们</A> 
+&nbsp;|&nbsp; <A 
+href="http://www.networkdictionary.cn/advertisement/index.php">广告服务</A> 
+&nbsp;|&nbsp; <A 
+href="http://www.networkdictionary.cn/advertisement/whitepaper.php">白皮书</A> 
+&nbsp;|&nbsp; <A 
+href="http://www.networkdictionary.cn/screensaver/index.php">屏幕保护</A> 
+&nbsp;|&nbsp; <A 
+href="http://www.networkdictionary.cn/sitemap/index.php">网站地图</A></DIV>
+<DIV id=copyright>© 2004-2007 网络大典 www.NetworkDictionary.cn 版权所有
+<SCRIPT language=javascript 
+src="实时流协议（Real Time Streaming Protocol）.files/1389631.js" 
+type=text/javascript></SCRIPT>
+ <NOSCRIPT><A href="http://www.51.la/?1389631" target=_blank><IMG 
+style="BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none" 
+alt=我要啦免费统计 
+src="实时流协议（Real Time Streaming Protocol）.files/go.htm"></A></NOSCRIPT></DIV></BODY></HTML>

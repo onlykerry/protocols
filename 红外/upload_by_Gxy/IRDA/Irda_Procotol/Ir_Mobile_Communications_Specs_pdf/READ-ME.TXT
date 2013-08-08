@@ -1,0 +1,14 @@
+read-me.txt
+
+This set of specifications consists of four main documents that, together, form the IrMC definitions.
+1.  'IrMC_v1p1.pdf' (v1.1, dated 01 Mar, 99) is the main IrMC specification.
+2.  'vchgs_1p0.pdf' (v1.0, dated 15 Oct '97) extends the Internet Mail Consortium's vCard v2.1 specification.
+3.  'Ultra_1p0.pdf' (v1.0, dated 15 Oct '97) defines the connectionless version of the IrMC specification.
+4.  'IrPHY_1p3.pdf' (v1.3, dated 15 Oct '98) extends IrPHY to handle lower power, shorter distance FIr connections in addition to the similar SIr extensions provided in v1.2.
+
+This update to the IrMC set of specifications incorporates all the published errata from the past year plus synchronization updates and errata from the January '99 IrDA meeting.
+
+Please note that the IrMC set of specifications is actively evolving and, as such, will continue to further refine the transfer of information between radios, PDAs, and PCs as time and radio and low-power consumer device technologies progress.  If the reader is currently implementing or planning to implement IrMC features in such products, please contact IrMC Convenors Rob Lockhart ('rob.lockhart@mot.com') or James Scales ('james.scales@nmp.nokia.com') for access to the current state of these specifications and updates concerning in-process tasks.
+
+Thank you,
+IrMC Task Force

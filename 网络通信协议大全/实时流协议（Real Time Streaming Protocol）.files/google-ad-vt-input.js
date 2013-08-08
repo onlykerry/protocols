@@ -1,0 +1,11 @@
+google_ad_client = "pub-6035020584341153";
+google_alternate_ad_url = "http://www.networkdictionary.cn/ad_vt.php";
+google_ad_width = 160;
+google_ad_height = 600;
+google_ad_format = "160x600_as";
+google_ad_channel ="5240913643";
+google_color_border = "00548c";
+google_color_bg = "ffffff";
+google_color_link = "00548c";
+google_color_url = "00548c";
+google_color_text = "000000";

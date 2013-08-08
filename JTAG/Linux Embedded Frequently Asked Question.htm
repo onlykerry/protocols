@@ -1,0 +1,89 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Sebastien HUET">
+   <meta name="Description" content="Linux embedded FAQ and related questions">
+   <meta name="Keywords" content="linux,embedded,faq,frequently,asked,question,mini,small,f.a.q.,introduction,howto,manual,white,paper,qnx,vxworks">
+   <title>Linux Embedded FAQ</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EF" vlink="#51188E" alink="#FF0000">
+
+<center>
+<h1>
+Linux Embedded Frequently Asked Question</h1></center>
+
+<center>
+<h1>
+V0.3 September, 1999</h1></center>
+<a href="#Introduction">Introduction</a>
+<br><a href="#1">1 Linux as embedded operating system (EOS)</a>
+<blockquote><a href="#1.1">1.1 Why Linux ?</a>
+<br><a href="#1.2">1.2 Minimal configuration ?</a></blockquote>
+<a href="#2">2 Linux as real time operating system (RTOS)</a>
+<blockquote><a href="#2.1">2.1 RT-Linux</a></blockquote>
+<a href="#3">3 Linux &amp; flash Cards, flash eproms</a>
+<blockquote><a href="#3.1">3.1 Pcmcia flash cards</a>
+<br><a href="#3.2">3.2 DiskOnChip</a>
+<br><a href="#3.3">3.3 Flash Limited write cycles</a>
+<blockquote><a href="#3.3.1">3.3.1 solutions</a></blockquote>
+</blockquote>
+<a href="#References">References</a>
+<h1>
+<a NAME="Introduction"></a>Introduction.</h1>
+This faq has been made from discussions on different linux embedded and
+related mailing list and from several articles about linux as embedded
+os. You, reader, may find some of your words or explanations in this document.
+If you don't complain with this, please send mail to faq@linux-embedded.com
+describing the part you are claiming , other comments may also be sent
+at the same mail address.
+<h1>
+<a NAME="1"></a>1 Linux as embedded operating system (EOS)</h1>
+The choice between EOS depends on what you have to do. If you are writing
+the firmware for a coffee maker, it will be silly to use a unix like OS.
+<h2>
+<a NAME="1.1"></a>1.1 Why Linux ?</h2>
+Linux is freely available , includes a TCP/IP stack, runs over a multitude
+of architecture, and provides drivers for almost all devices.
+<h2>
+<a NAME="1.2"></a>1.2 Minimal configuration ?</h2>
+On a i386 architecture, the minimal needs are 386sx16 with 1Mb hard or
+flashdisk, and 4 Mb of ram
+<p>authors: <a href="#Ivo Zyvkov">Zyvkov Ivo</a>, <a href="#Ingo Cyliax">Ingo
+Cyliax</a>
+<h2>
+<a NAME="2"></a>2 Linux as real time operating system (RTOS)</h2>
+A real time operating system is an operating system whose correctness depends
+not only on the logic result, but also on the time that the result is produced.
+RTOSs are used in a variety of applications, especially embedded systems,
+and are becoming increasingly important. These types of systems usually
+involve the control of robots or machinery, telecommunications, air traffic
+control and military command and control.
+<h2>
+<a NAME="2.1"></a>2.1 RT-Linux</h2>
+RT-Linux follows the model of Linux: open source code and a cooperative
+development environment mainly through the Internet. This results in fast
+bug detection and fixing, as well as good user support through mailing
+lists and newsgroups. The RT-Linux approach to the design of a real-time
+module to the Linux kernel differs from that of traditional RTOSs like
+VxWorks and QNX. Instead of having a real-time kernel that provides all
+the OS features as real-time features, RT-Linux tries to separate the real-time
+services and non real-time services. It leaves all the major OS features
+like networking, device access (drivers), GUI system to the Linux kernel,
+and provides very basic features for
+<br>real-time processing.
+<p>authors: <a href="#Bernard Nahas">Bernard Nahas</a>
+<p>links to Linux &amp; Real Time may be found <a href="lem_links.html#RTOS">there</a>.
+<h1>
+<a NAME="3"></a>3 Linux &amp; flash Cards, flash eproms</h1>
+&nbsp;
+<h2>
+<a NAME="3.1"></a>3.1 Pcmcia flash cards</h2>
+
+<p><br>Pcmcia flash cards are seen as standard hard disk, while using the
+pcmcia package.
+<br>&nbsp;
+<h2>
+<a NAME="3.2"></a>3.2 DiskOnChip</h2>
+
+<p><b

@@ -1,0 +1,2523 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> <HTML>
+<HEAD> <META NAME="GENERATOR" CONTENT="langdoc 1.0.1"> <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1"> <TITLE> file </TITLE> </HEAD> <BODY> <TABLE BORDER="1" WIDTH="100%" CELLPADDING="6"> <TR> <TD ALIGN=CENTER VALIGN=MIDDLE BGCOLOR=BLUE> <H1> <FONT COLOR="#FFFFFF"> file </FONT> </H1> </TD> </TR> </TABLE>
+<P ALIGN=RIGHT> <I> Copyright (c) 2003</I> </P>
+<H2> Library Usage </H2>
+<H3> Package Description </H3>
+<H3> Package Summary </H3>
+<H4> Constants </H4>
+<PRE></PRE>
+
+<H4> Global Variables </H4>
+<PRE></PRE>
+
+<H4> Macros </H4>
+<PRE></PRE>
+
+<H4> Functions </H4>
+<PRE><A HREF="#fat_calc_cluster">fat_calc_cluster</A> 
+<A HREF="#fat_check_ext">fat_check_ext</A> 
+<A HREF="#fat_check_ext">fat_check_ext</A> 
+<A HREF="#fat_clear_dir_info">fat_clear_dir_info</A> 
+<A HREF="#fat_clear_fat">fat_clear_fat</A> 
+<A HREF="#fat_clear_fat">fat_clear_fat</A> 
+<A HREF="#fat_clear_file_name">fat_clear_file_name</A> 
+<A HREF="#fat_clear_file_name">fat_clear_file_name</A> 
+<A HREF="#fat_dgetc">fat_dgetc</A> 
+<A HREF="#fat_dgetc">fat_dgetc</A> 
+<A HREF="#fat_dseek">fat_dseek</A> 
+<A HREF="#fat_dseek">fat_dseek</A> 
+<A HREF="#fat_fclose">fat_fclose</A> 
+<A HREF="#fat_fclose">fat_fclose</A> 
+<A HREF="#fat_fcreate">fat_fcreate</A> 
+<A HREF="#fat_fcreate">fat_fcreate</A> 
+<A HREF="#fat_fdelete">fat_fdelete</A> 
+<A HREF="#fat_fdelete">fat_fdelete</A> 
+<A HREF="#fat_feob">fat_feob</A> 
+<A HREF="#fat_feob">fat_feob</A> 
+<A HREF="#fat_feof">fat_feof</A> 
+<A HREF="#fat_feof">fat_feof</A> 
+<A HREF="#fat_fetch_file_info">fat_fetch_file_info</A> 
+<A HREF="#fat_fgetc">fat_fgetc</A> 
+<A HREF="#fat_fgetc">fat_fgetc</A> 
+<A HREF="#fat_file_get_pos">fat_file_get_pos</A> 
+<A HREF="#fat_file_get_pos">fat_file_get_pos</A> 
+<A HREF="#fat_fopen">fat_fopen</A> 
+<A HREF="#fat_fopen">fat_fopen</A> 
+<A HREF="#fat_format">fat_format</A> 
+<A HREF="#fat_format">fat_format</A> 
+<A HREF="#fat_fputc">fat_fputc</A> 
+<A HREF="#fat_fputc">fat_fputc</A> 
+<A HREF="#fat_free_space">fat_free_space</A> 
+<A HREF="#fat_fseek">fat_fseek</A> 
+<A HREF="#fat_fseek">fat_fseek</A> 
+<A HREF="#fat_fseek_abs">fat_fseek_abs</A> 
+<A HREF="#fat_fseek_abs">fat_fseek_abs</A> 
+<A HREF="#fat_get_clusters">fat_get_clusters</A> 
+<A HREF="#fat_get_clusters">fat_get_clusters</A> 
+<A HREF="#fat_get_dir_entry">fat_get_dir_entry</A> 
+<A HREF="#fat_get_dir_file_list">fat_get_dir_file_list</A> 
+<A HREF="#fat_get_dir_file_list">fat_get_dir_file_list</A> 
+<A HREF="#fat_get_free_clusters">fat_get_free_clusters</A> 
+<A HREF="#fat_get_name">fat_get_name</A> 
+<A HREF="#fat_get_name">fat_get_name</A> 
+<A HREF="#fat_get_root_directory">fat_get_root_directory</A> 
+<A HREF="#fat_get_root_directory">fat_get_root_directory</A> 
+<A HREF="#fat_goto_next">fat_goto_next</A> 
+<A HREF="#fat_goto_next">fat_goto_next</A> 
+<A HREF="#fat_goto_parentdir">fat_goto_parentdir</A> 
+<A HREF="#fat_goto_parentdir">fat_goto_parentdir</A> 
+<A HREF="#fat_goto_prev">fat_goto_prev</A> 
+<A HREF="#fat_goto_prev">fat_goto_prev</A> 
+<A HREF="#fat_goto_subdir">fat_goto_subdir</A> 
+<A HREF="#fat_goto_subdir">fat_goto_subdir</A> 
+<A HREF="#fat_install">fat_install</A> 
+<A HREF="#fat_install">fat_install</A> 
+<A HREF="#fat_install">fat_install</A> 
+<A HREF="#fat_load_sector">fat_load_sector</A> 
+<A HREF="#fat_read_cluster12">fat_read_cluster12</A> 
+<A HREF="#fat_refresh_dir_file_info">fat_refresh_dir_file_info</A> 
+<A HREF="#fat_refresh_dir_file_info">fat_refresh_dir_file_info</A> 
+<A HREF="#fat_save_cluster_info">fat_save_cluster_info</A> 
+<A HREF="#fat_save_cluster_info">fat_save_cluster_info</A> 
+<A HREF="#fat_seek_entry_record">fat_seek_entry_record</A> 
+<A HREF="#fat_seek_entry_record">fat_seek_entry_record</A> 
+<A HREF="#fat_seek_first">fat_seek_first</A> 
+<A HREF="#fat_seek_first">fat_seek_first</A> 
+<A HREF="#fat_seek_last">fat_seek_last</A> 
+<A HREF="#fat_seek_last">fat_seek_last</A> 
+<A HREF="#fat_set_clusters">fat_set_clusters</A> 
+<A HREF="#fat_up_down_load_sector">fat_up_down_load_sector</A> 
+<A HREF="#fat_update_buf_fat">fat_update_buf_fat</A> 
+<A HREF="#fat_update_entry_fat">fat_update_entry_fat</A> 
+<A HREF="#fat_update_entry_fat">fat_update_entry_fat</A> 
+<A HREF="#fat_update_fat_sector">fat_update_fat_sector</A> 
+<A HREF="#fat_update_fat_sector">fat_update_fat_sector</A> 
+<A HREF="#file_entry_dir">file_entry_dir</A> 
+<A HREF="#file_seek_next">file_seek_next</A> 
+<A HREF="#file_seek_prev">file_seek_prev</A> 
+Hard_write_byte ( 0x01 ) ; 
+<A HREF="#iso_check_ext">iso_check_ext</A> 
+<A HREF="#iso_dgetw">iso_dgetw</A> 
+<A HREF="#iso_dseek">iso_dseek</A> 
+<A HREF="#iso_fclose">iso_fclose</A> 
+<A HREF="#iso_feob">iso_feob</A> 
+<A HREF="#iso_feof">iso_feof</A> 
+<A HREF="#iso_fetch_directory_info">iso_fetch_directory_info</A> 
+<A HREF="#iso_fgetc">iso_fgetc</A> 
+<A HREF="#iso_file_get_pos">iso_file_get_pos</A> 
+<A HREF="#iso_fopen">iso_fopen</A> 
+<A HREF="#iso_fseek">iso_fseek</A> 
+<A HREF="#iso_fseek_abs">iso_fseek_abs</A> 
+<A HREF="#iso_get_directory">iso_get_directory</A> 
+<A HREF="#iso_get_file_dir">iso_get_file_dir</A> 
+<A HREF="#iso_get_name">iso_get_name</A> 
+<A HREF="#iso_goto_first">iso_goto_first</A> 
+<A HREF="#iso_goto_last">iso_goto_last</A> 
+<A HREF="#iso_goto_next">iso_goto_next</A> 
+<A HREF="#iso_goto_parent_dir">iso_goto_parent_dir</A> 
+<A HREF="#iso_goto_prev">iso_goto_prev</A> 
+<A HREF="#iso_read_volume_descriptor">iso_read_volume_descriptor</A> 
+<A HREF="#iso_save_file_pos">iso_save_file_pos</A> </PRE>
+
+<H3> Files List </H3>
+<UL>
+<LI><B><A NAME="fat.c"></A> fat.c</B><BR></LI>
+<UL>FAT16/FAT12 file-system basics functions NOTES: Supports only the first partition Supports only 512 bytes sector size Supports only file fragmentation < MAX_FILE_FRAGMENT_NUMBER Supports only one file openned at a time Global Variables: - gl_buffer: array of bytes in pdata space</UL>
+<LI><B><A NAME="fat.h"></A> fat.h</B><BR></LI>
+<UL>FAT16/FAT12 file-system basic functions definition</UL>
+<LI><B><A NAME="fat32.c"></A> fat32.c</B><BR></LI>
+<UL>FAT32 file-system basics functions NOTES: Supports only the first partition Supports only 512 bytes sector size Supports only file fragmentation < MAX_FILE_FRAGMENT_NUMBER Supports only one file openned at a time Global Variables: - gl_buffer: array of bytes in pdata space</UL>
+<LI><B><A NAME="fat32.h"></A> fat32.h</B><BR></LI>
+<UL>FAT32 file-system basic functions definition</UL>
+<LI><B><A NAME="file.c"></A> file.c</B><BR></LI>
+<UL>This file contains extention routines to the file system</UL>
+<LI><B><A NAME="file.h"></A> file.h</B><BR></LI>
+<UL>This file contains the file function definition</UL>
+<LI><B><A NAME="fs.h"></A> fs.h</B><BR></LI>
+<UL>This file contains the system configuration definition</UL>
+<LI><B><A NAME="fs_variable.c"></A> fs_variable.c</B><BR></LI>
+<UL>File system variable definition NOTES: Arrangement : FAT12/16 only FAT32 only FAT32 and ISO 9660 FAT12/16 and ISO 9660 ?</UL>
+<LI><B><A NAME="iso9660.c"></A> iso9660.c</B><BR></LI>
+<UL>ISO9660 file-system basics functions NOTES: Some variables are shared with fat.c module : data  Uint32 fat_ptr_data data  Uint16 fat_fclust_byte_count idata Uint16 fat_dclust_byte_count idata Uint32 fat_dir_current_sect idata Uint16 fat_dir_list_index xdata char   ext[] xdata Byte   fat_buf_sector[] Global variable : pdata Byte   gl_buffer[]</UL>
+<LI><B><A NAME="iso9660.h"></A> iso9660.h</B><BR></LI>
+<UL>ISO filesystem basic functions</UL>
+<LI><B><A NAME="wav.h"></A> wav.h</B><BR></LI>
+<UL>This file contains the wav file header definition WAVE FILE FORMAT ================ RIFF Chunk (12 bytes in length total) ------------------------------------- Byte Nb 0 - 3     "RIFF" (ASCII Characters) 4 - 7     Total Length Of Package To Follow (Binary, little endian) 8 - 11    "WAVE" (ASCII Characters) FORMAT Chunk (24 bytes in length total) --------------------------------------- Byte Nb 0 - 3     "fmt " (ASCII Characters) 4 - 7     Length Of FORMAT Chunk (Binary, always 0x10) 8 - 9     Always 0x01 10 - 11   Channel Numbers (Always 0x01=Mono, 0x02=Stereo) 12 - 15   Sample Rate (Binary, in Hz) 16 - 19   Bytes Per Second 20 - 21   Bytes Per Sample: 1= 8b Mono, 2= 8b Stereo or 16b Mono, 4= 16b Stereo 22 - 23   Bits Per Sample DATA Chunk ---------- Byte Nb 0 - 3     "data" (ASCII Characters) 4 - 7     Length Of Data To Follow 8 - end   Data (Samples) EXAMPLE ------- 0000  52 49 46 46 46 2D 00 00-57 41 56 45 66 6D 74 20   RIFFF-..WAVEfmt 0010  10 00 00 00 01 00 01 00-22 56 00 00 22 56 00 00   ........"V.."V.. 0020  01 00 08 00 64 61 74 61-22 2D 00 00 80 80 80 80   ....data"-...... 0030  80 80 80 80 80 80 80 80-80 80 80 80 80 80 80 80   ................ 0040  80 80 80 80 80 80 80 80-80 80 80 80 80 80 80 80   ................ As expected, the file begins with the ASCII characters "RIFF" identifying it as a WAV file. The next four bytes tell us the length is 0x2D46 bytes (11590 bytes in decimal) which is the length of the entire file minus the 8 bytes for the "RIFF" and length (11598 - 11590 = 8 bytes). The ASCII characters for "WAVE" and "fmt " follow. Next (line 2 above) we find the value 0x00000010 in the first 4 bytes (length of format chunk: always constant at 0x10). The next four bytes are 0x0001 (Always) and 0x0001 (A mono WAV, one channel used). Since this is a 8-bit WAV, the sample rate and the bytes/second are the same at 0x00005622 or 22,050 in decimal. For a 16-bit stereo WAV the bytes/sec would be 4 times the sample rate. The next 2 bytes show the number of bytes per sample to be 0x0001 (8-bit mono) and the number of bits per sample to be 0x0008. Finally, the ASCII characters for "data" appear followed by 0x00002D22 (11,554 decimal) which is the number of bytes of data to follow (actual samples). The data is a value from 0x00 to 0xFF. In the example above 0x80 would represent "0" or silence on the output since the DAC used to playback samples is a bipolar device (i.e. a value of 0x00 would output a negative voltage and a value of 0xFF would output a positive voltage at the output of the DAC on the sound card)</UL>
+</UL>
+<H3> Included Files </H3>
+<UL>
+<LI><B>..\mem\hard.h"                    / *  low level function definition  * / </B><BR></LI>
+<LI><B>config.h"                         / *  system configuration    * / </B><BR></LI>
+<LI><B>config.h"                         / *  system configuration  * / </B><BR></LI>
+<LI><B>fat.h"                            / *  FAT file-system definition  * / </B><BR></LI>
+<LI><B>fat.h"                            / *  fat file-system definition  * / </B><BR></LI>
+<LI><B>fat32.h"                            / *  FAT file-system definition  * / </B><BR></LI>
+<LI><B>fat32.h"                          / *  fat32 file-system definition  * / </B><BR></LI>
+<LI><B>file.h"                           / *  file function definition  * / </B><BR></LI>
+<LI><B>file.h"                           / *  file system definition  * / </B><BR></LI>
+<LI><B>fs.h"                             / *  file system definition  * / </B><BR></LI>
+<LI><B>iso9660.h"                          / *  ISO 9660 file-system definition  * / </B><BR></LI>
+<LI><B>iso9660.h"                        / *  iso9660 file-system definition  * / </B><BR></LI>
+<LI><B>modules\display\disp_task.h"      / *  display definition  * / </B><BR></LI>
+</UL>
+<H2> Types Description </H2>
+<UL>
+<LI><B><A NAME="data_struct"></A> data_struct</B><BR></LI>
+<UL><PRE>struct
+{ /* DATA info */
+  char    dat[4];
+  Uint32  data_length;
+} </PRE>
+</UL>
+<LI><B><A NAME="fat_st_cache"></A> fat_st_cache</B><BR></LI>
+<UL><PRE>struct
+{
+  fat_st_dir_entry parent;                     /* parent directory */
+  fat_st_dir_entry current;                    /* current file/directory info */
+} </PRE>
+</UL>
+<LI><B><A NAME="fat_st_cache"></A> fat_st_cache</B><BR></LI>
+<UL><PRE>struct
+{
+  fat_st_dir_entry parent;                     /* parent directory */
+  fat_st_dir_entry current;                    /* current file/directory info */
+} </PRE>
+</UL>
+<LI><B><A NAME="fat_st_clust_chain"></A> fat_st_clust_chain</B><BR></LI>
+<UL><PRE>struct
+{
+  Uint32 cluster;                           /* starting cluster of fragment */
+  Uint16 number;                            /* number of subsequent clusters in fragment */
+} </PRE>
+</UL>
+<LI><B><A NAME="fat_st_clust_chain"></A> fat_st_clust_chain</B><BR></LI>
+<UL><PRE>struct
+{
+  Uint32 cluster;                           /* starting cluster of fragment */
+  Uint16 number;                            /* number of subsequent clusters in fragment */
+} </PRE>
+</UL>
+<LI><B><A NAME="fat_st_dir_entry"></A> fat_st_dir_entry</B><BR></LI>
+<UL><PRE>struct
+{
+  Byte    attributes;                       /* Attributes bits                */
+  /* Here could stand times variables, unused ...                             */
+  Uint32  start_cluster;                    /* Starting cluster number        */
+  Union32 size;                             /* File size in bytes             */
+} </PRE>
+</UL>
+<LI><B><A NAME="fat_st_dir_entry"></A> fat_st_dir_entry</B><BR></LI>
+<UL><PRE>struct
+{
+  Byte    attributes;                       /* Attributes bits                */
+  /* Here could stand times variables, unused ...                             */
+  Uint32  start_cluster;                    /* Starting cluster number        */
+  Union32 size;                             /* File size in bytes             */
+} </PRE>
+</UL>
+<LI><B><A NAME="fat_st_free_space"></A> fat_st_free_space</B><BR></LI>
+<UL><PRE>struct
+{
+  Uint32 free_cluster;                      /* number of free cluster */
+  Byte   cluster_size;                      /* cluster size in sector */
+} </PRE>
+</UL>
+<LI><B><A NAME="fmt_struct"></A> fmt_struct</B><BR></LI>
+<UL><PRE>struct
+{ /* FMT info */
+  char    fmt[4];
+  Uint32  fmt_length;
+  Uint16  wav_format; 
+  Uint16  channel_nb;
+  Uint32  sample_rate;
+  Uint32  bytes_per_second;
+  Uint16  bytes_per_sample;
+  Uint16  bits_per_sample;
+} </PRE>
+</UL>
+<LI><B><A NAME="iso_cache"></A> iso_cache</B><BR></LI>
+<UL><PRE>struct
+{
+  iso_file info;
+  iso_file parent;
+} </PRE>
+</UL>
+<LI><B><A NAME="iso_DirectoryRecord"></A> iso_DirectoryRecord</B><BR></LI>
+<UL><PRE>struct
+{
+  Byte length;            /* length of the record     */
+  Uint32 extend_location; /* location of the extend   */
+  Uint32 data_length;     /* length of directory/file */
+} </PRE>
+</UL>
+<LI><B><A NAME="iso_file"></A> iso_file</B><BR></LI>
+<UL><PRE>struct 
+{
+  Byte attributes;
+  Uint32 extend_location;
+  Uint32 extend_size;
+  Uint16 entry_len;
+} </PRE>
+</UL>
+<LI><B><A NAME="iso_VolumeDescriptor"></A> iso_VolumeDescriptor</B><BR></LI>
+<UL><PRE>struct 
+{
+  Uint16 logical_block_size;  /* Size of the logical block usually 2048 bytes */
+  iso_DirectoryRecord root;   /* root directory record                        */
+  Uint32 volume_size;         /* volume size                                  */
+} </PRE>
+</UL>
+<LI><B><A NAME="riff_struct"></A> riff_struct</B><BR></LI>
+<UL><PRE>struct
+{ /* RIFF info */
+  char    riff[4];
+  Uint32  pack_length;
+  char    wave[4];
+} </PRE>
+</UL>
+<LI><B><A NAME="wav_struct"></A> wav_struct</B><BR></LI>
+<UL><PRE>struct
+{
+  riff_struct   rif_info;
+  fmt_struct    fmt_info;
+  data_struct   dat_info;
+} </PRE>
+</UL>
+</UL>
+<H2> Constant Macros </H2>
+<H2> Global Variables </H2>
+<H2> Function Macros </H2>
+<H2> Functions </H2>
+<A NAME="fat_calc_cluster"></A>
+<H3> fat_calc_cluster </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_calc_cluster">fat_calc_cluster</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Calculate fat_dir_current_sect and update directory variable from the
+value of fat_dir_current_offs.
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  
+*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_check_ext"></A>
+<H3> fat_check_ext </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Byte <A HREF="#fat_check_ext">fat_check_ext</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Return the type of the file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_check_ext"></A>
+<H3> fat_check_ext </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Byte <A HREF="#fat_check_ext">fat_check_ext</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Return the type of the file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_clear_dir_info"></A>
+<H3> fat_clear_dir_info </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_clear_dir_info">fat_clear_dir_info</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Reset directory chain cluster value
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  
+*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_clear_fat"></A>
+<H3> fat_clear_fat </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_clear_fat">fat_clear_fat</A>  ( Uint32 start_cluster )  </PRE></TD>
+
+</TABLE>
+<P>
+Reset FAT clusters value
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>   
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_clear_fat"></A>
+<H3> fat_clear_fat </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_clear_fat">fat_clear_fat</A>  ( Uint32 start_cluster )  </PRE></TD>
+
+</TABLE>
+<P>
+Reset FAT clusters value
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>   
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_clear_file_name"></A>
+<H3> fat_clear_file_name </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_clear_file_name">fat_clear_file_name</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Initialise the file name string
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_clear_file_name"></A>
+<H3> fat_clear_file_name </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_clear_file_name">fat_clear_file_name</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Initialise the file name string
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_dgetc"></A>
+<H3> fat_dgetc </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Byte <A HREF="#fat_dgetc">fat_dgetc</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Return the directory data byte at the current position
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_dgetc"></A>
+<H3> fat_dgetc </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Byte <A HREF="#fat_dgetc">fat_dgetc</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Return the directory data byte at the current position
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_dseek"></A>
+<H3> fat_dseek </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_dseek">fat_dseek</A>  ( Int16 offset )  </PRE></TD>
+
+</TABLE>
+<P>
+Seek from the current position to a new offset computing relative
+poisition +/- scan size limited to a 16 bit offset
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  offset: offset to current position in signed word value
+*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+We consider here that the seek size is minor to the cluster size !!!
+if you want to do a more than a cluster seek, issue two successive
+dseek commands
+<HR>
+<A NAME="fat_dseek"></A>
+<H3> fat_dseek </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_dseek">fat_dseek</A>  ( Int16 offset )  </PRE></TD>
+
+</TABLE>
+<P>
+Seek from the current position to a new offset computing relative
+poisition +/- scan size limited to a 16 bit offset
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  offset: offset to current position in signed word value
+*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+We consider here that the seek size is minor to the cluster size !!!
+if you want to do a more than a cluster seek, issue two successive
+dseek commands
+<HR>
+<A NAME="fat_fclose"></A>
+<H3> fat_fclose </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_fclose">fat_fclose</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Close opened file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_fclose"></A>
+<H3> fat_fclose </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_fclose">fat_fclose</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Close opened file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_fcreate"></A>
+<H3> fat_fcreate </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_fcreate">fat_fcreate</A>  ( char  * file_name ,  Byte attribute )  </PRE></TD>
+
+</TABLE>
+<P>
+Prepare creation of a wav file in the root directory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>   
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+This function creates first the free cluster chain from fat1 and then
+creates an entry in root directory
+<HR>
+<A NAME="fat_fcreate"></A>
+<H3> fat_fcreate </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_fcreate">fat_fcreate</A>  ( char  * file_name ,  Byte attribute )  </PRE></TD>
+
+</TABLE>
+<P>
+Prepare creation of a wav file in the root directory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>   
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+This function creates first the free cluster chain from fat1 and then
+creates an entry in root directory
+<HR>
+<A NAME="fat_fdelete"></A>
+<H3> fat_fdelete </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Byte <A HREF="#fat_fdelete">fat_fdelete</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Delete a selected file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>   
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+This function works only on a root directory entry
+<HR>
+<A NAME="fat_fdelete"></A>
+<H3> fat_fdelete </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Byte <A HREF="#fat_fdelete">fat_fdelete</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Delete a selected file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>   
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+This function works only on a root directory entry
+<HR>
+<A NAME="fat_feob"></A>
+<H3> fat_feob </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_feob">fat_feob</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Determine if B position have been reached in mode repeat A/B
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - TRUE : B position have been reached
+  - FALSE : B position have not benn reached</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_feob"></A>
+<H3> fat_feob </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_feob">fat_feob</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Determine if B position have been reached in mode repeat A/B
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - TRUE : B position have been reached
+  - FALSE : B position have not benn reached</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_feof"></A>
+<H3> fat_feof </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_feof">fat_feof</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Return the file end flag
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_feof"></A>
+<H3> fat_feof </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_feof">fat_feof</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Return the file end flag
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_fetch_file_info"></A>
+<H3> fat_fetch_file_info </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_fetch_file_info">fat_fetch_file_info</A>  ( <A HREF="#fat_st_dir_entry">fat_st_dir_entry</A> xdata  * entry ,  bit direction )  </PRE></TD>
+
+</TABLE>
+<P>
+Get information about a directory or file entry
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  entry: directory entry structure
+*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_fgetc"></A>
+<H3> fat_fgetc </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Byte <A HREF="#fat_fgetc">fat_fgetc</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Read one byte from file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  byte read</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+As this function is called very often it must be short and optimized
+in execution time
+<HR>
+<A NAME="fat_fgetc"></A>
+<H3> fat_fgetc </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Byte <A HREF="#fat_fgetc">fat_fgetc</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Read one byte from file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  byte read</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+As this function is called very often it must be short and optimized
+in execution time
+<HR>
+<A NAME="fat_file_get_pos"></A>
+<H3> fat_file_get_pos </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Uint32 <A HREF="#fat_file_get_pos">fat_file_get_pos</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Calculate the current file position
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  current file position in bytes</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_file_get_pos"></A>
+<H3> fat_file_get_pos </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Uint32 <A HREF="#fat_file_get_pos">fat_file_get_pos</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Calculate the current file position
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  current file position in bytes</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_fopen"></A>
+<H3> fat_fopen </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_fopen">fat_fopen</A>  ( bit mode )  </PRE></TD>
+
+</TABLE>
+<P>
+Open the file in read or write mode
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  mode: READ:   open file for read
+        WRITE:  open file for write
+*
+return:
+  - OK: file opened
+  - KO: file not opened: - file is empty
+                         - low level read error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_fopen"></A>
+<H3> fat_fopen </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_fopen">fat_fopen</A>  ( bit mode )  </PRE></TD>
+
+</TABLE>
+<P>
+Open the file in read or write mode
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  mode: READ:   open file for read
+        WRITE:  open file for write
+*
+return:
+  - OK: file opened
+  - KO: file not opened: - file is empty
+                         - low level read error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_format"></A>
+<H3> fat_format </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_format">fat_format</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Create single FAT12 or FAT16 partition and format the selected memory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+- Single partition
+- Cluster size is 4 or 8 Kbytes
+- Sector size is 512 bytes
+- 2 fats management
+- 512 entries in the root directory
+<HR>
+<A NAME="fat_format"></A>
+<H3> fat_format </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_format">fat_format</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Create single FAT12 or FAT16 partition and format the selected memory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+- Single partition
+- Cluster size is 4 or 8 Kbytes
+- Sector size is 512 bytes
+- 2 fats management
+- 512 entries in the root directory
+<HR>
+<A NAME="fat_fputc"></A>
+<H3> fat_fputc </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_fputc">fat_fputc</A>  ( Byte d )  </PRE></TD>
+
+</TABLE>
+<P>
+Write one byte to file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  d: data byte to write
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+As this function is called very often it must be short and optimized
+in execution time
+<HR>
+<A NAME="fat_fputc"></A>
+<H3> fat_fputc </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_fputc">fat_fputc</A>  ( Byte d )  </PRE></TD>
+
+</TABLE>
+<P>
+Write one byte to file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  d: data byte to write
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+As this function is called very often it must be short and optimized
+in execution time
+<HR>
+<A NAME="fat_free_space"></A>
+<H3> fat_free_space </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE><A HREF="#fat_st_free_space">fat_st_free_space</A> <A HREF="#fat_free_space">fat_free_space</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Get free space
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  
+return:
+  number of free cluster</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_fseek"></A>
+<H3> fat_fseek </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_fseek">fat_fseek</A>  ( Int32 offset )  </PRE></TD>
+
+</TABLE>
+<P>
+Change file pointer of an openned file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  offset: relative signed seek offset in file
+*
+return:
+  seek status:  - OK: seek done
+                - KO: out of file seek</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+In read mode, seek is done with byte boundary
+In write mode, seek is done with sector boundary
+<HR>
+<A NAME="fat_fseek"></A>
+<H3> fat_fseek </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_fseek">fat_fseek</A>  ( Int32 offset )  </PRE></TD>
+
+</TABLE>
+<P>
+Change file pointer of an openned file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  offset: relative signed seek offset in file
+*
+return:
+  seek status:  - OK: seek done
+                - KO: out of file seek</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+In read mode, seek is done with byte boundary
+In write mode, seek is done with sector boundary
+<HR>
+<A NAME="fat_fseek_abs"></A>
+<H3> fat_fseek_abs </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_fseek_abs">fat_fseek_abs</A>  ( Uint32 offset )  </PRE></TD>
+
+</TABLE>
+<P>
+Move ahead file read pointer of an openned file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  offset: absolute seek offset in file
+*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_fseek_abs"></A>
+<H3> fat_fseek_abs </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_fseek_abs">fat_fseek_abs</A>  ( Uint32 offset )  </PRE></TD>
+
+</TABLE>
+<P>
+Move ahead file read pointer of an openned file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  offset: absolute seek offset in file
+*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_get_clusters"></A>
+<H3> fat_get_clusters </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_get_clusters">fat_get_clusters</A>  ( <A HREF="#fat_st_clust_chain">fat_st_clust_chain</A> xdata  * chain ,  Byte nb_frag )  </PRE></TD>
+
+</TABLE>
+<P>
+Prepare a list of the file clusters:
+chain[n].cluster contains the starting cluster number of a fragment
+chain[n].number contains the number of contiguous clusters in fragment
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  chain:   allocation list address
+  nb_frag: maximum number of fragment 
+*
+return:
+  - OK: allocation done
+  - KO: allocation done but truncated: file too much fragmented</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+File cluster list is limited by the nb_frag parameter.
+If memory is too much fragmented, file may not be fully played.
+Last list item always has single cluster
+<HR>
+<A NAME="fat_get_clusters"></A>
+<H3> fat_get_clusters </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_get_clusters">fat_get_clusters</A>  ( <A HREF="#fat_st_clust_chain">fat_st_clust_chain</A> xdata  * chain ,  Byte nb_frag )  </PRE></TD>
+
+</TABLE>
+<P>
+Prepare a list of the file clusters:
+chain[n].cluster contains the starting cluster number of a fragment
+chain[n].number contains the number of contiguous clusters in fragment
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  chain:   allocation list address
+  nb_frag: maximum number of fragment 
+*
+return:
+  - OK: allocation done
+  - KO: allocation done but truncated: file too much fragmented</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+File cluster list is limited by the nb_frag parameter.
+If memory is too much fragmented, file may not be fully played.
+Last list item always has single cluster
+<HR>
+<A NAME="fat_get_dir_entry"></A>
+<H3> fat_get_dir_entry </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_get_dir_entry">fat_get_dir_entry</A>  ( <A HREF="#fat_st_dir_entry">fat_st_dir_entry</A> xdata  * entry )  </PRE></TD>
+
+</TABLE>
+<P>
+Get from directory all information about a directory or file entry
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  entry: directory entry structure
+*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+This function reads directly datas from sectors
+It automaticaly computes difference between LFN and normal entries
+<HR>
+<A NAME="fat_get_dir_file_list"></A>
+<H3> fat_get_dir_file_list </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_get_dir_file_list">fat_get_dir_file_list</A>  ( Byte id )  </PRE></TD>
+
+</TABLE>
+<P>
+Give information about the directory :
+- total number of entries
+- number of deleted entries
+- number of filtered entries (filter is done by checking id value)
+- total number of clusters used by the directory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  id: file extension to select
+*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Example </H4>
+<PRE></PRE>
+
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_get_dir_file_list"></A>
+<H3> fat_get_dir_file_list </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_get_dir_file_list">fat_get_dir_file_list</A>  ( Byte id )  </PRE></TD>
+
+</TABLE>
+<P>
+Give information about the directory :
+- total number of entries
+- number of deleted entries
+- number of filtered entries (filter is done by checking id value)
+- total number of clusters used by the directory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  id: file extension to select
+*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Example </H4>
+<PRE></PRE>
+
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_get_free_clusters"></A>
+<H3> fat_get_free_clusters </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_get_free_clusters">fat_get_free_clusters</A>  ( bit init )  </PRE></TD>
+
+</TABLE>
+<P>
+Prepare a list of the free clusters:
+chain[n].cluster contains the starting cluster number of a fragment
+chain[n].number contains the number of contiguous clusters in fragment
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: allocation done
+  - KO: allocation cannot be done : no free cluster</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+Free cluster list is limited by the nb_frag parameter.
+If memory is too much fragmented, created file may be limited in size.
+Last list item always has single cluster
+<HR>
+<A NAME="fat_get_name"></A>
+<H3> fat_get_name </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>char pdata  *  <A HREF="#fat_get_name">fat_get_name</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Return the address of the file name string
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_get_name"></A>
+<H3> fat_get_name </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>char pdata  *  <A HREF="#fat_get_name">fat_get_name</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Return the address of the file name string
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_get_root_directory"></A>
+<H3> fat_get_root_directory </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_get_root_directory">fat_get_root_directory</A>  ( Byte id )  </PRE></TD>
+
+</TABLE>
+<P>
+Select first available file/dir in root diretory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  id: file extension to select
+*
+return:
+  - OK: file available
+  - KO: no requested file found
+  - KO: low_level memory error</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+Fill all the cache information for the first time
+<HR>
+<A NAME="fat_get_root_directory"></A>
+<H3> fat_get_root_directory </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_get_root_directory">fat_get_root_directory</A>  ( Byte id )  </PRE></TD>
+
+</TABLE>
+<P>
+Select first available file/dir in root diretory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  id: file extension to select
+*
+return:
+  - OK: file available
+  - KO: no requested file found
+  - KO: low_level memory error</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+Fill all the cache information for the first time
+<HR>
+<A NAME="fat_goto_next"></A>
+<H3> fat_goto_next </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_goto_next">fat_goto_next</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Fetch the next dir/file info in cache
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: next file available
+  - KO: last file reached
+  - KO: low_level memory error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_goto_next"></A>
+<H3> fat_goto_next </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_goto_next">fat_goto_next</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Fetch the next dir/file info in cache
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: next file available
+  - KO: last file reached
+  - KO: low_level memory error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_goto_parentdir"></A>
+<H3> fat_goto_parentdir </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_goto_parentdir">fat_goto_parentdir</A>  ( Byte id )  </PRE></TD>
+
+</TABLE>
+<P>
+Go to the parent directory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  id: file extension to select
+*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_goto_parentdir"></A>
+<H3> fat_goto_parentdir </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_goto_parentdir">fat_goto_parentdir</A>  ( Byte id )  </PRE></TD>
+
+</TABLE>
+<P>
+Go to the parent directory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  id: file extension to select
+*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_goto_prev"></A>
+<H3> fat_goto_prev </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_goto_prev">fat_goto_prev</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Fetch the previous directory info in cache
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: previous file available
+  - KO: first file reached
+  - KO: low_level memory error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_goto_prev"></A>
+<H3> fat_goto_prev </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_goto_prev">fat_goto_prev</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Fetch the previous directory info in cache
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: previous file available
+  - KO: first file reached
+  - KO: low_level memory error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_goto_subdir"></A>
+<H3> fat_goto_subdir </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_goto_subdir">fat_goto_subdir</A>  ( Byte id )  </PRE></TD>
+
+</TABLE>
+<P>
+Go to the subdir if current is a directory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  id: file extension to select
+*
+return:
+  - OK: subdir selected
+  - KO: current entry not a directory
+  - KO: low level error</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+Also called by goto_parentdir() with current info from parent info
+<HR>
+<A NAME="fat_goto_subdir"></A>
+<H3> fat_goto_subdir </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_goto_subdir">fat_goto_subdir</A>  ( Byte id )  </PRE></TD>
+
+</TABLE>
+<P>
+Go to the subdir if current is a directory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  id: file extension to select
+*
+return:
+  - OK: subdir selected
+  - KO: current entry not a directory
+  - KO: low level error</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+Also called by goto_parentdir() with current info from parent info
+<HR>
+<A NAME="fat_install"></A>
+<H3> fat_install </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit iso_install ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Install the iso file system
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: intallation succeeded
+  - KO: no primary or supplementary volume descriptor found
+        </PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_install"></A>
+<H3> fat_install </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit iso_install ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Install the iso file system
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: intallation succeeded
+  - KO: no primary or supplementary volume descriptor found
+        </PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_install"></A>
+<H3> fat_install </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit iso_install ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Install the iso file system
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: intallation succeeded
+  - KO: no primary or supplementary volume descriptor found
+        </PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_load_sector"></A>
+<H3> fat_load_sector </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_load_sector">fat_load_sector</A> ( Uint32 sector )  </PRE></TD>
+
+</TABLE>
+<P>
+This function load a sector in fat_buf_sector
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_read_cluster12"></A>
+<H3> fat_read_cluster12 </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Uint16 fat_read_cluster  ( bit init )  </PRE></TD>
+
+</TABLE>
+<P>
+Read in fat12 file system a cluster value
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  init : initialize the parity bit or not
+return:
+  FAT12 cluster value</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_refresh_dir_file_info"></A>
+<H3> fat_refresh_dir_file_info </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_refresh_dir_file_info">fat_refresh_dir_file_info</A>  ( Byte id )  </PRE></TD>
+
+</TABLE>
+<P>
+Reconstruct the file directory list and seek to the file pointed by
+fat_dir_list_index
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>   
+return:
+  </PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_refresh_dir_file_info"></A>
+<H3> fat_refresh_dir_file_info </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_refresh_dir_file_info">fat_refresh_dir_file_info</A>  ( Byte id )  </PRE></TD>
+
+</TABLE>
+<P>
+Reconstruct the file directory list and seek to the file pointed by
+fat_dir_list_index
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>   
+return:
+  </PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_save_cluster_info"></A>
+<H3> fat_save_cluster_info </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_save_cluster_info">fat_save_cluster_info</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Save in locale variables cluster information for the current opened file
+- cluster index
+- number of the cluster
+- number of bytes in the cluster
+<P>
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  
+*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_save_cluster_info"></A>
+<H3> fat_save_cluster_info </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_save_cluster_info">fat_save_cluster_info</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Save in locale variables cluster information for the current opened file
+- cluster index
+- number of the cluster
+- number of bytes in the cluster
+<P>
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  
+*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_seek_entry_record"></A>
+<H3> fat_seek_entry_record </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_seek_entry_record">fat_seek_entry_record</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Fetch the selected entry
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  fat_dir_list_index : # of the fetched entry
+  
+return:
+  OK: file available
+  KO: low level error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_seek_entry_record"></A>
+<H3> fat_seek_entry_record </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_seek_entry_record">fat_seek_entry_record</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Fetch the selected entry
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  fat_dir_list_index : # of the fetched entry
+  
+return:
+  OK: file available
+  KO: low level error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_seek_first"></A>
+<H3> fat_seek_first </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_seek_first">fat_seek_first</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Fetch the first directory info in cache
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: first file found
+  - KO: low level error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_seek_first"></A>
+<H3> fat_seek_first </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_seek_first">fat_seek_first</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Fetch the first directory info in cache
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: first file found
+  - KO: low level error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_seek_last"></A>
+<H3> fat_seek_last </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_seek_last">fat_seek_last</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Fetch the last directory info in cache
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  OK: last file available
+  KO: low level error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_seek_last"></A>
+<H3> fat_seek_last </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_seek_last">fat_seek_last</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Fetch the last directory info in cache
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  OK: last file available
+  KO: low level error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_set_clusters"></A>
+<H3> fat_set_clusters </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#fat_set_clusters">fat_set_clusters</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Prepare a list of the free clusters:
+chain[n].cluster contains the starting cluster number of a fragment
+chain[n].number contains the number of contiguous clusters in fragment
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: allocation done
+  - KO: allocation cannot be done : no free cluster</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+Free cluster list is limited by the nb_frag parameter.
+If memory is too much fragmented, created file may be limited in size.
+Last list item always has single cluster
+<HR>
+<A NAME="fat_up_down_load_sector"></A>
+<H3> fat_up_down_load_sector </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_up_down_load_sector">fat_up_down_load_sector</A> ( Uint32 sector ,  bit up_down )  </PRE></TD>
+
+</TABLE>
+<P>
+Download or upload a sector of 512b
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  - sector address to load/download   
+  - bit to indicate if it's a download or an upload
+*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="fat_update_buf_fat"></A>
+<H3> fat_update_buf_fat </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_update_buf_fat">fat_update_buf_fat</A> ( Uint16 cluster_old ,  Uint16 cluster ,  bit end )  </PRE></TD>
+
+</TABLE>
+<P>
+This function check if a fat sector have to be writen.
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_update_entry_fat"></A>
+<H3> fat_update_entry_fat </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_update_entry_fat">fat_update_entry_fat</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Update root entry and FAT after a writing file session (create or re-write)
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_update_entry_fat"></A>
+<H3> fat_update_entry_fat </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_update_entry_fat">fat_update_entry_fat</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Update root entry and FAT after a writing file session (create or re-write)
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="fat_update_fat_sector"></A>
+<H3> fat_update_fat_sector </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_update_fat_sector">fat_update_fat_sector</A>  ( Uint16 sector_number )  </PRE></TD>
+
+</TABLE>
+<P>
+update a sector of fat
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  sector_number : fat sector position
+*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+This function check if there is 2 fats to be updated
+<HR>
+<A NAME="fat_update_fat_sector"></A>
+<H3> fat_update_fat_sector </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#fat_update_fat_sector">fat_update_fat_sector</A>  ( Uint16 sector_number )  </PRE></TD>
+
+</TABLE>
+<P>
+update a sector of fat
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  sector_number : fat sector position
+*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+This function check if there is 2 fats to be updated
+<HR>
+<A NAME="file_entry_dir"></A>
+<H3> file_entry_dir </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#file_entry_dir">file_entry_dir</A>  ( Byte id )  </PRE></TD>
+
+</TABLE>
+<P>
+Enter a directory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  id: file type identifier
+*
+return:
+  OK: file type found in dir
+  KO: file type not found in dir</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="file_seek_next"></A>
+<H3> file_seek_next </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#file_seek_next">file_seek_next</A>  ( Byte id ,  bit loop )  </PRE></TD>
+
+</TABLE>
+<P>
+Select next file with specified extension
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  id:   file type identifier
+  loop: loop to the first file
+*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="file_seek_prev"></A>
+<H3> file_seek_prev </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#file_seek_prev">file_seek_prev</A>  ( Byte id ,  bit loop )  </PRE></TD>
+
+</TABLE>
+<P>
+Select previous file with specified extension
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  id: file type identifier
+  loop: loop to the last file
+*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+Depending on the time played, this function selects the previous file
+or restarts the file under playing.
+<HR>
+<A NAME="Hard_write_byte(0x01);"></A>
+<H3> Hard_write_byte(0x01); </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 0x06 ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 0x00 ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE></PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>/ *  Reserved  * / </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>for  ( i = 12; i != 0; i-- )  </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 0x00 ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE></PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( FAT_DRIVE_NUMBER ) ;        / *  Driver number  * / </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 0x00 ) ;                    / *  not used  * / </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( FAT_EXT_SIGN ) ;            / *  extended boot signature  * / </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 0x00 ) ;                    / *  volume ID  * / </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 0x00 ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 0x00 ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 0x00 ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 'N' ) ;                     / *  Volume Label  * / </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 'O' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( ' ' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 'N' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 'A' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 'M' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 'E' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( ' ' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( ' ' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( ' ' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( ' ' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 'F' ) ;                     / *  File System Type in ASCII  * / </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 'A' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( 'T' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( '3' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( '2' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( ' ' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( ' ' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Hard_write_byte ( ' ' ) ; </PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE></PRE></TD>
+
+<TR>
+ <TD VALIGN=MIDDLE><PRE>for  ( i = 420/2; i != 0; i-- )               / *  Boot Code  * / </PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="iso_check_ext"></A>
+<H3> iso_check_ext </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Byte <A HREF="#iso_check_ext">iso_check_ext</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Return the type of the file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="iso_dgetw"></A>
+<H3> iso_dgetw </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Uint16 <A HREF="#iso_dgetw">iso_dgetw</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Read one word from directory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  word read</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="iso_dseek"></A>
+<H3> iso_dseek </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#iso_dseek">iso_dseek</A> ( Int16 offset )  </PRE></TD>
+
+</TABLE>
+<P>
+Seek from the current position to a new offset computing relative
+poisition +/- scan size limited to a 16 bit offset
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  offset: offset to current position in signed word value
+*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="iso_fclose"></A>
+<H3> iso_fclose </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#iso_fclose">iso_fclose</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Close opened file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="iso_feob"></A>
+<H3> iso_feob </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#iso_feob">iso_feob</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Determine if B position have been reached in mode repeat A/B
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - TRUE : B position have been reached
+  - FALSE : B position have not benn reached</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="iso_feof"></A>
+<H3> iso_feof </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#iso_feof">iso_feof</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Return the file end flag
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="iso_fetch_directory_info"></A>
+<H3> iso_fetch_directory_info </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#iso_fetch_directory_info">iso_fetch_directory_info</A>  ( <A HREF="#iso_file">iso_file</A>  * entry )  </PRE></TD>
+
+</TABLE>
+<P>
+Get information about a directory or file entry
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  entry: directory entry structure
+*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="iso_fgetc"></A>
+<H3> iso_fgetc </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Byte <A HREF="#iso_fgetc">iso_fgetc</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Read one byte from file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  byte read</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+As this function is called very often it must be short and optimized
+in execution time
+<HR>
+<A NAME="iso_file_get_pos"></A>
+<H3> iso_file_get_pos </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>Uint32 <A HREF="#iso_file_get_pos">iso_file_get_pos</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Calculate the current file position
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  current file position in bytes</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="iso_fopen"></A>
+<H3> iso_fopen </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#iso_fopen">iso_fopen</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Open the file in read or write mode
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE> 
+return:
+  - OK: file opened
+  - KO: file not opened: low level read error
+                         </PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="iso_fseek"></A>
+<H3> iso_fseek </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#iso_fseek">iso_fseek</A> ( Int16 offset )  </PRE></TD>
+
+</TABLE>
+<P>
+Change file pointer of an openned file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  offset: relative signed seek offset in file
+*
+return:
+  seek status:  - OK: seek done
+                - KO: out of file seek</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+Seek is done with byte boundary
+<HR>
+<A NAME="iso_fseek_abs"></A>
+<H3> iso_fseek_abs </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#iso_fseek_abs">iso_fseek_abs</A> ( Uint32 offset )  </PRE></TD>
+
+</TABLE>
+<P>
+Move ahead file read pointer of an openned file
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  offset: absolute seek offset in file
+*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="iso_get_directory"></A>
+<H3> iso_get_directory </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#iso_get_directory">iso_get_directory</A> ( Byte id ,  bit root )  </PRE></TD>
+
+</TABLE>
+<P>
+Select first available file/dir in any diretory
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  id: file extension to select
+  root : root directory or sub-directory
+return:
+  - OK: file available
+  - KO: no requested file found
+  - KO: low_level memory error</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+Fill all the cache information for the first time
+<HR>
+<A NAME="iso_get_file_dir"></A>
+<H3> iso_get_file_dir </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#iso_get_file_dir">iso_get_file_dir</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Give information about the directory :
+- total number of entries
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<H4> Example </H4>
+<PRE></PRE>
+
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="iso_get_name"></A>
+<H3> iso_get_name </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>char pdata  *  <A HREF="#iso_get_name">iso_get_name</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Return the address of the file name string
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="iso_goto_first"></A>
+<H3> iso_goto_first </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#iso_goto_first">iso_goto_first</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Fetch the first directory info in cache
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: first file found
+  - KO: low level error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="iso_goto_last"></A>
+<H3> iso_goto_last </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#iso_goto_last">iso_goto_last</A>  ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Fetch the last directory info in cache
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  OK: last file available
+  KO: low level error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="iso_goto_next"></A>
+<H3> iso_goto_next </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#iso_goto_next">iso_goto_next</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Fetch the next dir/file info in cache
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: next file available
+  - KO: last file reached
+  - KO: low_level memory error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="iso_goto_parent_dir"></A>
+<H3> iso_goto_parent_dir </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#iso_goto_parent_dir">iso_goto_parent_dir</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+go to the parent directory (equivalent to a cd ..)
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: there is a selected file in the parent dir
+  - KO: there is not a selected file in the parent dir</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="iso_goto_prev"></A>
+<H3> iso_goto_prev </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#iso_goto_prev">iso_goto_prev</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Fetch the previous directory info in cache
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>*
+return:
+  - OK: previous file available
+  - KO: first file reached
+  - KO: low_level memory error</PRE></TD>
+
+</TABLE>
+<HR>
+<A NAME="iso_read_volume_descriptor"></A>
+<H3> iso_read_volume_descriptor </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>bit <A HREF="#iso_read_volume_descriptor">iso_read_volume_descriptor</A>  ( Uint32 sector )  </PRE></TD>
+
+</TABLE>
+<P>
+Read CD volumes descriptors.
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  sector: firt sector of ISO block location
+return:
+  - OK: intallation succeeded
+  - KO: error</PRE></TD>
+
+</TABLE>
+<H4> Note </H4>
+<P>
+<P>
+<HR>
+<A NAME="iso_save_file_pos"></A>
+<H3> iso_save_file_pos </H3>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#D6E8FF"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>void <A HREF="#iso_save_file_pos">iso_save_file_pos</A> ( void )  </PRE></TD>
+
+</TABLE>
+<P>
+Save in locale variables cluster information for the current opened file
+- cluster index
+- number of the cluster
+- number of bytes in the cluster
+<P>
+<P>
+<TABLE BORDER="0"  WIDTH="100 %"  BGCOLOR="#FFD0D0"  CELLPADDING="6">
+<TR>
+ <TD VALIGN=MIDDLE><PRE>  
+*
+return:</PRE></TD>
+
+</TABLE>
+<HR>
+</BODY></HTML>
